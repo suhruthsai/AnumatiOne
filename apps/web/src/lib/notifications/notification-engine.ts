@@ -21,7 +21,7 @@ export interface NotificationLog {
 
 export const NOTIFICATION_TEMPLATES: Record<NotificationEventType, { title: string; template: string }> = {
   APPLICATION_SUBMITTED: {
-    title: 'ApprovalOS: Application Dossier Registered',
+    title: 'AnumatiOne: Application Dossier Registered',
     template: 'Dear {{companyName}}, your application {{trackingNumber}} for {{approvalName}} has been pre-validated and dispatched to {{department}}. Statutory SLA: {{slaDays}} days.',
   },
   GREEN_CHANNEL_APPROVED: {

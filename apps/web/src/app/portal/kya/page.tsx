@@ -985,7 +985,7 @@ export default function KnowYourApprovalsPage() {
 
                   <div className="rounded-2xl border border-emerald-500/20 bg-emerald-950/10 p-4 space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-emerald-400 font-bold">ApprovalOS Parallel Tracks</span>
+                      <span className="text-emerald-400 font-bold">AnumatiOne Parallel Tracks</span>
                       <span className="font-mono font-bold text-emerald-300">~{kyaResult.totalSlaDaysParallel} Days</span>
                     </div>
                     <div className="h-2 rounded-full bg-slate-800 overflow-hidden">
@@ -1149,7 +1149,7 @@ export default function KnowYourApprovalsPage() {
                   Predictive Red-Tape Elimination
                 </span>
                 <h3 className="text-base font-bold text-white mt-0.5">
-                  Top Maharashtra Regulatory Friction Points & ApprovalOS Solutions
+                  Top Maharashtra Regulatory Friction Points & AnumatiOne Solutions
                 </h3>
               </div>
 
@@ -1160,7 +1160,7 @@ export default function KnowYourApprovalsPage() {
                     risk: 'Zero Liquid Discharge (ZLD) Mass Balance Ambiguity',
                     delayDays: '+25 Days',
                     description: 'Chemical & Pharma units face repeated queries if daily water input does not equal RO recovery + MEE condensate + solid salt cake.',
-                    solution: 'ApprovalOS pre-attaches standardized MPCB water balance mass sheet, guaranteeing first-pass scrutiny sign-off.',
+                    solution: 'AnumatiOne pre-attaches standardized MPCB water balance mass sheet, guaranteeing first-pass scrutiny sign-off.',
                     badge: 'High Impact'
                   },
                   {
@@ -1197,7 +1197,7 @@ export default function KnowYourApprovalsPage() {
                     </div>
                     <p className="text-[11px] text-slate-400">{item.description}</p>
                     <div className="rounded-xl bg-blue-950/30 border border-blue-500/20 p-2.5 text-[11px] text-blue-200">
-                      <strong className="text-blue-400">ApprovalOS Pre-emption: </strong>
+                      <strong className="text-blue-400">AnumatiOne Pre-emption: </strong>
                       {item.solution}
                     </div>
                   </div>

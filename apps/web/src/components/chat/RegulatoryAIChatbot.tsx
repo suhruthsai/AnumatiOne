@@ -33,7 +33,7 @@ export function RegulatoryAIChatbot() {
     {
       id: 'init-1',
       sender: 'ASSISTANT',
-      text: `Hello! I am your **ApprovalOS Regulatory Digital Twin Assistant**. I can simulate clearance timelines, explain the Adversarial Path Optimizer, evaluate Green Channel auto-approvals, and help you eliminate 78% of application queries before submission.\n\nHow can I help you today?`,
+      text: `Hello! I am your **AnumatiOne Regulatory Digital Twin Assistant**. I can simulate clearance timelines, explain the Adversarial Path Optimizer, evaluate Green Channel auto-approvals, and help you eliminate 78% of application queries before submission.\n\nHow can I help you today?`,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       followUps: [
         'Can I get Green Channel auto-approval?',
@@ -118,7 +118,7 @@ export function RegulatoryAIChatbot() {
               </div>
               <div>
                 <h4 className="text-xs font-bold text-white flex items-center gap-1.5">
-                  ApprovalOS Regulatory AI
+                  AnumatiOne Regulatory AI
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                 </h4>
                 <p className="text-[10px] text-slate-400">
@@ -131,14 +131,14 @@ export function RegulatoryAIChatbot() {
               <div className="flex rounded-lg border border-slate-700 bg-slate-950 p-0.5 text-[10px]">
                 <button
                   type="button"
-                  onClick={() => handleSend('Hello! Explain ApprovalOS in English')}
+                  onClick={() => handleSend('Hello! Explain AnumatiOne in English')}
                   className="px-2 py-0.5 rounded text-blue-300 font-bold hover:bg-slate-800"
                 >
                   EN
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleSend('नमस्ते! ApprovalOS और ग्रीन चैनल के बारे में हिन्दी में बताएं')}
+                  onClick={() => handleSend('नमस्ते! AnumatiOne और ग्रीन चैनल के बारे में हिन्दी में बताएं')}
                   className="px-2 py-0.5 rounded text-amber-300 font-bold hover:bg-slate-800"
                 >
                   हिन्दी

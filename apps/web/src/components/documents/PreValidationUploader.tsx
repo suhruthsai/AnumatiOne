@@ -92,7 +92,7 @@ export function PreValidationUploader() {
           Simulate Document Upload & Pre-Validation Scenarios
         </h3>
         <p className="text-xs text-slate-400 mb-4">
-          Experience how ApprovalOS catches errors, extracts statutory metadata, and prevents rejection loops *before* submitting to department officers.
+          Experience how AnumatiOne catches errors, extracts statutory metadata, and prevents rejection loops *before* submitting to department officers.
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -228,7 +228,7 @@ export function PreValidationUploader() {
           <div className="mt-5 rounded-xl border border-slate-800 bg-slate-900/40 p-3.5">
             <h5 className="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2 flex items-center gap-1.5">
               <ShieldCheck className="h-3.5 w-3.5 text-blue-400" />
-              ApprovalOS Rejection-Prevention Guidance
+              AnumatiOne Rejection-Prevention Guidance
             </h5>
             <ul className="space-y-1.5 text-xs text-slate-300">
               {currentResult.suggestions.map((sug, idx) => (

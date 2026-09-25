@@ -6,7 +6,7 @@ import { RegulatoryAIChatbot } from '@/components/chat/RegulatoryAIChatbot';
 import JuryTourBanner from '@/components/common/JuryTourBanner';
 
 export const metadata: Metadata = {
-  title: 'ApprovalOS | Regulatory Digital Twin & Compliance Platform',
+  title: 'AnumatiOne | Regulatory Digital Twin & Compliance Platform',
   description: 'Unified intelligent industrial approval and compliance management platform with Adversarial Path Optimization and interactive DAG Gantt journey map.',
 };
 

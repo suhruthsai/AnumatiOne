@@ -157,7 +157,7 @@ export class AdversarialPathOptimizer {
     return [
       {
         strategyId: 'RISK_HEDGING_CONCURRENT',
-        name: 'Pre-Validated Concurrency (ApprovalOS Champion)',
+        name: 'Pre-Validated Concurrency (AnumatiOne Champion)',
         tagline: 'Locks foundational permits first to eliminate cascading rejections',
         description: 'Prioritizes early resolution of high-scrutiny environmental & land clearances with AI pre-validation to prevent cascading downstream rejections.',
         meanDays: Math.round((s3_p10 + s3_p50 + s3_p95) / 3),
@@ -264,7 +264,7 @@ export class AdversarialPathOptimizer {
         triggerEvent: 'State Expert Appraisal Committee (SEAC-1) schedules additional public hearing clarification on ambient air dispersion.',
         delayDaysAdded: 25,
         affectedApprovalId: 'EIA_EC',
-        mitigationStrategy: 'ApprovalOS pre-populates certified baseline air/water dispersion models from state GIS layers, cutting review rounds from 3 to 1.',
+        mitigationStrategy: 'AnumatiOne pre-populates certified baseline air/water dispersion models from state GIS layers, cutting review rounds from 3 to 1.',
       });
     }
 

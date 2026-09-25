@@ -205,7 +205,7 @@ export class MaharashtraStatutoryRAG {
     return [
       'Explain Section 4(1) Deemed Approval under Maharashtra RTS Act',
       'What are the mandatory setbacks under Rule 14 of MIDC DCR?',
-      'How does ApprovalOS cut approval times from 218 days to 88 days?',
+      'How does AnumatiOne cut approval times from 218 days to 88 days?',
     ];
   }
 }

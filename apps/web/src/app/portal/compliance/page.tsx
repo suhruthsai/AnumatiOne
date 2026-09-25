@@ -434,7 +434,7 @@ export default function ComplianceCalendarPage() {
               Maharashtra Statutory Permitting Legal Framework
             </h3>
             <p className="text-xs text-slate-300 mt-1 max-w-3xl">
-              All 9 statutory acts and rules modeled in ApprovalOS. Each permit is governed by an explicit Maharashtra statute with designated appellate officers, statutory SLA timelines, and Section 4(1) deemed clearance protections.
+              All 9 statutory acts and rules modeled in AnumatiOne. Each permit is governed by an explicit Maharashtra statute with designated appellate officers, statutory SLA timelines, and Section 4(1) deemed clearance protections.
             </p>
           </div>
 

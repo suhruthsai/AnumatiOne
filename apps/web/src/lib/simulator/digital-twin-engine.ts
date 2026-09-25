@@ -30,7 +30,7 @@ export interface TwinScenarioDetail {
 export const TWIN_SCENARIOS: Record<TwinScenarioMode, TwinScenarioDetail> = {
   MINIMAX_CONCURRENCY: {
     id: 'MINIMAX_CONCURRENCY',
-    name: 'ApprovalOS Smart Parallel Track',
+    name: 'AnumatiOne Smart Parallel Track',
     badge: 'Recommended SIH Solution',
     badgeColor: 'blue',
     tagline: 'Multi-department parallel orchestration with MahaVault pre-validation',
@@ -47,7 +47,7 @@ export const TWIN_SCENARIOS: Record<TwinScenarioMode, TwinScenarioDetail> = {
       'MahaVault pre-validates ETP blueprints and architectural CAD setbacks before filing to eliminate query ping-pong.',
       'Single-Window Joint Inspection Protocol synchronizes DISH, Fire, and MPCB officers into a single 48-hour visit.',
     ],
-    plainEnglishExplanation: 'Instead of waiting for each department one-by-one, ApprovalOS runs MIDC, MPCB, DISH, and MSEDCL in 4 parallel lanes simultaneously. Pre-validated blueprints prevent query loops, clearing all permits in ~88 days.',
+    plainEnglishExplanation: 'Instead of waiting for each department one-by-one, AnumatiOne runs MIDC, MPCB, DISH, and MSEDCL in 4 parallel lanes simultaneously. Pre-validated blueprints prevent query loops, clearing all permits in ~88 days.',
     recommended: true,
   },
   TRADITIONAL_SEQUENTIAL: {
@@ -114,7 +114,7 @@ export const TWIN_SCENARIOS: Record<TwinScenarioMode, TwinScenarioDetail> = {
       'Zero Liquid Discharge (ZLD) effluent treatment plant with online continuous emissions (OCEMS).',
       'High-pressure steam boiler hydraulic certification (IBR 1950) and PESO solvent storage scrutiny.',
     ],
-    plainEnglishExplanation: 'For heavy chemical, pharma, or boiler units, government safety scrutiny is strict. Even under SEIAA appraisal, ApprovalOS parallelizes utility and civil sanctions to cut the journey in half (128 days vs 260 days).',
+    plainEnglishExplanation: 'For heavy chemical, pharma, or boiler units, government safety scrutiny is strict. Even under SEIAA appraisal, AnumatiOne parallelizes utility and civil sanctions to cut the journey in half (128 days vs 260 days).',
     recommended: false,
   },
 };

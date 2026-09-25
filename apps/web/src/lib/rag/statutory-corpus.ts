@@ -25,7 +25,7 @@ export const MAHARASHTRA_STATUTORY_CORPUS: StatutoryKnowledgeChunk[] = [
     officialLegaleseText: `Section 4(1): Every Designated Public Authority shall provide statutory public services within the specified Service Level Agreement (SLA) timeline. Section 4(2): In the event that the Designated Officer fails to issue a sanction, reject with reasoned order, or raise a structured clarification within the stipulated timeline, the application shall be deemed to have been sanctioned by operation of law, and an electronic deemed approval certificate shall be automatically generated.`,
     plainEnglishExplanation: 'Government officers in Maharashtra have a strict legal deadline to process your application. If an officer sits on your application without approving or raising a valid query before the countdown timer hits zero, Maharashtra law automatically grants you "Deemed Approval". You get an official certificate without waiting for anyone.',
     actionableSteps: [
-      'Monitor your active SLA countdown timer in the ApprovalOS Dashboard.',
+      'Monitor your active SLA countdown timer in the AnumatiOne Dashboard.',
       'If the timer hits zero, click "Generate Deemed Approval Certificate".',
       'The electronic deemed certificate holds identical legal standing in court as an officer-signed permit.',
     ],
@@ -43,7 +43,7 @@ export const MAHARASHTRA_STATUTORY_CORPUS: StatutoryKnowledgeChunk[] = [
     officialLegaleseText: `Any person whose application is not disposed of within the stipulated time limit or who is aggrieved by an arbitrary rejection may prefer a first appeal to the First Appellate Authority within thirty days. If the Designated Officer is found to have delayed the public service without reasonable cause, a penalty of ₹250 per day up to ₹5,000 shall be imposed on the defaulting officer and deducted from salary.`,
     plainEnglishExplanation: 'If an officer unfairly delays or arbitrarily rejects your file, you can file a 1-click appeal to their superior (First Appellate Authority). If the officer caused unjustified delay, the government fines them ₹250 for every single day of delay deducted directly from their paycheck.',
     actionableSteps: [
-      'Go to the Grievances tab in ApprovalOS.',
+      'Go to the Grievances tab in AnumatiOne.',
       'Submit an escalation; the system automatically auto-routes it to the 1st Appellate Authority.',
       'The appellate officer has 30 days to resolve the matter and enforce compliance.',
     ],

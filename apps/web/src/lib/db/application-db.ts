@@ -33,7 +33,7 @@ const SEED_APPLICATIONS: ApplicationRecord[] = [
     daysRemaining: 25,
     isEscalated: false,
     escalationLevel: 'NONE',
-    assignedOfficerName: 'ApprovalOS Green-Channel AI Daemon',
+    assignedOfficerName: 'AnumatiOne Green-Channel AI Daemon',
     riskScore: 12,
     trustScore: 88,
     greenChannelEligible: true,
@@ -65,7 +65,7 @@ const SEED_APPLICATIONS: ApplicationRecord[] = [
       {
         timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
         event: 'Instant Green-Channel Auto-Approval Granted (Trust Score 88)',
-        performedBy: 'ApprovalOS Autonomous AI Daemon',
+        performedBy: 'AnumatiOne Autonomous AI Daemon',
         status: 'GREEN_CHANNEL_APPROVED',
       },
     ],
@@ -121,7 +121,7 @@ const SEED_APPLICATIONS: ApplicationRecord[] = [
       {
         timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
         event: 'Joint Multi-Department Site Inspection Slotted',
-        performedBy: 'ApprovalOS Joint Scheduler',
+        performedBy: 'AnumatiOne Joint Scheduler',
         status: 'INSPECTION_PENDING',
       },
     ],
@@ -392,7 +392,7 @@ class ApplicationDatabase {
         daysRemaining: slaDays,
         isEscalated: false,
         escalationLevel: 'NONE',
-        assignedOfficerName: autoApprove ? 'ApprovalOS Green-Channel AI Daemon' : `Desk Officer, ${masterApproval.department.split('/')[0]}`,
+        assignedOfficerName: autoApprove ? 'AnumatiOne Green-Channel AI Daemon' : `Desk Officer, ${masterApproval.department.split('/')[0]}`,
         riskScore,
         trustScore,
         greenChannelEligible: autoApprove,
@@ -419,12 +419,12 @@ class ApplicationDatabase {
           ...(autoApprove ? [{
             timestamp: submissionDate,
             event: 'Instant Green-Channel Clearance Auto-Issued based on White/Green category and verified credentials',
-            performedBy: 'ApprovalOS Autonomous AI Daemon',
+            performedBy: 'AnumatiOne Autonomous AI Daemon',
             status: 'GREEN_CHANNEL_APPROVED',
           }] : [{
             timestamp: submissionDate,
             event: 'Routed to Scrutiny Officer with Pre-Validated DigiLocker Dossier',
-            performedBy: 'ApprovalOS Orchestrator',
+            performedBy: 'AnumatiOne Orchestrator',
             status: 'UNDER_SCRUTINY',
           }]),
         ],
@@ -660,7 +660,7 @@ class ApplicationDatabase {
     app.timeline.push({
       timestamp: now,
       event: `Joint Multi-Department Inspection Scheduled for ${date} with ${departments.join(', ')}`,
-      performedBy: 'ApprovalOS Joint Scheduler',
+      performedBy: 'AnumatiOne Joint Scheduler',
       status: 'INSPECTION_PENDING',
     });
 

@@ -59,7 +59,7 @@ export function DigitalTwinExplainerModal({ isOpen, onClose }: DigitalTwinExplai
               1. What is a &ldquo;Regulatory Digital Twin&rdquo;?
             </h3>
             <p className="text-xs text-slate-300 leading-relaxed">
-              In manufacturing, a digital twin is a virtual simulation of a physical machine used to test stress before building it. In <strong>ApprovalOS</strong>, the <strong>Regulatory Digital Twin is a virtual simulation of the entire Maharashtra state bureaucracy</strong> (MIDC, MPCB, DISH, MSEDCL, Fire Services, SEIAA). It simulates all 11 clearances on a computer before you submit a single paper or spend capital.
+              In manufacturing, a digital twin is a virtual simulation of a physical machine used to test stress before building it. In <strong>AnumatiOne</strong>, the <strong>Regulatory Digital Twin is a virtual simulation of the entire Maharashtra state bureaucracy</strong> (MIDC, MPCB, DISH, MSEDCL, Fire Services, SEIAA). It simulates all 11 clearances on a computer before you submit a single paper or spend capital.
             </p>
           </div>
 
@@ -79,7 +79,7 @@ export function DigitalTwinExplainerModal({ isOpen, onClose }: DigitalTwinExplai
               <li>You end up having to re-file across 3 departments, taking <strong>150 to 218 days</strong>!</li>
             </ul>
             <p className="text-xs text-emerald-300 font-semibold pt-1">
-              ✓ ApprovalOS solves this: it locks pre-validated foundations in MahaVault before triggering dependent civil clearances.
+              ✓ AnumatiOne solves this: it locks pre-validated foundations in MahaVault before triggering dependent civil clearances.
             </p>
           </div>
 
@@ -105,7 +105,7 @@ export function DigitalTwinExplainerModal({ isOpen, onClose }: DigitalTwinExplai
               4. Legal Protection: Maharashtra Right to Services (RTS) Act 2015
             </h3>
             <p className="text-xs text-slate-300 leading-relaxed">
-              Under <strong>Section 4(1) of the Maharashtra RTS Act 2015</strong>, every clearance has a statutory deadline. If the designated officer fails to issue a query or approval within the SLA, the applicant receives <strong>statutory Deemed Approval</strong>. ApprovalOS maintains an auditable submission record to legally protect your deemed approval status.
+              Under <strong>Section 4(1) of the Maharashtra RTS Act 2015</strong>, every clearance has a statutory deadline. If the designated officer fails to issue a query or approval within the SLA, the applicant receives <strong>statutory Deemed Approval</strong>. AnumatiOne maintains an auditable submission record to legally protect your deemed approval status.
             </p>
           </div>
 
@@ -116,7 +116,7 @@ export function DigitalTwinExplainerModal({ isOpen, onClose }: DigitalTwinExplai
               5. Government Support Schemes & Subsidies
             </h3>
             <p className="text-xs text-slate-300 leading-relaxed">
-              ApprovalOS automatically cross-checks your business profile against official Maharashtra industrial policies:
+              AnumatiOne automatically cross-checks your business profile against official Maharashtra industrial policies:
             </p>
             <ul className="text-xs text-slate-400 space-y-1 list-disc list-inside">
               <li><strong>Package Scheme of Incentives (PSI 2019):</strong> Industrial Promotion Subsidy on State GST.</li>

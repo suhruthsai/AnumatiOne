@@ -25,7 +25,7 @@ const MAHARASHTRA_SCHEMES = [
 
 const TWIN_SCENARIOS = {
   MINIMAX_CONCURRENCY: {
-    name: 'ApprovalOS Smart Parallel Track',
+    name: 'AnumatiOne Smart Parallel Track',
     totalDays: 88,
     daysSavedVsSequential: 130,
     concurrencyLanes: 4,
@@ -54,7 +54,7 @@ const TWIN_SCENARIOS = {
   },
 };
 
-test('Digital Twin Scenario 1: ApprovalOS Smart Parallel Track', () => {
+test('Digital Twin Scenario 1: AnumatiOne Smart Parallel Track', () => {
   const scen = TWIN_SCENARIOS.MINIMAX_CONCURRENCY;
   assert.equal(scen.totalDays, 88);
   assert.equal(scen.concurrencyLanes, 4);

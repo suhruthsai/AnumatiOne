@@ -53,7 +53,7 @@ export class ApprovalWorkflowOrchestrator {
       daysRemaining: slaDays,
       isEscalated: false,
       escalationLevel: 'NONE',
-      assignedOfficerName: greenChannelApproved ? 'ApprovalOS Green-Channel AI Daemon' : 'Er. Ramesh Kulkarni, HOD',
+      assignedOfficerName: greenChannelApproved ? 'AnumatiOne Green-Channel AI Daemon' : 'Er. Ramesh Kulkarni, HOD',
       riskScore: 100 - scrutiny.trustScore,
       trustScore: scrutiny.trustScore,
       greenChannelEligible: scrutiny.greenChannelEligible,

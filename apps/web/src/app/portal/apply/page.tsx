@@ -695,7 +695,7 @@ function CommonApplicationContent() {
           Apply for Industrial Approvals & State Clearances
         </h1>
         <p className="text-xs sm:text-sm text-slate-400 max-w-3xl mt-1">
-          Provide your enterprise, land, utility, and environmental parameters once. ApprovalOS orchestrates all state clearances simultaneously across MIDC, MPCB, DISH, MSEDCL, and Fire Services under the Maharashtra Right to Services Act 2015.
+          Provide your enterprise, land, utility, and environmental parameters once. AnumatiOne orchestrates all state clearances simultaneously across MIDC, MPCB, DISH, MSEDCL, and Fire Services under the Maharashtra Right to Services Act 2015.
         </p>
       </div>
 
@@ -1777,7 +1777,7 @@ function CommonApplicationContent() {
                     Applicable Statutory Clearances & Pre-Validated Submission
                   </h2>
                   <p className="text-xs text-slate-400 mt-0.5">
-                    ApprovalOS has automatically determined the exact statutory permits required for your project parameters.
+                    AnumatiOne has automatically determined the exact statutory permits required for your project parameters.
                   </p>
                 </div>
 
