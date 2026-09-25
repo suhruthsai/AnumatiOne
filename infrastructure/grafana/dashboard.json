@@ -1,0 +1,95 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "id": 1,
+      "title": "Approval Clearance Timeline: Sequential vs ApprovalOS Minimax (Days)",
+      "type": "barchart",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "approvalos_clearance_duration_days{strategy=~\"sequential|minimax\"}",
+          "legendFormat": "{{strategy}}"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "id": 2,
+      "title": "Department SLA Adherence Rate (%)",
+      "type": "gauge",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "approvalos_sla_compliance_rate_percent",
+          "legendFormat": "{{department}}"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 8 },
+      "id": 3,
+      "title": "Green Channel Instant Auto-Approval Rate",
+      "type": "stat",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "rate(approvalos_green_channel_approvals_total[1h])",
+          "legendFormat": "Auto-Approved / hr"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 8 },
+      "id": 4,
+      "title": "Pre-Validation OCR Query Rejection Prevention (%)",
+      "type": "gauge",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "approvalos_prevalidation_rejection_prevented_rate",
+          "legendFormat": "Prevented Queries"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 8 },
+      "id": 5,
+      "title": "Adversarial Path Optimizer Monte Carlo Latency (ms)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "histogram_quantile(0.95, sum(rate(approvalos_simulation_duration_ms_bucket[5m])) by (le))",
+          "legendFormat": "p95 Latency (ms)"
+        }
+      ]
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["approvalos", "eodb", "digital-twin", "regulatory"],
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "ApprovalOS: Regulatory Digital Twin Telemetry",
+  "version": 1
+}

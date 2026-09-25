@@ -1,0 +1,742 @@
+[
+  {
+    "id": "app_1790343847204_efyxc",
+    "trackingNumber": "APOS-LND-01-170071",
+    "cafReferenceNumber": "MH-CAF-2026-19735",
+    "profileId": "prof_sahyadri_ev_bat",
+    "companyName": "Sahyadri EV Battery Systems Pvt Ltd",
+    "approvalNodeId": "LAND_ALLOTMENT",
+    "approvalName": "MIDC Industrial Land Allotment & Possession",
+    "department": "Maharashtra Industrial Development Corp (MIDC)",
+    "status": "UNDER_SCRUTINY",
+    "submissionDate": "2026-09-25T13:44:07.204Z",
+    "slaDeadline": "2026-10-13T13:44:07.204Z",
+    "daysRemaining": 18,
+    "isEscalated": false,
+    "escalationLevel": "NONE",
+    "assignedOfficerName": "Desk Officer, Maharashtra Industrial Development Corp (MIDC)",
+    "riskScore": 18,
+    "trustScore": 82,
+    "greenChannelEligible": false,
+    "cafSummary": {
+      "midcCluster": "MIDC Chakan Phase II, Pune",
+      "plotNumber": "Plot E-84/2, Phase II",
+      "totalProjectCostCr": 54.5,
+      "powerKva": 1750,
+      "waterKld": 45,
+      "pollutionCategory": "ORANGE"
+    },
+    "documents": [
+      {
+        "docType": "LAND_SALE_DEED",
+        "docName": "MIDC_Chakan_Plot_Allotment_Agreement.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "FACTORY_LAYOUT_PLAN",
+        "docName": "Architectural_Plant_Layout_DCR14.dwg",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "POLLUTION_UNDERTAKING",
+        "docName": "Zero_Liquid_Discharge_Mass_Balance.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "POWER_LOAD_CALCULATION",
+        "docName": "HT_22kV_Substation_Single_Line_Diagram.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "FIRE_SAFETY_SCHEMATIC",
+        "docName": "Hydrant_Ring_Main_Evacuation_Plan.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "PROJECT_FEASIBILITY_REPORT",
+        "docName": "Detailed_Project_Report_Bankable_DPR.pdf",
+        "verified": true,
+        "url": "#"
+      }
+    ],
+    "timeline": [
+      {
+        "timestamp": "2026-09-25T13:44:07.204Z",
+        "event": "Common Application Form (CAF) Submitted by Mr. Vikram Deshmukh",
+        "performedBy": "Applicant (Industrialist)",
+        "status": "SUBMITTED"
+      },
+      {
+        "timestamp": "2026-09-25T13:44:07.204Z",
+        "event": "Routed to Scrutiny Officer with Pre-Validated DigiLocker Dossier",
+        "performedBy": "ApprovalOS Orchestrator",
+        "status": "UNDER_SCRUTINY"
+      }
+    ]
+  },
+  {
+    "id": "app_1790343847204_yuzpi",
+    "trackingNumber": "APOS-BLD-01-779458",
+    "cafReferenceNumber": "MH-CAF-2026-19735",
+    "profileId": "prof_sahyadri_ev_bat",
+    "companyName": "Sahyadri EV Battery Systems Pvt Ltd",
+    "approvalNodeId": "BUILDING_PLAN",
+    "approvalName": "MIDC Special Planning Authority (SPA) Building Plan",
+    "department": "MIDC Special Planning Authority (SPA)",
+    "status": "UNDER_SCRUTINY",
+    "submissionDate": "2026-09-25T13:44:07.204Z",
+    "slaDeadline": "2026-10-13T13:44:07.204Z",
+    "daysRemaining": 18,
+    "isEscalated": false,
+    "escalationLevel": "NONE",
+    "assignedOfficerName": "Desk Officer, MIDC Special Planning Authority (SPA)",
+    "riskScore": 18,
+    "trustScore": 82,
+    "greenChannelEligible": false,
+    "cafSummary": {
+      "midcCluster": "MIDC Chakan Phase II, Pune",
+      "plotNumber": "Plot E-84/2, Phase II",
+      "totalProjectCostCr": 54.5,
+      "powerKva": 1750,
+      "waterKld": 45,
+      "pollutionCategory": "ORANGE"
+    },
+    "documents": [
+      {
+        "docType": "LAND_SALE_DEED",
+        "docName": "MIDC_Chakan_Plot_Allotment_Agreement.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "FACTORY_LAYOUT_PLAN",
+        "docName": "Architectural_Plant_Layout_DCR14.dwg",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "POLLUTION_UNDERTAKING",
+        "docName": "Zero_Liquid_Discharge_Mass_Balance.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "POWER_LOAD_CALCULATION",
+        "docName": "HT_22kV_Substation_Single_Line_Diagram.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "FIRE_SAFETY_SCHEMATIC",
+        "docName": "Hydrant_Ring_Main_Evacuation_Plan.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "PROJECT_FEASIBILITY_REPORT",
+        "docName": "Detailed_Project_Report_Bankable_DPR.pdf",
+        "verified": true,
+        "url": "#"
+      }
+    ],
+    "timeline": [
+      {
+        "timestamp": "2026-09-25T13:44:07.204Z",
+        "event": "Common Application Form (CAF) Submitted by Mr. Vikram Deshmukh",
+        "performedBy": "Applicant (Industrialist)",
+        "status": "SUBMITTED"
+      },
+      {
+        "timestamp": "2026-09-25T13:44:07.204Z",
+        "event": "Routed to Scrutiny Officer with Pre-Validated DigiLocker Dossier",
+        "performedBy": "ApprovalOS Orchestrator",
+        "status": "UNDER_SCRUTINY"
+      }
+    ]
+  },
+  {
+    "id": "app_1790343847204_5280d",
+    "trackingNumber": "APOS-ENV-02-809724",
+    "cafReferenceNumber": "MH-CAF-2026-19735",
+    "profileId": "prof_sahyadri_ev_bat",
+    "companyName": "Sahyadri EV Battery Systems Pvt Ltd",
+    "approvalNodeId": "CTE_POLLUTION",
+    "approvalName": "Consent to Establish (CTE) — MPCB",
+    "department": "Maharashtra Pollution Control Board (MPCB)",
+    "status": "UNDER_SCRUTINY",
+    "submissionDate": "2026-09-25T13:44:07.204Z",
+    "slaDeadline": "2026-10-23T13:44:07.204Z",
+    "daysRemaining": 28,
+    "isEscalated": false,
+    "escalationLevel": "NONE",
+    "assignedOfficerName": "Desk Officer, Maharashtra Pollution Control Board (MPCB)",
+    "riskScore": 18,
+    "trustScore": 82,
+    "greenChannelEligible": false,
+    "cafSummary": {
+      "midcCluster": "MIDC Chakan Phase II, Pune",
+      "plotNumber": "Plot E-84/2, Phase II",
+      "totalProjectCostCr": 54.5,
+      "powerKva": 1750,
+      "waterKld": 45,
+      "pollutionCategory": "ORANGE"
+    },
+    "documents": [
+      {
+        "docType": "LAND_SALE_DEED",
+        "docName": "MIDC_Chakan_Plot_Allotment_Agreement.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "FACTORY_LAYOUT_PLAN",
+        "docName": "Architectural_Plant_Layout_DCR14.dwg",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "POLLUTION_UNDERTAKING",
+        "docName": "Zero_Liquid_Discharge_Mass_Balance.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "POWER_LOAD_CALCULATION",
+        "docName": "HT_22kV_Substation_Single_Line_Diagram.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "FIRE_SAFETY_SCHEMATIC",
+        "docName": "Hydrant_Ring_Main_Evacuation_Plan.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "PROJECT_FEASIBILITY_REPORT",
+        "docName": "Detailed_Project_Report_Bankable_DPR.pdf",
+        "verified": true,
+        "url": "#"
+      }
+    ],
+    "timeline": [
+      {
+        "timestamp": "2026-09-25T13:44:07.204Z",
+        "event": "Common Application Form (CAF) Submitted by Mr. Vikram Deshmukh",
+        "performedBy": "Applicant (Industrialist)",
+        "status": "SUBMITTED"
+      },
+      {
+        "timestamp": "2026-09-25T13:44:07.204Z",
+        "event": "Routed to Scrutiny Officer with Pre-Validated DigiLocker Dossier",
+        "performedBy": "ApprovalOS Orchestrator",
+        "status": "UNDER_SCRUTINY"
+      }
+    ]
+  },
+  {
+    "id": "app_1790343847204_gzjag",
+    "trackingNumber": "APOS-UTL-01-638421",
+    "cafReferenceNumber": "MH-CAF-2026-19735",
+    "profileId": "prof_sahyadri_ev_bat",
+    "companyName": "Sahyadri EV Battery Systems Pvt Ltd",
+    "approvalNodeId": "POWER_SANCTION",
+    "approvalName": "HT Power Feasibility & Tariff Sanction — MSEDCL",
+    "department": "MSEDCL (Mahavitaran)",
+    "status": "UNDER_SCRUTINY",
+    "submissionDate": "2026-09-25T13:44:07.204Z",
+    "slaDeadline": "2026-10-13T13:44:07.204Z",
+    "daysRemaining": 18,
+    "isEscalated": false,
+    "escalationLevel": "NONE",
+    "assignedOfficerName": "Desk Officer, MSEDCL (Mahavitaran)",
+    "riskScore": 18,
+    "trustScore": 82,
+    "greenChannelEligible": false,
+    "cafSummary": {
+      "midcCluster": "MIDC Chakan Phase II, Pune",
+      "plotNumber": "Plot E-84/2, Phase II",
+      "totalProjectCostCr": 54.5,
+      "powerKva": 1750,
+      "waterKld": 45,
+      "pollutionCategory": "ORANGE"
+    },
+    "documents": [
+      {
+        "docType": "LAND_SALE_DEED",
+        "docName": "MIDC_Chakan_Plot_Allotment_Agreement.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "FACTORY_LAYOUT_PLAN",
+        "docName": "Architectural_Plant_Layout_DCR14.dwg",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "POLLUTION_UNDERTAKING",
+        "docName": "Zero_Liquid_Discharge_Mass_Balance.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "POWER_LOAD_CALCULATION",
+        "docName": "HT_22kV_Substation_Single_Line_Diagram.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "FIRE_SAFETY_SCHEMATIC",
+        "docName": "Hydrant_Ring_Main_Evacuation_Plan.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "PROJECT_FEASIBILITY_REPORT",
+        "docName": "Detailed_Project_Report_Bankable_DPR.pdf",
+        "verified": true,
+        "url": "#"
+      }
+    ],
+    "timeline": [
+      {
+        "timestamp": "2026-09-25T13:44:07.204Z",
+        "event": "Common Application Form (CAF) Submitted by Mr. Vikram Deshmukh",
+        "performedBy": "Applicant (Industrialist)",
+        "status": "SUBMITTED"
+      },
+      {
+        "timestamp": "2026-09-25T13:44:07.204Z",
+        "event": "Routed to Scrutiny Officer with Pre-Validated DigiLocker Dossier",
+        "performedBy": "ApprovalOS Orchestrator",
+        "status": "UNDER_SCRUTINY"
+      }
+    ]
+  },
+  {
+    "id": "app_1790343847204_4cz4v",
+    "trackingNumber": "APOS-LAB-01-351206",
+    "cafReferenceNumber": "MH-CAF-2026-19735",
+    "profileId": "prof_sahyadri_ev_bat",
+    "companyName": "Sahyadri EV Battery Systems Pvt Ltd",
+    "approvalNodeId": "FACTORY_LICENSE",
+    "approvalName": "Factory License — DISH Maharashtra (Factories Rules 1963)",
+    "department": "Directorate of Industrial Safety & Health (DISH)",
+    "status": "UNDER_SCRUTINY",
+    "submissionDate": "2026-09-25T13:44:07.204Z",
+    "slaDeadline": "2026-10-15T13:44:07.204Z",
+    "daysRemaining": 20,
+    "isEscalated": false,
+    "escalationLevel": "NONE",
+    "assignedOfficerName": "Desk Officer, Directorate of Industrial Safety & Health (DISH)",
+    "riskScore": 18,
+    "trustScore": 82,
+    "greenChannelEligible": false,
+    "cafSummary": {
+      "midcCluster": "MIDC Chakan Phase II, Pune",
+      "plotNumber": "Plot E-84/2, Phase II",
+      "totalProjectCostCr": 54.5,
+      "powerKva": 1750,
+      "waterKld": 45,
+      "pollutionCategory": "ORANGE"
+    },
+    "documents": [
+      {
+        "docType": "LAND_SALE_DEED",
+        "docName": "MIDC_Chakan_Plot_Allotment_Agreement.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "FACTORY_LAYOUT_PLAN",
+        "docName": "Architectural_Plant_Layout_DCR14.dwg",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "POLLUTION_UNDERTAKING",
+        "docName": "Zero_Liquid_Discharge_Mass_Balance.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "POWER_LOAD_CALCULATION",
+        "docName": "HT_22kV_Substation_Single_Line_Diagram.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "FIRE_SAFETY_SCHEMATIC",
+        "docName": "Hydrant_Ring_Main_Evacuation_Plan.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "PROJECT_FEASIBILITY_REPORT",
+        "docName": "Detailed_Project_Report_Bankable_DPR.pdf",
+        "verified": true,
+        "url": "#"
+      }
+    ],
+    "timeline": [
+      {
+        "timestamp": "2026-09-25T13:44:07.204Z",
+        "event": "Common Application Form (CAF) Submitted by Mr. Vikram Deshmukh",
+        "performedBy": "Applicant (Industrialist)",
+        "status": "SUBMITTED"
+      },
+      {
+        "timestamp": "2026-09-25T13:44:07.204Z",
+        "event": "Routed to Scrutiny Officer with Pre-Validated DigiLocker Dossier",
+        "performedBy": "ApprovalOS Orchestrator",
+        "status": "UNDER_SCRUTINY"
+      }
+    ]
+  },
+  {
+    "id": "app_1790343847204_a8vig",
+    "trackingNumber": "APOS-SAF-01-143565",
+    "cafReferenceNumber": "MH-CAF-2026-19735",
+    "profileId": "prof_sahyadri_ev_bat",
+    "companyName": "Sahyadri EV Battery Systems Pvt Ltd",
+    "approvalNodeId": "FIRE_NOC",
+    "approvalName": "Maharashtra Fire Services Provisional NOC",
+    "department": "Maharashtra Fire Services / MIDC Fire Brigade",
+    "status": "UNDER_SCRUTINY",
+    "submissionDate": "2026-09-25T13:44:07.204Z",
+    "slaDeadline": "2026-10-10T13:44:07.204Z",
+    "daysRemaining": 15,
+    "isEscalated": false,
+    "escalationLevel": "NONE",
+    "assignedOfficerName": "Desk Officer, Maharashtra Fire Services ",
+    "riskScore": 18,
+    "trustScore": 82,
+    "greenChannelEligible": false,
+    "cafSummary": {
+      "midcCluster": "MIDC Chakan Phase II, Pune",
+      "plotNumber": "Plot E-84/2, Phase II",
+      "totalProjectCostCr": 54.5,
+      "powerKva": 1750,
+      "waterKld": 45,
+      "pollutionCategory": "ORANGE"
+    },
+    "documents": [
+      {
+        "docType": "LAND_SALE_DEED",
+        "docName": "MIDC_Chakan_Plot_Allotment_Agreement.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "FACTORY_LAYOUT_PLAN",
+        "docName": "Architectural_Plant_Layout_DCR14.dwg",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "POLLUTION_UNDERTAKING",
+        "docName": "Zero_Liquid_Discharge_Mass_Balance.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "POWER_LOAD_CALCULATION",
+        "docName": "HT_22kV_Substation_Single_Line_Diagram.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "FIRE_SAFETY_SCHEMATIC",
+        "docName": "Hydrant_Ring_Main_Evacuation_Plan.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "PROJECT_FEASIBILITY_REPORT",
+        "docName": "Detailed_Project_Report_Bankable_DPR.pdf",
+        "verified": true,
+        "url": "#"
+      }
+    ],
+    "timeline": [
+      {
+        "timestamp": "2026-09-25T13:44:07.204Z",
+        "event": "Common Application Form (CAF) Submitted by Mr. Vikram Deshmukh",
+        "performedBy": "Applicant (Industrialist)",
+        "status": "SUBMITTED"
+      },
+      {
+        "timestamp": "2026-09-25T13:44:07.204Z",
+        "event": "Routed to Scrutiny Officer with Pre-Validated DigiLocker Dossier",
+        "performedBy": "ApprovalOS Orchestrator",
+        "status": "UNDER_SCRUTINY"
+      }
+    ]
+  },
+  {
+    "id": "app_101",
+    "trackingNumber": "APOS-ENV02-882194",
+    "cafReferenceNumber": "MH-CAF-2026-004812",
+    "profileId": "profile_ev_pune",
+    "companyName": "Apex Lithium & Battery Packs Pvt Ltd",
+    "approvalNodeId": "CTE_POLLUTION",
+    "approvalName": "Consent to Establish (CTE) - MPCB",
+    "department": "Maharashtra Pollution Control Board (MPCB)",
+    "status": "GREEN_CHANNEL_APPROVED",
+    "submissionDate": "2026-09-22T05:05:29.300Z",
+    "slaDeadline": "2026-10-20T05:05:29.303Z",
+    "daysRemaining": 25,
+    "isEscalated": false,
+    "escalationLevel": "NONE",
+    "assignedOfficerName": "ApprovalOS Green-Channel AI Daemon",
+    "riskScore": 12,
+    "trustScore": 88,
+    "greenChannelEligible": true,
+    "cafSummary": {
+      "midcCluster": "MIDC Chakan Phase II, Pune",
+      "plotNumber": "Plot E-42/1",
+      "totalProjectCostCr": 45,
+      "powerKva": 1500,
+      "waterKld": 40,
+      "pollutionCategory": "ORANGE"
+    },
+    "documents": [
+      {
+        "docType": "LAND_SALE_DEED",
+        "docName": "MIDC_Chakan_Allotment_Deed.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "FACTORY_LAYOUT_PLAN",
+        "docName": "EV_Assembly_Architect_Plan.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "POLLUTION_UNDERTAKING",
+        "docName": "Zero_Liquid_Discharge_Schematic.pdf",
+        "verified": true,
+        "url": "#"
+      }
+    ],
+    "certificate": {
+      "certificateNumber": "MPCB/RO-PUNE/CTE/2026/0481",
+      "issuedAt": "2026-09-22T05:05:29.303Z",
+      "issuingAuthority": "Regional Officer, MPCB Pune",
+      "department": "Maharashtra Pollution Control Board",
+      "validUntil": "2031-09-24T05:05:29.303Z",
+      "qrHash": "mh.mpcb.verify.cte.2026.0481.apex-lithium",
+      "digitalSignatureHash": "SHA256:7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069",
+      "isDeemedApproval": false,
+      "statutoryAct": "Water Act 1974 Sec. 25 & Air Act 1981 Sec. 21"
+    },
+    "timeline": [
+      {
+        "timestamp": "2026-09-22T05:05:29.303Z",
+        "event": "Instant Green-Channel Auto-Approval Granted (Trust Score 88)",
+        "performedBy": "ApprovalOS Autonomous AI Daemon",
+        "status": "GREEN_CHANNEL_APPROVED"
+      }
+    ]
+  },
+  {
+    "id": "app_102",
+    "trackingNumber": "APOS-SAF01-491023",
+    "cafReferenceNumber": "MH-CAF-2026-004812",
+    "profileId": "profile_ev_pune",
+    "companyName": "Apex Lithium & Battery Packs Pvt Ltd",
+    "approvalNodeId": "FIRE_NOC",
+    "approvalName": "Maharashtra Fire Services Provisional NOC",
+    "department": "Maharashtra Fire Services / MIDC Fire Brigade",
+    "status": "INSPECTION_PENDING",
+    "submissionDate": "2026-09-18T05:05:29.303Z",
+    "slaDeadline": "2026-10-04T05:05:29.303Z",
+    "daysRemaining": 9,
+    "isEscalated": false,
+    "escalationLevel": "NONE",
+    "assignedOfficerName": "Chief Fire Officer, MIDC Pune Division",
+    "riskScore": 25,
+    "trustScore": 88,
+    "greenChannelEligible": false,
+    "cafSummary": {
+      "midcCluster": "MIDC Chakan Phase II, Pune",
+      "plotNumber": "Plot E-42/1",
+      "totalProjectCostCr": 45,
+      "powerKva": 1500,
+      "waterKld": 40,
+      "pollutionCategory": "ORANGE"
+    },
+    "documents": [
+      {
+        "docType": "FACTORY_LAYOUT_PLAN",
+        "docName": "Fire_Hydrant_Evacuation_Map.pdf",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "FIRE_SAFETY_SCHEMATIC",
+        "docName": "Emergency_Escape_Staircases.pdf",
+        "verified": true,
+        "url": "#"
+      }
+    ],
+    "inspections": [
+      {
+        "scheduledDate": "2026-09-27",
+        "officerNames": [
+          "Capt. R. K. Nair (CFO)",
+          "Er. M. K. Chudasama (DISH)"
+        ],
+        "isJointInspection": true,
+        "departments": [
+          "State Fire Services",
+          "Directorate of Industrial Safety (DISH)"
+        ],
+        "status": "SCHEDULED",
+        "mode": "PHYSICAL"
+      }
+    ],
+    "timeline": [
+      {
+        "timestamp": "2026-09-18T05:05:29.303Z",
+        "event": "Common Application Form Dossier Submitted & Pre-Validated",
+        "performedBy": "Applicant",
+        "status": "SUBMITTED"
+      },
+      {
+        "timestamp": "2026-09-23T05:05:29.303Z",
+        "event": "Joint Multi-Department Site Inspection Slotted",
+        "performedBy": "ApprovalOS Joint Scheduler",
+        "status": "INSPECTION_PENDING"
+      }
+    ]
+  },
+  {
+    "id": "app_103",
+    "trackingNumber": "APOS-BLD01-771920",
+    "cafReferenceNumber": "MH-CAF-2026-004812",
+    "profileId": "profile_ev_pune",
+    "companyName": "Apex Lithium & Battery Packs Pvt Ltd",
+    "approvalNodeId": "BUILDING_PLAN",
+    "approvalName": "MIDC Building Plan Approval & Commencement Certificate",
+    "department": "MIDC Special Planning Authority",
+    "status": "QUERY_RAISED",
+    "submissionDate": "2026-09-15T05:05:29.303Z",
+    "slaDeadline": "2026-10-15T05:05:29.303Z",
+    "daysRemaining": 20,
+    "isEscalated": false,
+    "escalationLevel": "NONE",
+    "assignedOfficerName": "Er. Sandeep Patil, Executive Engineer (SPA)",
+    "riskScore": 35,
+    "trustScore": 88,
+    "greenChannelEligible": false,
+    "cafSummary": {
+      "midcCluster": "MIDC Chakan Phase II, Pune",
+      "plotNumber": "Plot E-42/1",
+      "totalProjectCostCr": 45,
+      "powerKva": 1500,
+      "waterKld": 40,
+      "pollutionCategory": "ORANGE"
+    },
+    "documents": [
+      {
+        "docType": "FACTORY_LAYOUT_PLAN",
+        "docName": "Chakan_Architectural_Floor_Plan.dwg",
+        "verified": true,
+        "url": "#"
+      },
+      {
+        "docType": "PROJECT_FEASIBILITY_REPORT",
+        "docName": "Structural_Stability_Certificate.pdf",
+        "verified": true,
+        "url": "#"
+      }
+    ],
+    "queries": [
+      {
+        "id": "qry_101",
+        "applicationId": "app_103",
+        "department": "MIDC Special Planning Authority",
+        "officerName": "Er. Sandeep Patil",
+        "queryDate": "2026-09-24T05:05:29.303Z",
+        "objectionText": "Under Rule 14.1 of MIDC DCR 2009, heavy industrial plots exceeding 10,000 sq.m require minimum 6.0m rear marginal setback for fire tender turning radius. Drawing shows 4.5m.",
+        "statutoryRuleRef": "MIDC Development Control Regulations 2009 Rule 14.1",
+        "status": "PENDING"
+      }
+    ],
+    "queryNotes": [
+      "Under Rule 14.1 of MIDC DCR 2009, heavy industrial plots exceeding 10,000 sq.m require minimum 6.0m rear marginal setback for fire tender turning radius. Drawing shows 4.5m."
+    ],
+    "timeline": [
+      {
+        "timestamp": "2026-09-15T05:05:29.303Z",
+        "event": "Architectural Blueprint Submitted",
+        "performedBy": "Applicant",
+        "status": "SUBMITTED"
+      },
+      {
+        "timestamp": "2026-09-24T05:05:29.303Z",
+        "event": "Scrutiny Query Raised by MIDC SPA regarding Rule 14.1 setback",
+        "performedBy": "Er. Sandeep Patil",
+        "status": "QUERY_RAISED"
+      }
+    ]
+  },
+  {
+    "id": "app_104",
+    "trackingNumber": "APOS-UTL01-992019",
+    "cafReferenceNumber": "MH-CAF-2026-004812",
+    "profileId": "profile_ev_pune",
+    "companyName": "Apex Lithium & Battery Packs Pvt Ltd",
+    "approvalNodeId": "POWER_SANCTION",
+    "approvalName": "HT Power Feasibility & Sanction (1.5 MVA)",
+    "department": "MSEDCL (State DISCOM)",
+    "status": "UNDER_SCRUTINY",
+    "submissionDate": "2026-09-20T05:05:29.304Z",
+    "slaDeadline": "2026-10-05T05:05:29.304Z",
+    "daysRemaining": 10,
+    "isEscalated": false,
+    "escalationLevel": "NONE",
+    "assignedOfficerName": "Er. P. B. Kadam, Executive Engineer MSEDCL",
+    "riskScore": 20,
+    "trustScore": 88,
+    "greenChannelEligible": false,
+    "cafSummary": {
+      "midcCluster": "MIDC Chakan Phase II, Pune",
+      "plotNumber": "Plot E-42/1",
+      "totalProjectCostCr": 45,
+      "powerKva": 1500,
+      "waterKld": 40,
+      "pollutionCategory": "ORANGE"
+    },
+    "documents": [
+      {
+        "docType": "POWER_LOAD_CALCULATION",
+        "docName": "HT_Substation_SingleLine_SLD.pdf",
+        "verified": true,
+        "url": "#"
+      }
+    ],
+    "timeline": [
+      {
+        "timestamp": "2026-09-20T05:05:29.304Z",
+        "event": "HT 22kV Feeder Feasibility Application Submitted",
+        "performedBy": "Applicant",
+        "status": "SUBMITTED"
+      },
+      {
+        "timestamp": "2026-09-23T05:05:29.304Z",
+        "event": "Technical Load Flow Study Under Scrutiny",
+        "performedBy": "MSEDCL Distribution Cell",
+        "status": "UNDER_SCRUTINY"
+      }
+    ]
+  }
+]

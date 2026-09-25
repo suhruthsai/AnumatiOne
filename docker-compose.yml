@@ -1,0 +1,108 @@
+version: '3.8'
+
+services:
+  # 1. PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: approvalos-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: approvalos_user
+      POSTGRES_PASSWORD: approvalos_secure_password
+      POSTGRES_DB: approvalos
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infrastructure/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U approvalos_user -d approvalos"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. Neo4j Regulatory Graph Database
+  neo4j:
+    image: neo4j:5.18-community
+    container_name: approvalos-neo4j
+    restart: unless-stopped
+    environment:
+      NEO4J_AUTH: neo4j/approvalos_neo4j_password
+      NEO4J_PLUGINS: '["apoc"]'
+      NEO4J_dbms_security_procedures_unrestricted: apoc.*
+    ports:
+      - "7474:7474" # HTTP UI
+      - "7687:7687" # Bolt
+    volumes:
+      - neo4j_data:/data
+      - ./infrastructure/neo4j:/var/lib/neo4j/import
+
+  # 3. Redis Cache & SLA Counters
+  redis:
+    image: redis:7-alpine
+    container_name: approvalos-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  # 4. MongoDB Documents & Audit Trail
+  mongo:
+    image: mongo:7.0
+    container_name: approvalos-mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: approvalos_admin
+      MONGO_INITDB_ROOT_PASSWORD: approvalos_mongo_password
+      MONGO_INITDB_DATABASE: approvalos_docs
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  # 5. Kong API Gateway
+  kong:
+    image: kong:3.6-alpine
+    container_name: approvalos-kong
+    restart: unless-stopped
+    environment:
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: /etc/kong/kong.yml
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+    ports:
+      - "8000:8000" # Gateway proxy
+      - "8001:8001" # Admin API
+    volumes:
+      - ./infrastructure/kong/kong.yml:/etc/kong/kong.yml
+
+  # 6. ApprovalOS Next.js Application
+  approvalos-web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    container_name: approvalos-web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://approvalos_user:approvalos_secure_password@postgres:5432/approvalos
+      NEO4J_URI: bolt://neo4j:7687
+      NEO4J_USER: neo4j
+      NEO4J_PASSWORD: approvalos_neo4j_password
+      REDIS_URL: redis://redis:6379
+      MONGODB_URI: mongodb://approvalos_admin:approvalos_mongo_password@mongo:27017/approvalos_docs?authSource=admin
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  neo4j_data:
+  redis_data:
+  mongo_data:
