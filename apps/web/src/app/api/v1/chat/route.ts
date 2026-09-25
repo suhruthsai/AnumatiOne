@@ -1,24 +1,48 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { statutoryRAG } from '@/lib/rag/hybrid-rag-engine';
+import { askGroq } from '@/lib/ai/groq-client';
 
 export async function POST(req: NextRequest) {
   try {
     const { message, profile } = await req.json();
     const query = message || '';
 
-    // Generate grounded RAG answer
+    // 1. Generate grounded RAG context from local Maharashtra legal corpus
     const ragAnswer = statutoryRAG.generateAnswer(query);
 
-    // Build rich, structured markdown reply
-    let reply = `### 💡 In Plain English\n${ragAnswer.plainEnglishExplanation}\n\n`;
+    // 2. Attempt ultra-fast Groq LPU inference if available
+    let dynamicAiReply: string | null = null;
+    const profileContext = profile ? `\nApplicant Profile: ${profile.companyName || 'Industrial Enterprise'}, Sector: ${profile.sector || 'General Manufacturing'}, Location: ${profile.district || 'Maharashtra'}` : '';
+    
+    const groqPrompt = `User Query: "${query}"${profileContext}\n\nLegal Grounding Context from Maharashtra Statutes:\n- Governing Act: ${ragAnswer.legalBasis.actTitle} (${ragAnswer.legalBasis.sectionOrRule})\n- Authority: ${ragAnswer.legalBasis.department}\n- Legal Safeguard: ${ragAnswer.legalBasis.statutorySafeguard || 'Statutory SLA'}\n- Context: ${ragAnswer.plainEnglishExplanation}`;
 
-    reply += `### 📜 Maharashtra Statutory Basis\n`;
-    reply += `* **Governing Statute:** ${ragAnswer.legalBasis.actTitle} (${ragAnswer.legalBasis.sectionOrRule})\n`;
-    reply += `* **Enforcing Authority:** ${ragAnswer.legalBasis.department}\n`;
-    if (ragAnswer.legalBasis.statutorySafeguard) {
-      reply += `* **Legal Safeguard:** ${ragAnswer.legalBasis.statutorySafeguard}\n`;
+    try {
+      dynamicAiReply = await askGroq(groqPrompt);
+    } catch {
+      dynamicAiReply = null;
     }
-    reply += `\n`;
+
+    // 3. Build rich, structured markdown reply (use Groq if available, fallback to deterministic RAG)
+    let reply = '';
+    if (dynamicAiReply) {
+      reply = `${dynamicAiReply}\n\n`;
+      reply += `---\n### 📜 Maharashtra Statutory Basis\n`;
+      reply += `* **Governing Statute:** ${ragAnswer.legalBasis.actTitle} (${ragAnswer.legalBasis.sectionOrRule})\n`;
+      reply += `* **Enforcing Authority:** ${ragAnswer.legalBasis.department}\n`;
+      if (ragAnswer.legalBasis.statutorySafeguard) {
+        reply += `* **Legal Safeguard:** ${ragAnswer.legalBasis.statutorySafeguard}\n`;
+      }
+      reply += `\n`;
+    } else {
+      reply = `### 💡 In Plain English\n${ragAnswer.plainEnglishExplanation}\n\n`;
+      reply += `### 📜 Maharashtra Statutory Basis\n`;
+      reply += `* **Governing Statute:** ${ragAnswer.legalBasis.actTitle} (${ragAnswer.legalBasis.sectionOrRule})\n`;
+      reply += `* **Enforcing Authority:** ${ragAnswer.legalBasis.department}\n`;
+      if (ragAnswer.legalBasis.statutorySafeguard) {
+        reply += `* **Legal Safeguard:** ${ragAnswer.legalBasis.statutorySafeguard}\n`;
+      }
+      reply += `\n`;
+    }
 
     if (ragAnswer.actionableSteps && ragAnswer.actionableSteps.length > 0) {
       reply += `### ✅ What You Should Do\n`;
