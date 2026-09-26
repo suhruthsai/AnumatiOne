@@ -49,9 +49,6 @@ export function NavigationHeader() {
             <div className="flex flex-col">
               <span className="font-bold text-lg tracking-tight text-white flex items-center gap-1.5">
                 Anumati<span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">One</span>
-                <span className="rounded-full bg-blue-500/10 px-2 py-0.5 text-[10px] font-semibold text-blue-400 border border-blue-500/20">
-                  MAITRI Maharashtra
-                </span>
               </span>
             </div>
           </Link>
