@@ -132,6 +132,17 @@ export default function LandingPage() {
             <Coins className="h-4 w-4 text-amber-400" />
             Government Subsidies & PSI 2019
           </Link>
+
+          <Link
+            href="/portal/clearances"
+            className="flex items-center gap-2 rounded-xl border border-cyan-500/40 bg-gradient-to-r from-cyan-950/40 via-blue-950/40 to-slate-900/80 px-6 py-3.5 text-sm font-bold text-cyan-300 hover:border-cyan-400 hover:text-white transition-all backdrop-blur-md shadow-lg shadow-cyan-500/10 group"
+          >
+            <Building2 className="h-4 w-4 text-cyan-400 group-hover:scale-110 transition-transform" />
+            Clearances & Approvals Directory
+            <span className="rounded-full bg-cyan-400/10 px-2 py-0.5 text-[10px] font-semibold text-cyan-300 border border-cyan-400/30">
+              28 Clearances
+            </span>
+          </Link>
         </div>
 
         {/* Live Performance Comparison Card */}

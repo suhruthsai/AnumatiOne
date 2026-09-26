@@ -50,6 +50,7 @@ export function NavigationHeader() {
 
   // Applicant Navigation Links
   const applicantNavLinks = [
+    { href: '/portal/clearances', label: 'Clearances Guide', icon: Building2, badge: 'Directory' },
     { href: '/portal/kya', label: 'KYA Checklist', icon: Search, badge: 'Step 1' },
     { href: '/portal/apply', label: 'Single-Window CAF', icon: PlusCircle },
     { href: '/portal/applications', label: 'Unified Dashboard', icon: FolderCheck, badge: 'All 4 Pillars' },
