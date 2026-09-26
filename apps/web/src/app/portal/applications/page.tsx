@@ -225,7 +225,7 @@ export default function ApplicationsPage() {
                           className="mt-2 inline-flex items-center gap-1 text-[10px] font-bold text-rose-400 hover:text-rose-300 underline underline-offset-2"
                         >
                           <Scale className="h-2.5 w-2.5" />
-                          <span>File RTS Sec 18 First Appeal</span>
+                          <span>Request Department Escalation</span>
                         </Link>
                       )}
                     </div>
@@ -269,10 +269,10 @@ export default function ApplicationsPage() {
                         </button>
                         <Link
                           href={`/portal/grievances?tier=TIER_2_FIRST_APPEAL&appId=${app.trackingNumber}&dept=${encodeURIComponent(app.department)}&reason=UNREASONABLE_QUERY`}
-                          className="flex items-center justify-center gap-1.5 rounded-lg border border-rose-500/40 bg-rose-500/10 hover:bg-rose-500/20 py-2 px-3 text-xs font-bold text-rose-300 transition-all"
+                          className="flex items-center justify-center gap-1.5 rounded-lg border border-slate-700 bg-slate-800/60 hover:bg-slate-700 py-2 px-3 text-xs font-bold text-slate-300 transition-all"
                         >
-                          <Scale className="h-3.5 w-3.5 text-rose-400" />
-                          <span>⚖️ RTS Sec 18 Appeal</span>
+                          <Scale className="h-3.5 w-3.5 text-slate-400" />
+                          <span>Request Escalation</span>
                         </Link>
                       </div>
                     </div>

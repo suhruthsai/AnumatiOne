@@ -97,7 +97,7 @@ export default function JourneyPage() {
         {activeShockDays > 0 && (
           <div className="absolute top-4 right-4 z-20 flex items-center gap-2 rounded-xl border border-rose-500/40 bg-rose-950/80 px-3 py-1.5 text-xs font-bold text-rose-300 backdrop-blur-md shadow-lg animate-pulse">
             <AlertTriangle className="h-3.5 w-3.5" />
-            <span>Shock Injected: +{activeShockDays}d Bureaucratic Delay Active</span>
+            <span>Simulated Department Delay: +{activeShockDays} Days</span>
           </div>
         )}
 
@@ -107,22 +107,22 @@ export default function JourneyPage() {
         />
       </div>
 
-      {/* 4. Adversarial Stress-Test & Self-Healing Console */}
+      {/* 4. Timeline Simulator & Resolution Console */}
       <AdversarialStressTestConsole
         onApplyShockDelay={handleApplyShockDelay}
       />
 
-      {/* 5. Deep-Dive Strategy & Adversary Breakdown Cards */}
+      {/* 5. Deep-Dive Strategy & Objection Breakdown Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Active Strategy Evaluation */}
         <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 backdrop-blur-md">
           <div className="flex items-center justify-between border-b border-slate-800 pb-3">
             <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
               <Layers className="h-4 w-4 text-blue-400" />
-              Workflow Execution Model
+              Parallel Clearance Execution Track
             </h3>
             <span className="rounded-full bg-blue-500/20 px-2 py-0.5 text-[10px] font-mono font-bold text-blue-300">
-              Resilience: {currentStrategy.resilienceScore}/100
+              Approval Efficiency: {currentStrategy.resilienceScore}/100
             </span>
           </div>
 
@@ -174,11 +174,11 @@ export default function JourneyPage() {
               >
                 <div className="flex items-center justify-between font-bold text-white">
                   <span>{scen.name}</span>
-                  <span className="text-rose-400 font-mono text-[11px]">+{scen.delayDaysAdded}d Shock</span>
+                  <span className="text-rose-400 font-mono text-[11px]">+{scen.delayDaysAdded}d Delay</span>
                 </div>
                 <p className="text-[11px] text-slate-400">{scen.triggerEvent}</p>
                 <div className="text-[11px] text-emerald-400 font-medium bg-emerald-950/20 rounded p-1.5 border border-emerald-500/20">
-                  🛡️ Defense: {scen.mitigationStrategy}
+                  🛡️ Mitigation: {scen.mitigationStrategy}
                 </div>
               </div>
             ))}

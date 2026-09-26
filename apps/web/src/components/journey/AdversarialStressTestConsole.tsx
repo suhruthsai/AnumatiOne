@@ -116,14 +116,14 @@ export function AdversarialStressTestConsole({ onApplyShockDelay }: AdversarialS
           <div className="flex items-center gap-2">
             <ShieldAlert className="h-4 w-4 text-amber-400" />
             <h3 className="text-xs font-bold text-white uppercase tracking-wider">
-              Department Objection & Self-Healing Stress Tester
+              Clearance Timeline & Delay Simulator
             </h3>
             <span className="font-mono text-[9px] font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
-              Live Bureaucracy Simulator
+              Live Timeline Simulator
             </span>
           </div>
           <p className="text-[11px] text-slate-400 mt-0.5">
-            Test how real-world Maharashtra department queries impact your factory timeline and watch MahaVault pre-validation neutralize the delays.
+            Simulate how common inter-departmental queries affect industrial timelines, and how AnumatiOne parallel processing and MahaVault pre-validation prevent delays.
           </p>
         </div>
 
@@ -133,7 +133,7 @@ export function AdversarialStressTestConsole({ onApplyShockDelay }: AdversarialS
               onClick={handleReset}
               className="px-2.5 py-1 rounded-lg text-[11px] text-slate-400 hover:text-white border border-slate-800 hover:bg-slate-800 transition-colors"
             >
-              Reset Shocks
+              Reset Delays
             </button>
           )}
 
@@ -149,7 +149,7 @@ export function AdversarialStressTestConsole({ onApplyShockDelay }: AdversarialS
             }`}
           >
             <ShieldCheck className="h-3.5 w-3.5" />
-            {isDefenseActive ? '🛡️ MahaVault Defense Active (0d Delay)' : '🛡️ Deploy MahaVault Defense'}
+            {isDefenseActive ? '🛡️ Parallel Track Active (0d Delay)' : '🛡️ Apply AnumatiOne Mitigation'}
           </button>
         </div>
       </div>
@@ -196,7 +196,7 @@ export function AdversarialStressTestConsole({ onApplyShockDelay }: AdversarialS
               <div className="mt-2 pt-1.5 border-t border-slate-800/80 flex items-center justify-between text-[10px]">
                 <span className="text-slate-400 truncate max-w-[120px]">{shock.department.split(' ')[0]}</span>
                 <span className={`font-semibold ${isActive ? (isDefenseActive ? 'text-emerald-400' : 'text-rose-400') : 'text-slate-400'}`}>
-                  {isActive ? (isDefenseActive ? 'Defended ✓' : 'Shock Injected !') : 'Click to Inject'}
+                  {isActive ? (isDefenseActive ? 'Mitigated ✓' : 'Delay Active !') : 'Click to Simulate'}
                 </span>
               </div>
             </button>
@@ -220,13 +220,13 @@ export function AdversarialStressTestConsole({ onApplyShockDelay }: AdversarialS
             <span>
               {isDefenseActive ? (
                 <>
-                  <strong className="text-emerald-300">MahaVault Zero-Defect Defense Applied: </strong>
-                  Pre-validated blueprints and Single-Window Joint Inspection Protocol absorbed the <strong>+{currentShockDelay} days</strong> shock. Total net project delay: <strong>0 days</strong>.
+                  <strong className="text-emerald-300">AnumatiOne Pre-Validation Applied: </strong>
+                  Pre-validated blueprints and Single-Window Joint Inspection Protocol absorbed the <strong>+{currentShockDelay} days</strong> delay. Total net project delay: <strong>0 days</strong>.
                 </>
               ) : (
                 <>
-                  <strong className="text-rose-300">Unmitigated Bureaucratic Friction: </strong>
-                  {activeShocks.length} departmental shocks injected. Project makespan expanded by <strong>+{currentShockDelay} days</strong>. Click &ldquo;Deploy MahaVault Defense&rdquo; to neutralize.
+                  <strong className="text-rose-300">Simulated Department Bottlenecks: </strong>
+                  {activeShocks.length} departmental delays simulated. Project timeline expanded by <strong>+{currentShockDelay} days</strong>. Click &ldquo;Apply AnumatiOne Mitigation&rdquo; to resolve.
                 </>
               )}
             </span>
@@ -237,7 +237,7 @@ export function AdversarialStressTestConsole({ onApplyShockDelay }: AdversarialS
               onClick={handleDeployDefense}
               className="px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs whitespace-nowrap self-start sm:self-auto transition-colors"
             >
-              Neutralize Shocks
+              Resolve Delays
             </button>
           )}
         </div>

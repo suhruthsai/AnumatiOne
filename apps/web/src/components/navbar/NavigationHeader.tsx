@@ -25,17 +25,13 @@ export function NavigationHeader() {
   const { currentProfile, loadDemoProfile } = useAppStore();
 
   const navLinks = [
-    { href: '/portal/kya', label: 'KYA Wizard', icon: Search, badge: 'Approvals' },
-    { href: '/portal/apply', label: 'Apply (CAF)', icon: PlusCircle, badge: 'Unified' },
-    { href: '/portal/applications', label: 'Applications', icon: FolderCheck, badge: 'Sentinel' },
-    { href: '/portal/compliance', label: 'Compliance & Renewals', icon: FileCheck2 },
-    { href: '/portal/incentives', label: 'Incentives (PSI)', icon: Gift },
-    { href: '/officer', label: 'Officer Cockpit', icon: ShieldCheck },
-    { href: '/portal/journey', label: 'Journey Map', icon: Compass },
-    { href: '/portal/what-if', label: 'What-If', icon: GitBranch },
-    { href: '/portal/grievances', label: 'Grievances', icon: AlertCircle },
-    { href: '/admin', label: 'EODB', icon: BarChart3 },
+    { href: '/portal/kya', label: 'Clearances & CAF', icon: Search, badge: 'Pillar 1' },
+    { href: '/portal/applications', label: 'Status & Permits', icon: FolderCheck },
+    { href: '/portal/compliance', label: 'Annual Compliance', icon: FileCheck2, badge: 'Pillar 2' },
+    { href: '/portal/incentives', label: 'Incentives & Subsidies', icon: Gift, badge: 'Pillar 3' },
   ];
+
+  const isOfficerActive = pathname === '/officer';
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-800 bg-slate-950/80 backdrop-blur-md">
@@ -53,25 +49,25 @@ export function NavigationHeader() {
             </div>
           </Link>
 
-          {/* Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1">
+          {/* Core 3-Pillar Navigation Links */}
+          <nav className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => {
               const Icon = link.icon;
-              const isActive = pathname === link.href;
+              const isActive = pathname === link.href || (link.href === '/portal/kya' && (pathname === '/portal/apply' || pathname === '/portal/journey'));
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+                  className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
                     isActive
-                      ? 'bg-brand-800/40 text-blue-300 border border-brand-500/30 shadow-sm shadow-blue-500/10'
+                      ? 'bg-blue-600/20 text-blue-300 border border-blue-500/30 shadow-sm'
                       : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
                   }`}
                 >
                   <Icon className="h-3.5 w-3.5" />
                   {link.label}
                   {link.badge && (
-                    <span className="ml-1 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 px-1.5 py-0.5 text-[9px] font-bold text-amber-300 border border-amber-500/30">
+                    <span className="ml-1 rounded-full bg-blue-500/20 px-1.5 py-0.2 text-[9px] font-mono font-bold text-blue-300 border border-blue-500/30">
                       {link.badge}
                     </span>
                   )}
@@ -81,10 +77,10 @@ export function NavigationHeader() {
           </nav>
         </div>
 
-        {/* Demo Profile Selector & Status */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 rounded-lg border border-slate-800 bg-slate-900/90 px-2.5 py-1 text-xs">
-            <span className="text-slate-400 text-[11px] hidden sm:inline">Cluster:</span>
+        {/* Right Section: Cluster Demo Selector & Dedicated Officer Portal Toggle */}
+        <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2 rounded-lg border border-slate-800 bg-slate-900/90 px-2.5 py-1.5 text-xs">
+            <span className="text-slate-400 text-[11px] hidden sm:inline font-medium">Cluster:</span>
             <select
               value={
                 currentProfile.sector === 'EV_MANUFACTURING' ? 'EV_PUNE' :
@@ -102,11 +98,16 @@ export function NavigationHeader() {
           </div>
 
           <Link
-            href="/portal/kya"
-            className="hidden sm:flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-brand-600 to-accent-purple px-3 py-1.5 text-xs font-semibold text-white shadow-md shadow-brand-500/20 hover:brightness-110 transition-all"
+            href="/officer"
+            className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all border ${
+              isOfficerActive
+                ? 'bg-purple-600 text-white border-purple-500 shadow-md shadow-purple-500/20'
+                : 'bg-purple-950/30 text-purple-300 border-purple-500/30 hover:bg-purple-900/40'
+            }`}
           >
-            <Sparkles className="h-3.5 w-3.5" />
-            ⚡ Quick KYA
+            <ShieldCheck className="h-3.5 w-3.5 text-purple-400" />
+            <span className="hidden sm:inline">Officer Cockpit</span>
+            <span className="sm:hidden">Officer</span>
           </Link>
         </div>
       </div>

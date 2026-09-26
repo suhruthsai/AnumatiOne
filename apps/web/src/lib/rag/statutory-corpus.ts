@@ -81,7 +81,7 @@ export const MAHARASHTRA_STATUTORY_CORPUS: StatutoryKnowledgeChunk[] = [
     actionableSteps: [
       'Prepare your Effluent Treatment Plant (ETP) blueprint and water mass-balance chart.',
       'Upload the schematics to MahaVault for automated engineering check.',
-      'Once pre-validated, submit CTE via ApprovalOS concurrent Lane 2.',
+      'Once pre-validated, submit CTE via AnumatiOne concurrent Lane 2.',
     ],
     keyTerms: ['cte', 'consent to establish', 'mpcb', 'water act', 'pollution', 'etp', 'zld', 'wastewater', 'effluent'],
     slaDays: 30,
@@ -153,7 +153,7 @@ export const MAHARASHTRA_STATUTORY_CORPUS: StatutoryKnowledgeChunk[] = [
     actionableSteps: [
       'Calculate your total connected load (kVA) and maximum demand.',
       'File power feasibility concurrently on Day 18 after Land Allotment.',
-      'ApprovalOS utilizes 18-day float/slack on power so substation studies never delay construction.',
+      'AnumatiOne utilizes 18-day float/slack on power so substation studies never delay construction.',
     ],
     keyTerms: ['power', 'msedcl', 'ht power', 'transformer', 'substation', 'feeder', 'load sanction', 'electricity'],
     slaDays: 25,
@@ -189,7 +189,7 @@ export const MAHARASHTRA_STATUTORY_CORPUS: StatutoryKnowledgeChunk[] = [
     actionableSteps: [
       'Register for PSI 2019 Eligibility Certificate before commercial production starts.',
       'File monthly SGST returns to create the audit trail for subsidy disbursement.',
-      'Check eligible taluka category in the ApprovalOS Incentives Tab.',
+      'Check eligible taluka category in the AnumatiOne Incentives Tab.',
     ],
     keyTerms: ['psi 2019', 'ips', 'subsidy', 'sgst', 'incentives', 'package scheme', 'refund', 'gst reimbursement'],
     statutorySafeguard: 'Guaranteed financial subsidy sanctioned under State Cabinet Policy',
@@ -237,7 +237,7 @@ export const MAHARASHTRA_STATUTORY_CORPUS: StatutoryKnowledgeChunk[] = [
     officialLegaleseText: `Under CMEGP, first-generation entrepreneurs and MSME manufacturing projects up to ₹50 Lakhs (and micro-units up to ₹1 Crore) receive a non-repayable capital subsidy of 15% to 35% of total project cost (higher slab for women, SC/ST, and rural units), alongside 5% annual interest subvention on term loans for 5 years.`,
     plainEnglishExplanation: 'For startups and first-generation MSME founders, the Chief Minister scheme provides a free, non-repayable cash grant of up to 35% of your total project setup cost, plus pays 5% of your bank loan interest for 5 years.',
     actionableSteps: [
-      'Apply online via ApprovalOS with Udyam Registration and Project DPR.',
+      'Apply online via AnumatiOne with Udyam Registration and Project DPR.',
       'District Taskforce Committee reviews and sanctions subsidy within 21 days.',
       'Subsidy credited directly into your bank loan account as back-ended capital grant.',
     ],
@@ -255,7 +255,7 @@ export const MAHARASHTRA_STATUTORY_CORPUS: StatutoryKnowledgeChunk[] = [
     plainEnglishExplanation: 'If you produce non-polluting goods (White/Green category) or set up inside a government MIDC industrial park, you skip the physical queue. You upload verified digital declarations via DigiLocker and receive instant deemed clearance, shrinking your launch time to just 48 days.',
     actionableSteps: [
       'Verify that your manufacturing process produces zero toxic effluent.',
-      'Maintain an ApprovalOS Promoter Trust Score ≥ 80.',
+      'Maintain an AnumatiOne Promoter Trust Score ≥ 80.',
       'Receive instant auto-sanction certificates under Green Channel.',
     ],
     keyTerms: ['green channel', 'fast track', 'self certification', 'digilocker', 'white category', 'clean tech', 'deemed'],
@@ -265,7 +265,7 @@ export const MAHARASHTRA_STATUTORY_CORPUS: StatutoryKnowledgeChunk[] = [
   {
     id: 'MAHAVAULT_PRE_VALIDATION',
     actTitle: 'MahaVault Intelligent Data Reuse & Pre-Validation Engine',
-    sectionOrRule: 'ApprovalOS Enterprise Standard',
+    sectionOrRule: 'AnumatiOne Enterprise Standard',
     department: 'Multi-Department Integrated Gateway (MAITRI)',
     category: 'TECHNICAL_STANDARD',
     title: 'Zero-Query Pre-Validation & Single-Submission Data Reuse',

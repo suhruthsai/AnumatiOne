@@ -90,7 +90,7 @@ export class MaharashtraNLPSimplifier {
         plainEnglishExplanation: 'The factory inspector (DISH) and the fire officer have not synchronized their site visit dates, which could stall your final license.',
         whyThisHappened: 'Historically, DISH and Fire inspected on separate dates months apart, causing unnecessary operational downtime.',
         actionableSteps: [
-          'Use the ApprovalOS Single-Window Joint Inspection Protocol.',
+          'Use the AnumatiOne Single-Window Joint Inspection Protocol.',
           'Book a unified 48-hour inspection slot that auto-notifies both DISH and Fire officers.',
           'Have your machinery layout and emergency exits pre-audited on site.',
         ],

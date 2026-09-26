@@ -23,7 +23,8 @@ import {
   Gift,
   Scale,
   Clock,
-  Award
+  Award,
+  Coins
 } from 'lucide-react';
 
 export default function LandingPage() {
@@ -58,23 +59,15 @@ export default function LandingPage() {
           Engineered under the <strong>Maharashtra Right to Services (RTS) Act 2015</strong>. Covering the complete industrial lifecycle across 15+ state departments — <strong>Pre-Establishment</strong>, <strong>Pre-Operation</strong>, <strong>Continuous Statutory Returns</strong>, and <strong>License Renewals</strong> — with Zero-Query AI Pre-Scrutiny, MahaVault Document Re-use, and Deemed Approvals.
         </p>
 
-        {/* Hero Operational Action Buttons */}
+        {/* Hero Operational Action Buttons - Directly aligned with SIH 26130 Pillars */}
         <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
           <Link
             href="/portal/kya"
             className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-brand-600 via-blue-600 to-accent-purple px-6 py-3.5 text-sm font-bold text-white shadow-xl shadow-brand-500/25 hover:brightness-110 active:scale-[0.98] transition-all"
           >
             <Search className="h-4 w-4" />
-            Know Your Approvals (KYA Wizard)
+            Know Your Approvals (KYA & CAF)
             <ArrowRight className="h-4 w-4" />
-          </Link>
-
-          <Link
-            href="/portal/apply"
-            className="flex items-center gap-2 rounded-xl border border-blue-500/40 bg-blue-950/40 px-6 py-3.5 text-sm font-bold text-blue-300 hover:bg-blue-900/50 hover:text-white transition-all backdrop-blur-md"
-          >
-            <PlusCircle className="h-4 w-4 text-blue-400" />
-            Single-Window CAF
           </Link>
 
           <Link
@@ -82,7 +75,7 @@ export default function LandingPage() {
             className="flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/80 px-6 py-3.5 text-sm font-bold text-slate-200 hover:bg-slate-800 hover:text-white transition-all backdrop-blur-md"
           >
             <FolderCheck className="h-4 w-4 text-emerald-400" />
-            Applications Sentinel
+            Track Applications & Permits
           </Link>
 
           <Link
@@ -90,7 +83,15 @@ export default function LandingPage() {
             className="flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/80 px-6 py-3.5 text-sm font-bold text-slate-200 hover:bg-slate-800 hover:text-white transition-all backdrop-blur-md"
           >
             <Calendar className="h-4 w-4 text-purple-400" />
-            Compliance & Returns
+            Annual Statutory Compliance
+          </Link>
+
+          <Link
+            href="/portal/incentives"
+            className="flex items-center gap-2 rounded-xl border border-amber-500/30 bg-amber-950/20 px-6 py-3.5 text-sm font-bold text-amber-300 hover:bg-amber-900/40 hover:text-white transition-all backdrop-blur-md"
+          >
+            <Coins className="h-4 w-4 text-amber-400" />
+            Government Subsidies & PSI 2019
           </Link>
         </div>
 
@@ -112,7 +113,7 @@ export default function LandingPage() {
             <div className="text-left space-y-1">
               <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
                 <TrendingDown className="h-3.5 w-3.5" />
-                MAITRI Concurrent CAF
+                AnumatiOne Concurrent Clearances
               </span>
               <div className="text-2xl sm:text-3xl font-black text-emerald-300 font-mono">
                 78 Days
@@ -155,7 +156,7 @@ export default function LandingPage() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="rounded-full bg-blue-500/10 px-2.5 py-0.5 text-[10px] font-bold text-blue-400 border border-blue-500/20">
-                  STAGE 1
+                  STAGE 1 • PILLAR 1: APPROVALS
                 </span>
                 <Clock className="h-4 w-4 text-blue-400" />
               </div>
@@ -184,7 +185,7 @@ export default function LandingPage() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="rounded-full bg-purple-500/10 px-2.5 py-0.5 text-[10px] font-bold text-purple-400 border border-purple-500/20">
-                  STAGE 2
+                  STAGE 2 • PILLAR 1: PERMITS
                 </span>
                 <Zap className="h-4 w-4 text-purple-400" />
               </div>
@@ -213,7 +214,7 @@ export default function LandingPage() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400 border border-emerald-500/20">
-                  STAGE 3
+                  STAGE 3 • PILLAR 2: COMPLIANCE
                 </span>
                 <Calendar className="h-4 w-4 text-emerald-400" />
               </div>
@@ -242,7 +243,7 @@ export default function LandingPage() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="rounded-full bg-amber-500/10 px-2.5 py-0.5 text-[10px] font-bold text-amber-400 border border-amber-500/20">
-                  STAGE 4
+                  STAGE 4 • PILLAR 3: INCENTIVES
                 </span>
                 <Award className="h-4 w-4 text-amber-400" />
               </div>

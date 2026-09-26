@@ -17,7 +17,7 @@ export interface OptimizerOptions {
 }
 
 /**
- * AdversarialPathOptimizer: The Core Algorithmic Innovation of ApprovalOS
+ * AdversarialPathOptimizer: The Core Algorithmic Innovation of AnumatiOne
  * Simulates the entrepreneur's entire journey, subjects parallel strategies
  * to hostile regulatory perturbations, and derives the Minimax Optimal Path.
  */
@@ -219,7 +219,7 @@ export class AdversarialPathOptimizer {
   }
 
   /**
-   * Generates realistic Maharashtra adversarial failure modes and their ApprovalOS defenses
+   * Generates realistic Maharashtra adversarial failure modes and their AnumatiOne defenses
    */
   private generateAdversaryScenarios(dag: ReturnType<typeof solveApprovalDAG>): AdversaryScenario[] {
     const scenarios: AdversaryScenario[] = [

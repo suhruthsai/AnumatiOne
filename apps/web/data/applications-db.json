@@ -74,7 +74,7 @@
       {
         "timestamp": "2026-09-25T13:44:07.204Z",
         "event": "Routed to Scrutiny Officer with Pre-Validated DigiLocker Dossier",
-        "performedBy": "ApprovalOS Orchestrator",
+        "performedBy": "AnumatiOne Orchestrator",
         "status": "UNDER_SCRUTINY"
       }
     ]
@@ -154,7 +154,7 @@
       {
         "timestamp": "2026-09-25T13:44:07.204Z",
         "event": "Routed to Scrutiny Officer with Pre-Validated DigiLocker Dossier",
-        "performedBy": "ApprovalOS Orchestrator",
+        "performedBy": "AnumatiOne Orchestrator",
         "status": "UNDER_SCRUTINY"
       }
     ]
@@ -234,7 +234,7 @@
       {
         "timestamp": "2026-09-25T13:44:07.204Z",
         "event": "Routed to Scrutiny Officer with Pre-Validated DigiLocker Dossier",
-        "performedBy": "ApprovalOS Orchestrator",
+        "performedBy": "AnumatiOne Orchestrator",
         "status": "UNDER_SCRUTINY"
       }
     ]
@@ -314,7 +314,7 @@
       {
         "timestamp": "2026-09-25T13:44:07.204Z",
         "event": "Routed to Scrutiny Officer with Pre-Validated DigiLocker Dossier",
-        "performedBy": "ApprovalOS Orchestrator",
+        "performedBy": "AnumatiOne Orchestrator",
         "status": "UNDER_SCRUTINY"
       }
     ]
@@ -394,7 +394,7 @@
       {
         "timestamp": "2026-09-25T13:44:07.204Z",
         "event": "Routed to Scrutiny Officer with Pre-Validated DigiLocker Dossier",
-        "performedBy": "ApprovalOS Orchestrator",
+        "performedBy": "AnumatiOne Orchestrator",
         "status": "UNDER_SCRUTINY"
       }
     ]
@@ -474,7 +474,7 @@
       {
         "timestamp": "2026-09-25T13:44:07.204Z",
         "event": "Routed to Scrutiny Officer with Pre-Validated DigiLocker Dossier",
-        "performedBy": "ApprovalOS Orchestrator",
+        "performedBy": "AnumatiOne Orchestrator",
         "status": "UNDER_SCRUTINY"
       }
     ]
@@ -494,7 +494,7 @@
     "daysRemaining": 25,
     "isEscalated": false,
     "escalationLevel": "NONE",
-    "assignedOfficerName": "ApprovalOS Green-Channel AI Daemon",
+    "assignedOfficerName": "AnumatiOne Green-Channel AI Daemon",
     "riskScore": 12,
     "trustScore": 88,
     "greenChannelEligible": true,
@@ -541,7 +541,7 @@
       {
         "timestamp": "2026-09-22T05:05:29.303Z",
         "event": "Instant Green-Channel Auto-Approval Granted (Trust Score 88)",
-        "performedBy": "ApprovalOS Autonomous AI Daemon",
+        "performedBy": "AnumatiOne Autonomous AI Daemon",
         "status": "GREEN_CHANNEL_APPROVED"
       }
     ]
@@ -613,7 +613,7 @@
       {
         "timestamp": "2026-09-23T05:05:29.303Z",
         "event": "Joint Multi-Department Site Inspection Slotted",
-        "performedBy": "ApprovalOS Joint Scheduler",
+        "performedBy": "AnumatiOne Joint Scheduler",
         "status": "INSPECTION_PENDING"
       }
     ]
