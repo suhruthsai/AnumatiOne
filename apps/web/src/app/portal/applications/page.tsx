@@ -25,15 +25,29 @@ import {
   MessageSquare,
   Printer,
   Scale,
-  Gavel
+  Award,
+  Calendar,
+  Coins,
+  QrCode,
+  Download,
+  Building2,
+  Search,
+  ArrowRight
 } from 'lucide-react';
+import confetti from 'canvas-confetti';
 
 export default function ApplicationsPage() {
+  const { currentIndustrialist, currentProfile } = useAppStore();
   const [applications, setApplications] = useState<ApplicationRecord[]>([]);
-  const [activeTab, setActiveTab] = useState<'TRACKER' | 'VAULT'>('TRACKER');
+  const [activeTab, setActiveTab] = useState<'APPLICATIONS' | 'APPROVALS' | 'RENEWALS' | 'INCENTIVES' | 'VAULT'>('APPLICATIONS');
   const [selectedQueryApp, setSelectedQueryApp] = useState<ApplicationRecord | null>(null);
   const [selectedPermitApp, setSelectedPermitApp] = useState<ApplicationRecord | null>(null);
   const [filterDepartment, setFilterDepartment] = useState('ALL');
+
+  // Statutory Returns Filing State
+  const [filedReturns, setFiledReturns] = useState<Record<string, string>>({
+    'MPCB-V': 'MH-MPCB-V-2026-X892',
+  });
 
   const fetchApplications = async () => {
     try {
@@ -53,74 +67,162 @@ export default function ApplicationsPage() {
     return () => clearInterval(interval);
   }, []);
 
+  const handleFileReturn = (returnKey: string) => {
+    const token = `MH-GOM-${returnKey}-2026-${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
+    setFiledReturns((prev) => ({ ...prev, [returnKey]: token }));
+    confetti({
+      particleCount: 60,
+      spread: 60,
+      origin: { y: 0.6 },
+    });
+  };
+
   const filtered = applications.filter((app) => {
     if (filterDepartment === 'ALL') return true;
     return app.department.toLowerCase().includes(filterDepartment.toLowerCase());
   });
 
+  const approvedApps = applications.filter(
+    (a) => a.status === 'APPROVED' || a.status === 'GREEN_CHANNEL_APPROVED' || a.status === 'DEEMED_APPROVED'
+  );
+
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 py-8 space-y-6">
-      {/* Page Title & Top Actions */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400 border border-emerald-500/20">
-              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              Real-Time Database Sync (Active)
+      {/* Enterprise Identity Banner */}
+      <div className="rounded-3xl border border-blue-500/20 bg-gradient-to-r from-blue-950/40 via-slate-900/80 to-purple-950/30 p-5 sm:p-6 backdrop-blur-xl shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center gap-1 rounded-full bg-blue-500/10 px-2.5 py-0.5 text-[10px] font-bold text-blue-400 border border-blue-500/30">
+              <Building2 className="h-3 w-3" />
+              Verified Enterprise Profile
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-400 border border-blue-500/20">
-              <Sparkles className="h-3 w-3" />
-              Maharashtra RTS Act 2015 SLA Sentinel
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400 border border-emerald-500/30">
+              <ShieldCheck className="h-3 w-3" />
+              MahaVault KYC Locked
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-3">
-            <FolderCheck className="h-7 w-7 text-blue-400" />
-            Applications & DigiLocker Data Vault
+
+          <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2">
+            {currentIndustrialist?.companyName || currentProfile.companyName || 'Aegis Lithium Mobility Pvt Ltd'}
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 max-w-2xl mt-1">
-            Track live filings across all departments in real time with active SLA countdowns, instant query resolution, and digital clearance certificates.
-          </p>
+
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-300 font-mono">
+            <span>GSTIN: <strong className="text-white">{currentIndustrialist?.gstin || '27AABCS8819Q1ZP'}</strong></span>
+            <span>PAN: <strong className="text-white">{currentIndustrialist?.pan || 'AABCS8819Q'}</strong></span>
+            <span>Udyam: <strong className="text-white">{currentIndustrialist?.udyamNumber || 'UDYAM-MH-26-008219'}</strong></span>
+            <span>Zone: <strong className="text-emerald-400">{currentProfile.talukaCategory || 'Zone B (Developing)'}</strong></span>
+          </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-wrap items-center gap-2.5">
+        {/* Quick Actions */}
+        <div className="flex flex-wrap items-center gap-2.5 shrink-0">
           <Link
-            href="/portal/apply"
-            className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 px-4 py-2.5 text-xs font-bold text-white shadow-lg shadow-blue-500/25 hover:brightness-110 active:scale-[0.99] transition-all"
+            href="/portal/kya"
+            className="flex items-center gap-1.5 rounded-xl border border-blue-500/30 bg-blue-500/10 px-3.5 py-2 text-xs font-bold text-blue-300 hover:bg-blue-500/20 transition-all"
           >
-            <PlusCircle className="h-4 w-4" />
-            <span>➕ File New Application (CAF)</span>
+            <Search className="h-3.5 w-3.5" />
+            <span>KYA Checklist</span>
           </Link>
 
-          {/* Tab Switcher */}
-          <div className="flex rounded-xl border border-slate-800 bg-slate-900 p-1">
+          <Link
+            href="/portal/apply"
+            className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-xs font-bold text-white shadow-lg shadow-blue-500/25 hover:brightness-110 active:scale-[0.99] transition-all"
+          >
+            <PlusCircle className="h-3.5 w-3.5" />
+            <span>Submit New CAF</span>
+          </Link>
+
+          <Link
+            href="/portal/grievances"
+            className="flex items-center gap-1.5 rounded-xl border border-rose-500/30 bg-rose-950/20 px-3.5 py-2 text-xs font-bold text-rose-300 hover:bg-rose-900/30 transition-all"
+          >
+            <Scale className="h-3.5 w-3.5" />
+            <span>RTS Escalation</span>
+          </Link>
+        </div>
+      </div>
+
+      {/* The Unified 4-Quadrant Dashboard Header & Tab Navigation */}
+      <div className="border-b border-slate-800 pb-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <span className="text-[10px] font-bold text-blue-400 uppercase tracking-wider">
+              Smart India Hackathon 26130 Single-Window Dashboard
+            </span>
+            <h2 className="text-lg font-black text-white mt-0.5">
+              Enterprise Clearance, Compliance & Fiscal Operations
+            </h2>
+          </div>
+
+          {/* 4 Quadrants + MahaVault Tab Bar */}
+          <div className="flex flex-wrap items-center rounded-2xl border border-slate-800 bg-slate-900/90 p-1">
             <button
-              onClick={() => setActiveTab('TRACKER')}
-              className={`rounded-lg px-3.5 py-1.5 text-xs font-bold transition-all ${
-                activeTab === 'TRACKER'
+              onClick={() => setActiveTab('APPLICATIONS')}
+              className={`flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-bold transition-all ${
+                activeTab === 'APPLICATIONS'
                   ? 'bg-blue-600 text-white shadow-md'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              Live Sentinel ({applications.length})
+              <FolderCheck className="h-3.5 w-3.5" />
+              <span>Applications ({applications.length})</span>
             </button>
+
+            <button
+              onClick={() => setActiveTab('APPROVALS')}
+              className={`flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-bold transition-all ${
+                activeTab === 'APPROVALS'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Award className="h-3.5 w-3.5" />
+              <span>Approvals ({approvedApps.length})</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('RENEWALS')}
+              className={`flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-bold transition-all ${
+                activeTab === 'RENEWALS'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Calendar className="h-3.5 w-3.5" />
+              <span>Renewals & Returns</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('INCENTIVES')}
+              className={`flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-bold transition-all ${
+                activeTab === 'INCENTIVES'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Coins className="h-3.5 w-3.5" />
+              <span>Incentives & PSI 2019</span>
+            </button>
+
             <button
               onClick={() => setActiveTab('VAULT')}
-              className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-bold transition-all ${
+              className={`flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-bold transition-all ${
                 activeTab === 'VAULT'
                   ? 'bg-blue-600 text-white shadow-md'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              <Lock className="h-3 w-3 text-emerald-400" />
-              <span>MahaVault (6/6 Pre-Validated)</span>
+              <Lock className="h-3.5 w-3.5 text-emerald-400" />
+              <span>MahaVault (6/6)</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* View 1: Application Tracker */}
-      {activeTab === 'TRACKER' && (
+      {/* ========================================================
+          QUADRANT 1: ACTIVE APPLICATIONS
+          ======================================================== */}
+      {activeTab === 'APPLICATIONS' && (
         <div className="space-y-4">
           {/* Department Filter Bar */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs">
@@ -202,9 +304,13 @@ export default function ApplicationsPage() {
                     </span>
                   </div>
 
-                  {/* Realtime Statutory SLA Countdown & Assigned Officer */}
+                  {/* SLA Countdown & Assigned Scrutiny Officer */}
                   <div className="grid grid-cols-2 gap-3 text-xs">
                     <div className="rounded-xl border border-slate-800 bg-slate-950 p-3">
+                      <div className="text-[11px] text-slate-400 flex items-center gap-1.5">
+                        <Clock className="h-3 w-3 text-blue-400" />
+                        RTS Act Statutory SLA
+                      </div>
                       <RealtimeSlaCountdown
                         deadlineIso={app.slaDeadline}
                         initialDaysRemaining={app.daysRemaining}
@@ -244,7 +350,7 @@ export default function ApplicationsPage() {
                     </div>
                   </div>
 
-                  {/* Clarification Query with 1-Click Respond Button & RTS Sec 18 Appeal Option */}
+                  {/* Clarification Query with 1-Click Respond Button */}
                   {isQueryRaised && (
                     <div className="rounded-xl border border-amber-500/40 bg-amber-950/30 p-3.5 text-xs text-amber-200 space-y-2.5">
                       <div className="flex items-center justify-between">
@@ -295,59 +401,10 @@ export default function ApplicationsPage() {
                         className="w-full flex items-center justify-center gap-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 py-2 px-3 text-xs font-bold text-white shadow-md transition-all active:scale-[0.99]"
                       >
                         <Printer className="h-3.5 w-3.5" />
-                        <span>View & Print Official Digital Permit with QR Code</span>
+                        <span>View & Print Official Digital Permit</span>
                       </button>
                     </div>
                   )}
-
-                  {/* Attached Pre-Validated MahaVault Certified Dossier */}
-                  {app.documents && app.documents.length > 0 && (
-                    <div className="rounded-xl border border-slate-800/80 bg-slate-950/70 p-3 text-xs space-y-1.5">
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                        <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
-                        Attached Pre-Validated Dossier ({app.documents.length})
-                      </span>
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        {app.documents.map((d, dIdx) => (
-                          <span
-                            key={dIdx}
-                            className="inline-flex items-center gap-1 rounded-md bg-emerald-500/10 px-2 py-0.5 text-[10px] font-mono text-emerald-300 border border-emerald-500/20"
-                          >
-                            <CheckCircle2 className="h-2.5 w-2.5" />
-                            {d.docType || d.docName}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Inspection Notice if Slotted */}
-                  {app.inspections && app.inspections.length > 0 && (
-                    <div className="rounded-xl border border-purple-500/30 bg-purple-950/20 p-3 text-xs text-purple-200 space-y-1">
-                      <div className="flex items-center gap-2 font-bold text-purple-300">
-                        <CalendarCheck className="h-3.5 w-3.5" />
-                        Joint Synchronized Site Inspection Confirmed
-                      </div>
-                      <p className="text-[11px] text-slate-300">
-                        Date: <strong>{app.inspections[0].scheduledDate}</strong>. Joint team: {app.inspections[0].departments.join(' + ')}.
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Timeline Stream */}
-                  <div className="border-t border-slate-800/80 pt-3">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
-                      Application Audit Trail
-                    </span>
-                    <div className="space-y-1.5 text-[11px]">
-                      {app.timeline.map((evt, eIdx) => (
-                        <div key={eIdx} className="flex items-start gap-2 text-slate-300">
-                          <CheckCircle2 className="h-3 w-3 shrink-0 text-blue-400 mt-0.5" />
-                          <span className="text-slate-400">{evt.event}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
                 </div>
               );
             })}
@@ -355,12 +412,299 @@ export default function ApplicationsPage() {
         </div>
       )}
 
-      {/* View 2: Pre-Validation & Vault */}
+      {/* ========================================================
+          QUADRANT 2: GRANTED APPROVALS & DIGITAL PERMIT VAULT
+          ======================================================== */}
+      {activeTab === 'APPROVALS' && (
+        <div className="space-y-4">
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 space-y-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <Award className="h-5 w-5 text-emerald-400" />
+                  Statutory Clearances & Digital Permit Registry
+                </h3>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  Official digitally signed government authorizations issued under the Maharashtra Right to Services Act 2015.
+                </p>
+              </div>
+              <span className="font-mono text-xs text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 font-bold">
+                {approvedApps.length} Cleared Permits
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
+              {approvedApps.map((app) => (
+                <div
+                  key={app.id}
+                  className="rounded-2xl border border-emerald-500/30 bg-slate-950 p-4 space-y-3 shadow-lg flex flex-col justify-between"
+                >
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                        {app.trackingNumber}
+                      </span>
+                      <QrCode className="h-4 w-4 text-emerald-400" />
+                    </div>
+
+                    <h4 className="font-bold text-white text-sm">
+                      {app.approvalName}
+                    </h4>
+
+                    <div className="text-[11px] text-slate-400">
+                      Issuing Body: <span className="text-slate-300 font-semibold">{app.department}</span>
+                    </div>
+
+                    <div className="text-[11px] text-slate-400">
+                      Signatory: <span className="text-slate-300">{app.assignedOfficerName}</span>
+                    </div>
+
+                    <div className="rounded-lg bg-slate-900 p-2 text-[10px] font-mono text-slate-300 space-y-0.5 border border-slate-800">
+                      <div>Status: <span className="text-emerald-400 font-bold">ACTIVE & VALID</span></div>
+                      <div>Validity: 5 Years from Date of Issue</div>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => setSelectedPermitApp(app)}
+                    className="w-full flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 py-2 text-xs font-bold text-white transition-all shadow-md active:scale-95"
+                  >
+                    <Printer className="h-3.5 w-3.5" />
+                    <span>View Digital Permit</span>
+                  </button>
+                </div>
+              ))}
+
+              {/* Instant Green-Channel Seeded Permit Example if none yet approved */}
+              {approvedApps.length === 0 && (
+                <div className="col-span-full py-12 text-center space-y-3 border border-dashed border-slate-800 rounded-2xl bg-slate-950/40">
+                  <Award className="h-10 w-10 text-slate-500 mx-auto" />
+                  <h4 className="text-sm font-bold text-white">No Permits Issued Yet</h4>
+                  <p className="text-xs text-slate-400 max-w-md mx-auto">
+                    Submit your Common Application Form (CAF) to trigger parallel clearances. Green-Channel eligible projects receive deemed approvals within 48 hours.
+                  </p>
+                  <Link
+                    href="/portal/apply"
+                    className="inline-flex items-center gap-1.5 rounded-xl bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-500"
+                  >
+                    <span>File Single-Window CAF</span>
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================
+          QUADRANT 3: CONTINUOUS STATUTORY COMPLIANCE & RENEWALS
+          ======================================================== */}
+      {activeTab === 'RENEWALS' && (
+        <div className="space-y-6">
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <Calendar className="h-5 w-5 text-purple-400" />
+                  Statutory Returns Calendar & Fast-Track Renewals
+                </h3>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  Mandatory periodic filings under Environment Protection Rules, Hazardous Wastes Rules, and Maharashtra Factories Rules.
+                </p>
+              </div>
+
+              <Link
+                href="/portal/apply?stage=RENEWAL"
+                className="flex items-center gap-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 px-3.5 py-2 text-xs font-bold text-white transition-all shadow-md self-start sm:self-auto"
+              >
+                <span>Fast-Track 5-Yr License Renewal</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+
+            {/* Statutory Returns Schedule Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+              {[
+                {
+                  key: 'MPCB-V',
+                  formNumber: 'MPCB Form V',
+                  act: 'Environment (Protection) Rules, 1986',
+                  title: 'Annual Environmental Statement',
+                  deadline: 'Every September 30',
+                  penalty: 'compounding daily penalty under Water/Air Acts',
+                  frequency: 'Annual',
+                },
+                {
+                  key: 'HAZARDOUS-4',
+                  formNumber: 'Form 4 (Hazardous)',
+                  act: 'Hazardous & Other Wastes Rules, 2016',
+                  title: 'Annual Returns of Hazardous Waste Disposal',
+                  deadline: 'Every June 30',
+                  penalty: 'immediate inspection notice and show-cause order',
+                  frequency: 'Annual',
+                },
+                {
+                  key: 'DISH-27',
+                  formNumber: 'DISH Form 27',
+                  act: 'Maharashtra Factories Rules, 1963',
+                  title: 'Half-Yearly Factory Return (Man-hours & Accidents)',
+                  deadline: 'January 15 & July 15',
+                  penalty: 'license suspension inquiry under Factories Act 1948',
+                  frequency: 'Half-Yearly',
+                },
+                {
+                  key: 'FIRE-B',
+                  formNumber: 'Fire Form B',
+                  act: 'Maharashtra Fire Prevention & Life Safety Act, 2006',
+                  title: 'Bi-Annual Fire Safety Certificate Audit',
+                  deadline: 'January & July (Bi-Annual)',
+                  penalty: 'revocation of occupancy certificate',
+                  frequency: 'Bi-Annual',
+                },
+              ].map((ret) => {
+                const isFiled = !!filedReturns[ret.key];
+                return (
+                  <div
+                    key={ret.key}
+                    className="rounded-2xl border border-slate-800 bg-slate-950 p-4 space-y-3 flex flex-col justify-between"
+                  >
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="font-mono text-xs font-bold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded border border-purple-500/20">
+                          {ret.formNumber}
+                        </span>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase">
+                          {ret.frequency}
+                        </span>
+                      </div>
+
+                      <h4 className="font-bold text-white text-sm">{ret.title}</h4>
+                      <p className="text-[11px] text-slate-400">{ret.act}</p>
+
+                      <div className="text-[11px] text-amber-300 bg-amber-950/20 p-2 rounded-lg border border-amber-500/20">
+                        ⏰ Statutory Due Date: <strong>{ret.deadline}</strong>
+                      </div>
+                    </div>
+
+                    <div className="pt-2 border-t border-slate-800 flex items-center justify-between gap-2">
+                      {isFiled ? (
+                        <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-bold">
+                          <CheckCircle2 className="h-4 w-4" />
+                          <span className="font-mono text-[11px]">{filedReturns[ret.key]}</span>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => handleFileReturn(ret.key)}
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all shadow-md active:scale-95"
+                        >
+                          <Send className="h-3 w-3" />
+                          <span>1-Click File Return</span>
+                        </button>
+                      )}
+
+                      <span className="text-[10px] text-slate-500">MahaVault Auto-Fill</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================
+          QUADRANT 4: FISCAL SUPPORT & PSI 2019 INCENTIVES
+          ======================================================== */}
+      {activeTab === 'INCENTIVES' && (
+        <div className="space-y-6">
+          <div className="rounded-2xl border border-amber-500/30 bg-slate-900/60 p-5 space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <Coins className="h-5 w-5 text-amber-400" />
+                  Package Scheme of Incentives (PSI 2019/2024) Entitlements
+                </h3>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  Automated disbursement tracking for State GST refunds, electricity duty waivers, and capital subsidies.
+                </p>
+              </div>
+
+              <Link
+                href="/portal/incentives"
+                className="flex items-center gap-1.5 rounded-xl border border-amber-500/40 bg-amber-500/10 hover:bg-amber-500/20 px-3.5 py-2 text-xs font-bold text-amber-300 transition-all shadow-sm"
+              >
+                <span>Interactive PSI Calculator</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+
+            {/* 4 Fiscal Benefit Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2">
+              <div className="rounded-xl border border-slate-800 bg-slate-950 p-4 space-y-1">
+                <span className="text-[10px] uppercase font-bold text-slate-400">Taluka Zone Category</span>
+                <div className="text-xl font-black text-amber-400">
+                  {currentProfile.talukaCategory || 'Zone B (Developing)'}
+                </div>
+                <p className="text-[11px] text-slate-400">Chakan Phase II, Pune District</p>
+              </div>
+
+              <div className="rounded-xl border border-slate-800 bg-slate-950 p-4 space-y-1">
+                <span className="text-[10px] uppercase font-bold text-slate-400">Eligible Gross SGST Refund</span>
+                <div className="text-xl font-black text-emerald-400">
+                  60% of FCI
+                </div>
+                <p className="text-[11px] text-slate-400">₹72.00 Cr Ceiling over 7 Years</p>
+              </div>
+
+              <div className="rounded-xl border border-slate-800 bg-slate-950 p-4 space-y-1">
+                <span className="text-[10px] uppercase font-bold text-slate-400">Electricity Duty Waiver</span>
+                <div className="text-xl font-black text-blue-400">
+                  100% Exemption
+                </div>
+                <p className="text-[11px] text-slate-400">7 Years Complete Waiver</p>
+              </div>
+
+              <div className="rounded-xl border border-slate-800 bg-slate-950 p-4 space-y-1">
+                <span className="text-[10px] uppercase font-bold text-slate-400">MIDC Stamp Duty</span>
+                <div className="text-xl font-black text-purple-400">
+                  100% Waived
+                </div>
+                <p className="text-[11px] text-slate-400">Zero Upfront Lease Deed Duty</p>
+              </div>
+            </div>
+
+            {/* Direct Entitlement Claim Banner */}
+            <div className="rounded-xl border border-slate-800 bg-slate-950 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+              <div className="flex items-center gap-2.5">
+                <Award className="h-5 w-5 text-amber-400 shrink-0" />
+                <div>
+                  <div className="font-bold text-white">PSI 2019 Eligibility Certificate (EC) Ready</div>
+                  <div className="text-[11px] text-slate-400">Pre-populated using your verified Single-Window CAF data from MahaVault.</div>
+                </div>
+              </div>
+
+              <button
+                onClick={() => {
+                  confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+                }}
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-bold text-xs whitespace-nowrap shadow-md active:scale-95 transition-all"
+              >
+                Claim Incentive Entitlement
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================
+          MAHAVULT: INTER-DEPARTMENTAL DATA REUSE
+          ======================================================== */}
       {activeTab === 'VAULT' && (
         <MahaVaultExplorer />
       )}
 
-      {/* Query Response Modal */}
+      {/* Modals */}
       {selectedQueryApp && (
         <QueryResponseModal
           application={selectedQueryApp}
@@ -373,7 +717,6 @@ export default function ApplicationsPage() {
         />
       )}
 
-      {/* Digital Permit Certificate Modal */}
       {selectedPermitApp && (
         <DigitalPermitModal
           application={selectedPermitApp}

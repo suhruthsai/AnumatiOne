@@ -4,11 +4,18 @@ import React, { useState, useEffect } from 'react';
 import { Clock, AlertTriangle } from 'lucide-react';
 
 interface RealtimeSlaCountdownProps {
-  deadlineIso: string;
-  initialDaysRemaining: number;
+  deadlineIso?: string;
+  initialDaysRemaining?: number;
+  initialHours?: number;
+  slaTotalDays?: number;
 }
 
-export function RealtimeSlaCountdown({ deadlineIso, initialDaysRemaining }: RealtimeSlaCountdownProps) {
+export function RealtimeSlaCountdown({
+  deadlineIso,
+  initialDaysRemaining = 7,
+  initialHours,
+  slaTotalDays,
+}: RealtimeSlaCountdownProps) {
   const [timeLeft, setTimeLeft] = useState<{
     days: number;
     hours: number;
@@ -17,18 +24,20 @@ export function RealtimeSlaCountdown({ deadlineIso, initialDaysRemaining }: Real
     isExpired: boolean;
   }>({
     days: initialDaysRemaining,
-    hours: 14,
+    hours: initialHours ?? 14,
     minutes: 32,
     seconds: 45,
     isExpired: false,
   });
 
   useEffect(() => {
-    const deadline = new Date(deadlineIso).getTime();
+    const targetDeadline = deadlineIso 
+      ? new Date(deadlineIso).getTime() 
+      : Date.now() + (initialDaysRemaining * 24 + (initialHours ?? 14)) * 3600 * 1000;
 
     const updateTimer = () => {
       const now = Date.now();
-      const diff = deadline - now;
+      const diff = targetDeadline - now;
 
       if (diff <= 0) {
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0, isExpired: true });

@@ -60,6 +60,7 @@ export interface BusinessProfile {
   promoterExperienceYears?: number;
   pastComplianceRecord?: 'EXEMPLARY' | 'CLEAN' | 'MINOR_ISSUES' | 'NEW_ENTRANT';
   trustScore?: number;
+  talukaCategory?: string;
 }
 
 export interface ApprovalNode {

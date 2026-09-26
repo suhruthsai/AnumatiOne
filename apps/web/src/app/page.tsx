@@ -59,6 +59,45 @@ export default function LandingPage() {
           Engineered under the <strong>Maharashtra Right to Services (RTS) Act 2015</strong>. Covering the complete industrial lifecycle across 15+ state departments — <strong>Pre-Establishment</strong>, <strong>Pre-Operation</strong>, <strong>Continuous Statutory Returns</strong>, and <strong>License Renewals</strong> — with Zero-Query AI Pre-Scrutiny, MahaVault Document Re-use, and Deemed Approvals.
         </p>
 
+        {/* Two Sovereign Gateway Access Portals */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2 max-w-2xl mx-auto">
+          <Link
+            href="/auth/login"
+            className="w-full sm:w-1/2 flex items-center justify-between p-4 rounded-2xl border border-blue-500/40 bg-gradient-to-r from-blue-950/60 to-slate-900/80 hover:border-blue-400 hover:scale-[1.02] active:scale-[0.99] transition-all text-left group shadow-xl shadow-blue-500/10"
+          >
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-wider text-blue-400">
+                Citizen / Investor Portal
+              </div>
+              <div className="text-sm font-bold text-white mt-0.5 group-hover:text-blue-300 transition-colors">
+                Industrialist Sign In →
+              </div>
+              <div className="text-[11px] text-slate-400 mt-1">
+                KYA, Single CAF, Digital Permits & PSI Subsidies
+              </div>
+            </div>
+            <Building2 className="h-8 w-8 text-blue-400/80 shrink-0 ml-2" />
+          </Link>
+
+          <Link
+            href="/auth/login"
+            className="w-full sm:w-1/2 flex items-center justify-between p-4 rounded-2xl border border-purple-500/40 bg-gradient-to-r from-purple-950/60 to-slate-900/80 hover:border-purple-400 hover:scale-[1.02] active:scale-[0.99] transition-all text-left group shadow-xl shadow-purple-500/10"
+          >
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-wider text-purple-400">
+                Government Official Intranet
+              </div>
+              <div className="text-sm font-bold text-white mt-0.5 group-hover:text-purple-300 transition-colors">
+                Officer Desk (Parichay) →
+              </div>
+              <div className="text-[11px] text-slate-400 mt-1">
+                Risk Scrutiny, Joint Inspections & Delay Analytics
+              </div>
+            </div>
+            <ShieldCheck className="h-8 w-8 text-purple-400/80 shrink-0 ml-2" />
+          </Link>
+        </div>
+
         {/* Hero Operational Action Buttons - Directly aligned with SIH 26130 Pillars */}
         <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
           <Link

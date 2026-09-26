@@ -17,14 +17,22 @@ import {
   Send,
   CalendarCheck
 } from 'lucide-react';
+import { useAppStore } from '@/lib/store';
 import confetti from 'canvas-confetti';
 
 export function SmartQueueTable() {
+  const { currentOfficer } = useAppStore();
   const [applications, setApplications] = useState<ApplicationRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedApp, setSelectedApp] = useState<ApplicationRecord | null>(null);
   const [actionNotes, setActionNotes] = useState('');
-  const [filterDepartment, setFilterDepartment] = useState('ALL');
+  const [filterDepartment, setFilterDepartment] = useState(currentOfficer?.department || 'ALL');
+
+  useEffect(() => {
+    if (currentOfficer?.department) {
+      setFilterDepartment(currentOfficer.department);
+    }
+  }, [currentOfficer?.department]);
 
   const fetchApplications = async () => {
     try {
@@ -61,7 +69,7 @@ export function SmartQueueTable() {
             : `Officer action: ${action}`),
           performedBy: action === 'DEEMED_APPROVE' 
             ? 'Statutory RTS SLA Sentinel' 
-            : 'Er. Ramesh Kulkarni, Senior Scrutiny Officer',
+            : (currentOfficer ? `${currentOfficer.fullName}, ${currentOfficer.designation} (${currentOfficer.department})` : 'Er. Ramesh Kulkarni, Senior Scrutiny Officer'),
         }),
       });
 
