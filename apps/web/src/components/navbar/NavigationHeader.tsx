@@ -75,42 +75,8 @@ export function NavigationHeader() {
   };
 
   return (
-    <div className="w-full">
-      {/* Top Citizen Accessibility & Utility Bar (Startup Telangana Official Portal Style) */}
-      <div className="w-full bg-[#060D4A] border-b border-[#C33764]/40 py-1.5 px-4 sm:px-6 text-[11px] text-slate-300">
-        <div className="mx-auto max-w-7xl flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2 sm:gap-4">
-            <span className="font-semibold text-white tracking-wide flex items-center gap-1.5">
-              <span className="text-[#C33764]">🏛️</span>
-              Government of Maharashtra <span className="text-slate-500 hidden sm:inline">|</span> <span className="text-slate-400 hidden sm:inline">Industries & MSIS</span>
-            </span>
-            <span className="hidden md:inline text-slate-400">
-              Toll-Free: <strong className="text-white font-mono">1800-120-8040</strong>
-            </span>
-          </div>
-          
-          <div className="flex items-center gap-2 sm:gap-3 text-[11px]">
-            <div className="hidden sm:flex items-center gap-1 border-r border-slate-700 pr-3">
-              <span className="text-slate-400">Font:</span>
-              <button type="button" className="px-1 font-bold hover:text-white transition-colors">A-</button>
-              <button type="button" className="px-1 font-bold hover:text-white transition-colors">A</button>
-              <button type="button" className="px-1 font-bold text-[#C33764] hover:text-rose-300 transition-colors">A+</button>
-            </div>
-            <Link href="/portal/grievances" className="hover:text-white font-semibold flex items-center gap-1 text-[#C33764]">
-              RTS 2-Tier Appeals
-            </Link>
-            <Link 
-              href={isOfficerRoute ? "/portal/applications" : "/auth/login"} 
-              className="rounded bg-[#C33764] hover:bg-[#A82650] text-white px-2.5 py-0.5 font-bold transition-colors shadow-sm"
-            >
-              {isOfficerRoute ? "Switch to Investor Portal" : "Officer Desk (Parichay)"}
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      <header className="sticky top-0 z-40 w-full border-b border-slate-800 bg-[#060D4A]/95 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
+    <header className="sticky top-0 z-40 w-full border-b border-slate-800 bg-[#060D4A]/95 backdrop-blur-md">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
           {/* Brand Logo & Realm Badge */}
           <div className="flex items-center gap-3 sm:gap-5">
             <Link href="/" className="flex items-center gap-2.5 group">
@@ -281,6 +247,5 @@ export function NavigationHeader() {
         </div>
       </div>
     </header>
-  </div>
   );
 }

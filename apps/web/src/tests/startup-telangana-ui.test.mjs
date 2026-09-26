@@ -30,14 +30,15 @@ test('AnumatiOne Frontend & UI/UX Design System (Startup Telangana Model)', asyn
     assert.ok(footerContent.includes('Maharashtra State Innovation Society'), 'Footer must state official MSIS authority');
   });
 
-  await t.test('2. Top Citizen Accessibility Toolbar & Header Navigation', () => {
-    assert.ok(navContent.includes('Toll-Free:'), 'Header must include toll-free helpline');
-    assert.ok(navContent.includes('1800-120-8040'), 'Header must display 1800-120-8040');
-    assert.ok(navContent.includes('Font:'), 'Header must provide font size controls');
-    assert.ok(navContent.includes('A+'), 'Header must provide A+ font zoom');
+  await t.test('2. Clean Header Navigation & Branding', () => {
     assert.ok(navContent.includes('#C33764'), 'Header must feature signature crimson accent');
     assert.ok(navContent.includes('/portal/clearances'), 'Header must link to Clearances Guide');
-    assert.ok(navContent.includes('/portal/grievances'), 'Header must link to RTS Appeals');
+    assert.ok(navContent.includes('/portal/apply'), 'Header must link to Single CAF');
+    assert.ok(navContent.includes('/portal/applications'), 'Header must link to Dashboard');
+    assert.ok(navContent.includes('Anumati'), 'Header must display AnumatiOne brand');
+    // Ensure the top accessibility bar was removed
+    assert.ok(!navContent.includes('Font:A-AA+'), 'Header must not contain Font:A-AA+');
+    assert.ok(!navContent.includes('Toll-Free:'), 'Header must not contain top Toll-Free bar');
   });
 
   await t.test('3. Signature Telangana-style Gradient Hero & Value Proposition', () => {
@@ -49,11 +50,10 @@ test('AnumatiOne Frontend & UI/UX Design System (Startup Telangana Model)', asyn
     assert.ok(landingContent.includes('Explore Clearances Directory'), 'Must feature primary CTA button');
   });
 
-  await t.test('4. Key Ecosystem Stat Counter Widgets', () => {
-    assert.ok(landingContent.includes('11,839'), 'Must display registered units counter (11,839+)');
-    assert.ok(landingContent.includes('5,000'), 'Must display clearances dispatched counter (5,000+)');
-    assert.ok(landingContent.includes('5,981'), 'Must display women-led/MSMEs counter (5,981+)');
-    assert.ok(landingContent.includes('74'), 'Must display MIDC industrial parks counter (74+)');
+  await t.test('4. Clean Transition Without Redundant Metric Counter Blocks', () => {
+    // Verify the requested counters are cleanly removed from page.tsx
+    assert.ok(!landingContent.includes('11,839'), 'Must not contain 11,839+ counter block');
+    assert.ok(!landingContent.includes('5,981'), 'Must not contain 5,981+ counter block');
   });
 
   await t.test('5. "The Land of Opportunity" & 5 Strategic Pillars', () => {

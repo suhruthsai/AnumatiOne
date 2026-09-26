@@ -238,71 +238,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* SECTION 2: KEY ECOSYSTEM METRICS RIBBON (STARTUP TELANGANA FLOATING COUNTER WIDGETS) */}
-      <section className="relative -mt-8 sm:-mt-10 z-20 mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          
-          {/* Metric 1 */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/90 p-5 backdrop-blur-xl shadow-xl hover:border-[#C33764]/50 transition-all text-left group">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-3xl sm:text-4xl font-black text-white font-mono group-hover:text-[#C33764] transition-colors">
-                11,839<span className="text-[#C33764]">+</span>
-              </span>
-              <Factory className="h-6 w-6 text-[#C33764]" />
-            </div>
-            <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
-              Industrial Units Registered
-            </div>
-            <p className="text-[11px] text-slate-500 mt-1">Active manufacturing units on AnumatiOne</p>
-          </div>
-
-          {/* Metric 2 */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/90 p-5 backdrop-blur-xl shadow-xl hover:border-blue-500/50 transition-all text-left group">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-3xl sm:text-4xl font-black text-white font-mono group-hover:text-blue-400 transition-colors">
-                5,000<span className="text-blue-400">+</span>
-              </span>
-              <ShieldCheck className="h-6 w-6 text-blue-400" />
-            </div>
-            <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
-              Clearances Dispatched
-            </div>
-            <p className="text-[11px] text-emerald-400 font-semibold mt-1">100% within RTS Act Statutory SLAs</p>
-          </div>
-
-          {/* Metric 3 */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/90 p-5 backdrop-blur-xl shadow-xl hover:border-purple-500/50 transition-all text-left group">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-3xl sm:text-4xl font-black text-white font-mono group-hover:text-purple-400 transition-colors">
-                5,981<span className="text-purple-400">+</span>
-              </span>
-              <Users className="h-6 w-6 text-purple-400" />
-            </div>
-            <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
-              Women-Led & Priority MSMEs
-            </div>
-            <p className="text-[11px] text-slate-500 mt-1">Availing special PSI 2019 fiscal waivers</p>
-          </div>
-
-          {/* Metric 4 */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/90 p-5 backdrop-blur-xl shadow-xl hover:border-emerald-500/50 transition-all text-left group">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-3xl sm:text-4xl font-black text-white font-mono group-hover:text-emerald-400 transition-colors">
-                74<span className="text-emerald-400">+</span>
-              </span>
-              <MapPin className="h-6 w-6 text-emerald-400" />
-            </div>
-            <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
-              MIDC Parks & Centers
-            </div>
-            <p className="text-[11px] text-slate-500 mt-1">Across 36 districts of Maharashtra</p>
-          </div>
-
-        </div>
-      </section>
-
-      {/* SECTION 3: "MAHARASHTRA: THE LAND OF OPPORTUNITY" & 5 STRATEGIC PILLARS */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 pt-20 pb-16">
+      {/* SECTION 2: "MAHARASHTRA: THE LAND OF OPPORTUNITY" & 5 STRATEGIC PILLARS */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 pt-16 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           
           {/* Narrative Column */}
