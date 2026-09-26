@@ -71,4 +71,10 @@ test('AnumatiOne Clearances & Approvals Directory (Microsoft Fluent 2 Redesign)'
     assert.ok(navContent.includes('/portal/clearances'), 'Navigation header must link to /portal/clearances');
     assert.ok(landingContent.includes('/portal/clearances'), 'Landing page hero must link to /portal/clearances');
   });
+
+  await t.test('8. Hardcoded statutory fee removed to support future dynamic gazette changes', () => {
+    assert.ok(!pageContent.includes('Statutory Fee'), 'Clearance cards must not display hardcoded Statutory Fee');
+    assert.ok(!pageContent.includes('Estimated Govt Fee'), 'Estimator must not display hardcoded Estimated Govt Fee');
+    assert.ok(pageContent.includes('Statutory Validity'), 'Clearance cards should display statutory validity instead of fixed fees');
+  });
 });

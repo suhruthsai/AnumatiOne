@@ -21,7 +21,6 @@ import {
   Download, 
   Info,
   Calendar,
-  IndianRupee,
   Scale,
   X,
   ChevronRight
@@ -38,7 +37,6 @@ interface ClearanceItem {
   departmentShort: 'MPCB' | 'MIDC' | 'DISH' | 'MSEDCL' | 'FIRE' | 'BOILERS' | 'REVENUE';
   stage: 'PRE_ESTABLISHMENT' | 'PRE_OPERATION';
   slaDays: number;
-  statutoryFeeInr: number | 'Scale-Dependent';
   riskLevel: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
   canAutoApprove: boolean;
   legalAct: string;
@@ -61,7 +59,6 @@ const STATUTORY_CLEARANCES: ClearanceItem[] = [
     departmentShort: 'MIDC',
     stage: 'PRE_ESTABLISHMENT',
     slaDays: 15,
-    statutoryFeeInr: 'Scale-Dependent',
     riskLevel: 'MEDIUM',
     canAutoApprove: true,
     legalAct: 'MIDC Act 1961',
@@ -81,7 +78,6 @@ const STATUTORY_CLEARANCES: ClearanceItem[] = [
     departmentShort: 'MPCB',
     stage: 'PRE_ESTABLISHMENT',
     slaDays: 30,
-    statutoryFeeInr: 25000,
     riskLevel: 'HIGH',
     canAutoApprove: true,
     legalAct: 'Water Act 1974 & Air Act 1981',
@@ -101,7 +97,6 @@ const STATUTORY_CLEARANCES: ClearanceItem[] = [
     departmentShort: 'MIDC',
     stage: 'PRE_ESTABLISHMENT',
     slaDays: 20,
-    statutoryFeeInr: 15000,
     riskLevel: 'MEDIUM',
     canAutoApprove: true,
     legalAct: 'MIDC Development Control Regulations (DCR) 2009',
@@ -121,7 +116,6 @@ const STATUTORY_CLEARANCES: ClearanceItem[] = [
     departmentShort: 'FIRE',
     stage: 'PRE_ESTABLISHMENT',
     slaDays: 15,
-    statutoryFeeInr: 10000,
     riskLevel: 'HIGH',
     canAutoApprove: false,
     legalAct: 'Maharashtra Fire Prevention & Life Safety Act 2006',
@@ -141,7 +135,6 @@ const STATUTORY_CLEARANCES: ClearanceItem[] = [
     departmentShort: 'REVENUE',
     stage: 'PRE_ESTABLISHMENT',
     slaDays: 15,
-    statutoryFeeInr: 2500,
     riskLevel: 'LOW',
     canAutoApprove: true,
     legalAct: 'Maharashtra (Urban Areas) Protection & Preservation of Trees Act',
@@ -161,7 +154,6 @@ const STATUTORY_CLEARANCES: ClearanceItem[] = [
     departmentShort: 'MPCB',
     stage: 'PRE_ESTABLISHMENT',
     slaDays: 30,
-    statutoryFeeInr: 10000,
     riskLevel: 'HIGH',
     canAutoApprove: false,
     legalAct: 'MWRRA Act 2005 & Central Ground Water Authority Guidelines',
@@ -183,7 +175,6 @@ const STATUTORY_CLEARANCES: ClearanceItem[] = [
     departmentShort: 'MPCB',
     stage: 'PRE_OPERATION',
     slaDays: 25,
-    statutoryFeeInr: 35000,
     riskLevel: 'HIGH',
     canAutoApprove: true,
     legalAct: 'Water Act 1974 & Air Act 1981',
@@ -203,7 +194,6 @@ const STATUTORY_CLEARANCES: ClearanceItem[] = [
     departmentShort: 'DISH',
     stage: 'PRE_OPERATION',
     slaDays: 20,
-    statutoryFeeInr: 12000,
     riskLevel: 'MEDIUM',
     canAutoApprove: true,
     legalAct: 'Maharashtra Factories Rules 1963 & Factories Act 1948',
@@ -223,7 +213,6 @@ const STATUTORY_CLEARANCES: ClearanceItem[] = [
     departmentShort: 'MSEDCL',
     stage: 'PRE_OPERATION',
     slaDays: 20,
-    statutoryFeeInr: 50000,
     riskLevel: 'MEDIUM',
     canAutoApprove: true,
     legalAct: 'Electricity Act 2003 & MERC Supply Code',
@@ -243,7 +232,6 @@ const STATUTORY_CLEARANCES: ClearanceItem[] = [
     departmentShort: 'FIRE',
     stage: 'PRE_OPERATION',
     slaDays: 14,
-    statutoryFeeInr: 15000,
     riskLevel: 'HIGH',
     canAutoApprove: false,
     legalAct: 'Maharashtra Fire Prevention & Life Safety Act 2006',
@@ -263,7 +251,6 @@ const STATUTORY_CLEARANCES: ClearanceItem[] = [
     departmentShort: 'BOILERS',
     stage: 'PRE_OPERATION',
     slaDays: 15,
-    statutoryFeeInr: 18000,
     riskLevel: 'HIGH',
     canAutoApprove: false,
     legalAct: 'Indian Boiler Regulations (IBR) 1950',
@@ -283,7 +270,6 @@ const STATUTORY_CLEARANCES: ClearanceItem[] = [
     departmentShort: 'REVENUE',
     stage: 'PRE_OPERATION',
     slaDays: 10,
-    statutoryFeeInr: 5000,
     riskLevel: 'LOW',
     canAutoApprove: true,
     legalAct: 'Legal Metrology Act 2009',
@@ -393,7 +379,6 @@ export default function ClearancesDirectoryPage() {
     const totalClearancesCount = isMidc ? 7 : 10;
     const baseStatutoryDays = isMidc ? 35 : 55;
     const parallelMakespanDays = isMidc ? 28 : 42;
-    const estimatedGovtFeeInr = Math.round(estInvestment * 18000 + (isMidc ? 35000 : 75000));
     const sgstRefundRate = estSector === 'EV' ? '100% of FCI (Zone B/C)' : '70% of FCI';
     const stampDutySavingInr = Math.round(estInvestment * 0.05 * 100000); // 5% saving
 
@@ -401,7 +386,6 @@ export default function ClearancesDirectoryPage() {
       totalClearancesCount,
       baseStatutoryDays,
       parallelMakespanDays,
-      estimatedGovtFeeInr,
       sgstRefundRate,
       stampDutySavingInr,
     };
@@ -668,21 +652,16 @@ export default function ClearancesDirectoryPage() {
                     {item.description}
                   </p>
 
-                  {/* Key Metrics: SLA & Fees */}
-                  <div className="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-slate-800/60 text-xs">
+                                    {/* Key Metrics: SLA & Validity */}
+                  <div className="grid grid-cols-2 gap-2 text-xs border-y border-slate-800/80 py-2.5 my-3">
                     <div>
                       <span className="text-[10px] text-slate-500 uppercase block">Statutory SLA</span>
-                      <span className="font-bold text-blue-400 font-mono flex items-center gap-1 mt-0.5">
-                        <Clock className="h-3 w-3" /> {item.slaDays} Working Days
-                      </span>
+                      <span className="font-bold text-white font-mono">{item.slaDays} Working Days</span>
                     </div>
                     <div>
-                      <span className="text-[10px] text-slate-500 uppercase block">Statutory Fee</span>
-                      <span className="font-bold text-white font-mono flex items-center gap-0.5 mt-0.5">
-                        <IndianRupee className="h-3 w-3 text-slate-400" />
-                        {typeof item.statutoryFeeInr === 'number' 
-                          ? `₹${item.statutoryFeeInr.toLocaleString('en-IN')}` 
-                          : item.statutoryFeeInr}
+                      <span className="text-[10px] text-slate-500 uppercase block">Statutory Validity</span>
+                      <span className="font-bold text-blue-300 font-mono">
+                        {typeof item.validityYears === 'number' ? `${item.validityYears} Years` : item.validityYears}
                       </span>
                     </div>
                   </div>
@@ -773,7 +752,7 @@ export default function ClearancesDirectoryPage() {
           </div>
         )}
 
-        {/* SECTION C: INTERACTIVE STATUTORY FEE & TIMELINE ESTIMATOR WIDGET */}
+        {/* SECTION C: INTERACTIVE STATUTORY TIMELINE & MAKESPAN ESTIMATOR WIDGET */}
         <div className="mt-14 rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950/40 p-6 sm:p-8 backdrop-blur-xl shadow-2xl">
           <div className="max-w-2xl mb-6">
             <div className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 px-3 py-1 text-xs font-semibold text-blue-400 mb-2">
@@ -781,7 +760,7 @@ export default function ClearancesDirectoryPage() {
               Interactive Statutory Clearance Estimator
             </div>
             <h2 className="text-xl sm:text-2xl font-black text-white">
-              Simulate Clearance Timelines & Bundled Government Fees
+              Simulate Clearance Timelines & Concurrent Makespan
             </h2>
             <p className="text-xs sm:text-sm text-slate-400 mt-1">
               Select your manufacturing sector, investment outlay, and location to calculate parallel processing makespan and Package Scheme of Incentives (PSI 2019) fiscal savings.
@@ -880,12 +859,12 @@ export default function ClearancesDirectoryPage() {
               </div>
 
               <div className="rounded-xl border border-slate-800 bg-slate-950/80 p-4">
-                <span className="text-[11px] font-semibold text-slate-400 block">Estimated Govt Fee</span>
-                <span className="text-2xl font-black text-white font-mono mt-1 block">
-                  ₹{(estimatorSummary.estimatedGovtFeeInr / 1000).toFixed(0)}k
+                <span className="text-[11px] font-semibold text-slate-400 block">Time Reduction</span>
+                <span className="text-2xl font-black text-emerald-400 font-mono mt-1 block">
+                  {Math.round((1 - estimatorSummary.parallelMakespanDays / (estimatorSummary.baseStatutoryDays * 4)) * 100)}% Faster
                 </span>
-                <span className="text-[10px] text-slate-400 block mt-1">
-                  Consolidated Online Payment
+                <span className="text-[10px] text-slate-400 block mt-1 font-mono">
+                  Concurrent Scheduling
                 </span>
               </div>
 
