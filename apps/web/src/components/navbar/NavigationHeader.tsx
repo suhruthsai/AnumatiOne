@@ -52,9 +52,11 @@ export function NavigationHeader() {
   const applicantNavLinks = [
     { href: '/portal/clearances', label: 'Clearances Guide', icon: Building2, badge: 'Directory' },
     { href: '/portal/kya', label: 'KYA Checklist', icon: Search, badge: 'Step 1' },
-    { href: '/portal/apply', label: 'Single-Window CAF', icon: PlusCircle },
-    { href: '/portal/applications', label: 'Unified Dashboard', icon: FolderCheck, badge: 'All 4 Pillars' },
-    { href: '/portal/journey', label: 'Clearance Journey', icon: GitBranch },
+    { href: '/portal/apply', label: 'Single CAF', icon: PlusCircle },
+    { href: '/portal/applications', label: 'Dashboard', icon: FolderCheck, badge: 'All 4' },
+    { href: '/portal/compliance', label: 'Compliance', icon: FileCheck2 },
+    { href: '/portal/incentives', label: 'Incentives', icon: Gift },
+    { href: '/portal/grievances', label: 'RTS Appeals', icon: Award },
   ];
 
   // Government Official Navigation Links
@@ -73,91 +75,128 @@ export function NavigationHeader() {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-800 bg-slate-950/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
-        {/* Brand Logo & Realm Badge */}
-        <div className="flex items-center gap-4 sm:gap-6">
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-tr from-brand-600 via-blue-500 to-accent-purple shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform">
-              <Layers className="h-5 w-5 text-white" />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-bold text-lg tracking-tight text-white flex items-center gap-1.5">
-                Anumati<span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">One</span>
-              </span>
-            </div>
-          </Link>
-
-          {/* Current Realm Indicator Pill */}
-          <div className="hidden sm:flex items-center">
-            {isOfficerRoute ? (
-              <span className="inline-flex items-center gap-1 rounded-full bg-purple-500/10 px-2.5 py-0.5 text-[10px] font-bold text-purple-300 border border-purple-500/30">
-                <ShieldCheck className="h-3 w-3 text-purple-400" />
-                MAITRI Officer Desk • Parichay SSO
-              </span>
-            ) : (
-              <span className="inline-flex items-center gap-1 rounded-full bg-blue-500/10 px-2.5 py-0.5 text-[10px] font-bold text-blue-300 border border-blue-500/30">
-                <Building2 className="h-3 w-3 text-blue-400" />
-                Investor & Applicant Portal
-              </span>
-            )}
+    <div className="w-full">
+      {/* Top Citizen Accessibility & Utility Bar (Startup Telangana Official Portal Style) */}
+      <div className="w-full bg-[#060D4A] border-b border-[#C33764]/40 py-1.5 px-4 sm:px-6 text-[11px] text-slate-300">
+        <div className="mx-auto max-w-7xl flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <span className="font-semibold text-white tracking-wide flex items-center gap-1.5">
+              <span className="text-[#C33764]">🏛️</span>
+              Government of Maharashtra <span className="text-slate-500 hidden sm:inline">|</span> <span className="text-slate-400 hidden sm:inline">Industries & MSIS</span>
+            </span>
+            <span className="hidden md:inline text-slate-400">
+              Toll-Free: <strong className="text-white font-mono">1800-120-8040</strong>
+            </span>
           </div>
-
-          {/* Role-Specific Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1">
-            {isOfficerRoute ? (
-              /* Officer Tabs */
-              officerNavLinks.map((link) => {
-                const Icon = link.icon;
-                const isActive = pathname === link.href || (link.href === '/officer' && pathname === '/officer' && !pathname.includes('?'));
-                return (
-                  <Link
-                    key={link.label}
-                    href={link.href}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                      isActive
-                        ? 'bg-purple-600/20 text-purple-300 border border-purple-500/30 shadow-sm'
-                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-                    }`}
-                  >
-                    <Icon className="h-3.5 w-3.5" />
-                    {link.label}
-                    {link.badge && (
-                      <span className="ml-1 rounded-full bg-purple-500/20 px-1.5 py-0.2 text-[9px] font-mono font-bold text-purple-300 border border-purple-500/30">
-                        {link.badge}
-                      </span>
-                    )}
-                  </Link>
-                );
-              })
-            ) : (
-              /* Applicant Tabs */
-              applicantNavLinks.map((link) => {
-                const Icon = link.icon;
-                const isActive = pathname === link.href || (link.href === '/portal/applications' && (pathname === '/portal/compliance' || pathname === '/portal/incentives'));
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                      isActive
-                        ? 'bg-blue-600/20 text-blue-300 border border-blue-500/30 shadow-sm'
-                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-                    }`}
-                  >
-                    <Icon className="h-3.5 w-3.5" />
-                    {link.label}
-                    {link.badge && (
-                      <span className="ml-1 rounded-full bg-blue-500/20 px-1.5 py-0.2 text-[9px] font-mono font-bold text-blue-300 border border-blue-500/30">
-                        {link.badge}
-                      </span>
-                    )}
-                  </Link>
-                );
-              })
-            )}
-          </nav>
+          
+          <div className="flex items-center gap-2 sm:gap-3 text-[11px]">
+            <div className="hidden sm:flex items-center gap-1 border-r border-slate-700 pr-3">
+              <span className="text-slate-400">Font:</span>
+              <button type="button" className="px-1 font-bold hover:text-white transition-colors">A-</button>
+              <button type="button" className="px-1 font-bold hover:text-white transition-colors">A</button>
+              <button type="button" className="px-1 font-bold text-[#C33764] hover:text-rose-300 transition-colors">A+</button>
+            </div>
+            <Link href="/portal/grievances" className="hover:text-white font-semibold flex items-center gap-1 text-[#C33764]">
+              RTS 2-Tier Appeals
+            </Link>
+            <Link 
+              href={isOfficerRoute ? "/portal/applications" : "/auth/login"} 
+              className="rounded bg-[#C33764] hover:bg-[#A82650] text-white px-2.5 py-0.5 font-bold transition-colors shadow-sm"
+            >
+              {isOfficerRoute ? "Switch to Investor Portal" : "Officer Desk (Parichay)"}
+            </Link>
+          </div>
         </div>
+      </div>
+
+      <header className="sticky top-0 z-40 w-full border-b border-slate-800 bg-[#060D4A]/95 backdrop-blur-md">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
+          {/* Brand Logo & Realm Badge */}
+          <div className="flex items-center gap-3 sm:gap-5">
+            <Link href="/" className="flex items-center gap-2.5 group">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-[#C33764] to-indigo-600 shadow-lg shadow-[#C33764]/25 group-hover:scale-105 transition-transform">
+                <Layers className="h-5 w-5 text-white" />
+              </div>
+              <div className="flex flex-col">
+                <span className="font-bold text-lg tracking-tight text-white flex items-center gap-1">
+                  Anumati<span className="text-[#C33764]">One</span>
+                </span>
+                <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400">
+                  Single-Window Portal
+                </span>
+              </div>
+            </Link>
+
+            {/* Current Realm Indicator Pill */}
+            <div className="hidden lg:flex items-center">
+              {isOfficerRoute ? (
+                <span className="inline-flex items-center gap-1 rounded-full bg-purple-500/10 px-2.5 py-0.5 text-[10px] font-bold text-purple-300 border border-purple-500/30">
+                  <ShieldCheck className="h-3 w-3 text-purple-400" />
+                  MAITRI Officer Desk • Parichay SSO
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1 rounded-full bg-[#C33764]/10 px-2.5 py-0.5 text-[10px] font-bold text-[#C33764] border border-[#C33764]/30">
+                  <Building2 className="h-3 w-3 text-[#C33764]" />
+                  Investor & Citizen Portal
+                </span>
+              )}
+            </div>
+
+            {/* Role-Specific Navigation Links */}
+            <nav className="hidden xl:flex items-center gap-1">
+              {isOfficerRoute ? (
+                /* Officer Tabs */
+                officerNavLinks.map((link) => {
+                  const Icon = link.icon;
+                  const isActive = pathname === link.href || (link.href === '/officer' && pathname === '/officer' && !pathname.includes('?'));
+                  return (
+                    <Link
+                      key={link.label}
+                      href={link.href}
+                      className={`flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+                        isActive
+                          ? 'bg-purple-600/20 text-purple-300 border border-purple-500/30 shadow-sm'
+                          : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+                      }`}
+                    >
+                      <Icon className="h-3.5 w-3.5" />
+                      {link.label}
+                      {link.badge && (
+                        <span className="ml-1 rounded-full bg-purple-500/20 px-1.5 py-0.2 text-[9px] font-mono font-bold text-purple-300 border border-purple-500/30">
+                          {link.badge}
+                        </span>
+                      )}
+                    </Link>
+                  );
+                })
+              ) : (
+                /* Applicant Tabs */
+                applicantNavLinks.map((link) => {
+                  const Icon = link.icon;
+                  const isActive = pathname === link.href;
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={`flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+                        isActive
+                          ? 'bg-[#C33764]/20 text-[#C33764] border border-[#C33764]/40 shadow-sm'
+                          : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+                      }`}
+                    >
+                      <Icon className="h-3.5 w-3.5" />
+                      {link.label}
+                      {link.badge && (
+                        <span className="ml-1 rounded-full bg-[#C33764]/20 px-1.5 py-0.2 text-[9px] font-mono font-bold text-[#C33764] border border-[#C33764]/30">
+                          {link.badge}
+                        </span>
+                      )}
+                    </Link>
+                  );
+                })
+              )}
+            </nav>
+          </div>
 
         {/* Right Section: Persona Selector + Gateway Switcher */}
         <div className="flex items-center gap-2.5">
@@ -242,5 +281,6 @@ export function NavigationHeader() {
         </div>
       </div>
     </header>
+  </div>
   );
 }

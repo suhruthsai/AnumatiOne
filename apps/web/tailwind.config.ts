@@ -29,6 +29,13 @@ const config: Config = {
           amber: "#f59e0b",
           rose: "#f43f5e",
           cyan: "#06b6d4",
+        },
+        telangana: {
+          crimson: "#C33764",
+          crimsonHover: "#A82650",
+          navy: "#060D4A",
+          dark: "#101935",
+          slate: "#1E2958",
         }
       },
       fontFamily: {

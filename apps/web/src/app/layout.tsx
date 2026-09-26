@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { NavigationHeader } from '@/components/navbar/NavigationHeader';
+import { StatePortalFooter } from '@/components/footer/StatePortalFooter';
 import { RegulatoryAIChatbot } from '@/components/chat/RegulatoryAIChatbot';
 
 export const metadata: Metadata = {
@@ -15,11 +16,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className="bg-slate-950 text-slate-100 antialiased selection:bg-blue-600 selection:text-white">
+      <body className="bg-slate-950 text-slate-100 antialiased selection:bg-[#C33764] selection:text-white flex flex-col min-h-screen">
         <NavigationHeader />
-        <main className="min-h-[calc(100vh-4rem)] pb-16">
+        <main className="flex-1">
           {children}
         </main>
+        <StatePortalFooter />
         <RegulatoryAIChatbot />
       </body>
     </html>

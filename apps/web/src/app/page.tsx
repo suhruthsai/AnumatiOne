@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAppStore } from '@/lib/store';
@@ -24,447 +24,743 @@ import {
   Scale,
   Clock,
   Award,
-  Coins
+  Coins,
+  ChevronRight,
+  ExternalLink,
+  MapPin,
+  TrendingUp,
+  Cpu,
+  Factory,
+  Flame,
+  Droplet,
+  Users,
+  Briefcase,
+  FileText
 } from 'lucide-react';
 
 export default function LandingPage() {
   const router = useRouter();
   const { loadDemoProfile } = useAppStore();
 
+  const [activeTab, setActiveTab] = useState<'ALL' | 'POLICIES' | 'CIRCULARS' | 'WORKSHOPS'>('ALL');
+
   const handleLaunchScenario = (key: string) => {
     loadDemoProfile(key);
     router.push('/portal/kya');
   };
 
+  const happenings = [
+    {
+      type: 'CIRCULAR',
+      dept: 'Maharashtra Pollution Control Board (MPCB)',
+      date: '24 Sep 2026',
+      title: 'Mandatory Online IoT Telemetry Integration for OCEMS under Water Act Sec 25',
+      summary: 'All Red & Orange category manufacturing units must bind digital telemetry endpoints directly to AnumatiOne before commercial CTO commissioning.',
+      actionUrl: '/portal/clearances',
+      tag: 'Pollution Control'
+    },
+    {
+      type: 'POLICIES',
+      dept: 'Department of Industries, GoM',
+      date: '18 Sep 2026',
+      title: 'Package Scheme of Incentives (PSI 2019) Extension for Ultra-Mega EV Units',
+      summary: 'Special 100% SGST refund window disbursed over 10 years and stamp duty waiver extended for Tier 2/3 Talukas (Zones C and D+).',
+      actionUrl: '/portal/incentives',
+      tag: 'Fiscal Subsidies'
+    },
+    {
+      type: 'WORKSHOPS',
+      dept: 'Directorate of Industrial Safety & Health (DISH)',
+      date: '12 Sep 2026',
+      title: 'Standard Operating Procedures for Joint Multi-Departmental Inspections',
+      summary: 'Synchronized on-site inspection calendar under Maharashtra RTS Act 2015 preventing overlapping site audits by Fire, DISH, and MPCB.',
+      actionUrl: '/officer?tab=inspections',
+      tag: 'Worker Safety'
+    },
+    {
+      type: 'CIRCULAR',
+      dept: 'Maharashtra State Innovation Society (MSIS)',
+      date: '05 Sep 2026',
+      title: 'Green Channel 48-Hour Instant Deemed Sanction Notification',
+      summary: 'White and Green tier micro and small manufacturing units now qualify for autonomous certificate issuance with DigiLocker pre-checks.',
+      actionUrl: '/portal/clearances',
+      tag: 'Ease of Business'
+    }
+  ];
+
+  const filteredHappenings = activeTab === 'ALL' 
+    ? happenings 
+    : happenings.filter(h => h.type === activeTab);
+
   return (
-    <div className="relative overflow-hidden">
-      {/* Background ambient radial gradients */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[550px] bg-gradient-to-b from-blue-600/20 via-purple-600/10 to-transparent blur-3xl pointer-events-none" />
+    <div className="relative overflow-hidden bg-slate-950 text-slate-100">
+      
+      {/* SECTION 1: SIGNATURE STATE PORTAL HERO BANNER (STARTUP TELANGANA AESTHETIC) */}
+      <section className="relative overflow-hidden bg-gradient-to-r from-[#101935] via-[#1E2958] to-[#C33764] py-16 sm:py-24 px-4 sm:px-6 border-b border-[#C33764]/30 shadow-2xl">
+        {/* Subtle decorative vector backdrop overlay */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(195,55,100,0.25),transparent_60%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_70%,rgba(6,13,74,0.4),transparent_60%)] pointer-events-none" />
 
-      {/* Hero Section */}
-      <section className="relative mx-auto max-w-7xl px-4 sm:px-6 pt-12 sm:pt-20 pb-12 text-center space-y-6">
-        <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-xs font-semibold text-blue-400 backdrop-blur-md shadow-lg shadow-blue-500/10">
-          <Sparkles className="h-3.5 w-3.5" />
-          Government of Maharashtra • MAITRI Single Window G2B Regulatory System
-        </div>
-
-        <h1 className="mx-auto max-w-4xl text-4xl sm:text-6xl font-black tracking-tight text-white leading-tight">
-          Streamlining Industrial Approvals, Compliance & Support Services{' '}
-          <span className="bg-gradient-to-r from-blue-400 via-purple-300 to-indigo-400 bg-clip-text text-transparent">
-            Across Maharashtra
-          </span>
-        </h1>
-
-        <p className="mx-auto max-w-3xl text-sm sm:text-base text-slate-300 leading-relaxed">
-          Engineered under the <strong>Maharashtra Right to Services (RTS) Act 2015</strong>. Covering the complete industrial lifecycle across 15+ state departments — <strong>Pre-Establishment</strong>, <strong>Pre-Operation</strong>, <strong>Continuous Statutory Returns</strong>, and <strong>License Renewals</strong> — with Zero-Query AI Pre-Scrutiny, MahaVault Document Re-use, and Deemed Approvals.
-        </p>
-
-        {/* Two Sovereign Gateway Access Portals */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2 max-w-2xl mx-auto">
-          <Link
-            href="/auth/login"
-            className="w-full sm:w-1/2 flex items-center justify-between p-4 rounded-2xl border border-blue-500/40 bg-gradient-to-r from-blue-950/60 to-slate-900/80 hover:border-blue-400 hover:scale-[1.02] active:scale-[0.99] transition-all text-left group shadow-xl shadow-blue-500/10"
-          >
-            <div>
-              <div className="text-[10px] font-bold uppercase tracking-wider text-blue-400">
-                Citizen / Investor Portal
+        <div className="relative mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            {/* Left Content Column */}
+            <div className="lg:col-span-8 space-y-6 text-left">
+              {/* Sovereign State Department Badge */}
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 px-3.5 py-1 text-xs font-semibold text-white">
+                <span className="flex h-2 w-2 rounded-full bg-[#C33764] animate-pulse" />
+                <span>Department of Industries & MSIS • Government of Maharashtra</span>
               </div>
-              <div className="text-sm font-bold text-white mt-0.5 group-hover:text-blue-300 transition-colors">
-                Industrialist Sign In →
-              </div>
-              <div className="text-[11px] text-slate-400 mt-1">
-                KYA, Single CAF, Digital Permits & PSI Subsidies
-              </div>
-            </div>
-            <Building2 className="h-8 w-8 text-blue-400/80 shrink-0 ml-2" />
-          </Link>
 
-          <Link
-            href="/auth/login"
-            className="w-full sm:w-1/2 flex items-center justify-between p-4 rounded-2xl border border-purple-500/40 bg-gradient-to-r from-purple-950/60 to-slate-900/80 hover:border-purple-400 hover:scale-[1.02] active:scale-[0.99] transition-all text-left group shadow-xl shadow-purple-500/10"
-          >
-            <div>
-              <div className="text-[10px] font-bold uppercase tracking-wider text-purple-400">
-                Government Official Intranet
-              </div>
-              <div className="text-sm font-bold text-white mt-0.5 group-hover:text-purple-300 transition-colors">
-                Officer Desk (Parichay) →
-              </div>
-              <div className="text-[11px] text-slate-400 mt-1">
-                Risk Scrutiny, Joint Inspections & Delay Analytics
-              </div>
-            </div>
-            <ShieldCheck className="h-8 w-8 text-purple-400/80 shrink-0 ml-2" />
-          </Link>
-        </div>
-
-        {/* Hero Operational Action Buttons - Directly aligned with SIH 26130 Pillars */}
-        <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
-          <Link
-            href="/portal/kya"
-            className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-brand-600 via-blue-600 to-accent-purple px-6 py-3.5 text-sm font-bold text-white shadow-xl shadow-brand-500/25 hover:brightness-110 active:scale-[0.98] transition-all"
-          >
-            <Search className="h-4 w-4" />
-            Know Your Approvals (KYA & CAF)
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-
-          <Link
-            href="/portal/applications"
-            className="flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/80 px-6 py-3.5 text-sm font-bold text-slate-200 hover:bg-slate-800 hover:text-white transition-all backdrop-blur-md"
-          >
-            <FolderCheck className="h-4 w-4 text-emerald-400" />
-            Track Applications & Permits
-          </Link>
-
-          <Link
-            href="/portal/compliance"
-            className="flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/80 px-6 py-3.5 text-sm font-bold text-slate-200 hover:bg-slate-800 hover:text-white transition-all backdrop-blur-md"
-          >
-            <Calendar className="h-4 w-4 text-purple-400" />
-            Annual Statutory Compliance
-          </Link>
-
-          <Link
-            href="/portal/incentives"
-            className="flex items-center gap-2 rounded-xl border border-amber-500/30 bg-amber-950/20 px-6 py-3.5 text-sm font-bold text-amber-300 hover:bg-amber-900/40 hover:text-white transition-all backdrop-blur-md"
-          >
-            <Coins className="h-4 w-4 text-amber-400" />
-            Government Subsidies & PSI 2019
-          </Link>
-
-          <Link
-            href="/portal/clearances"
-            className="flex items-center gap-2 rounded-xl border border-cyan-500/40 bg-gradient-to-r from-cyan-950/40 via-blue-950/40 to-slate-900/80 px-6 py-3.5 text-sm font-bold text-cyan-300 hover:border-cyan-400 hover:text-white transition-all backdrop-blur-md shadow-lg shadow-cyan-500/10 group"
-          >
-            <Building2 className="h-4 w-4 text-cyan-400 group-hover:scale-110 transition-transform" />
-            Clearances & Approvals Directory
-            <span className="rounded-full bg-cyan-400/10 px-2 py-0.5 text-[10px] font-semibold text-cyan-300 border border-cyan-400/30">
-              28 Clearances
-            </span>
-          </Link>
-        </div>
-
-        {/* Live Performance Comparison Card */}
-        <div className="pt-6 max-w-4xl mx-auto">
-          <div className="rounded-2xl border border-blue-500/30 bg-slate-900/70 p-5 backdrop-blur-xl shadow-2xl flex flex-col sm:flex-row sm:items-center justify-around gap-6">
-            <div className="text-left space-y-1">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                Traditional Sequential Clearance
-              </span>
-              <div className="text-2xl sm:text-3xl font-black text-rose-400 font-mono">
-                240 Days
-              </div>
-              <p className="text-[11px] text-slate-400">Department silos & repetitive desk queries</p>
-            </div>
-
-            <div className="hidden sm:block h-12 w-px bg-slate-800" />
-
-            <div className="text-left space-y-1">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
-                <TrendingDown className="h-3.5 w-3.5" />
-                AnumatiOne Concurrent Clearances
-              </span>
-              <div className="text-2xl sm:text-3xl font-black text-emerald-300 font-mono">
-                78 Days
-              </div>
-              <p className="text-[11px] text-emerald-400 font-bold">162 Days Saved (Parallel Workflows)</p>
-            </div>
-
-            <div className="hidden sm:block h-12 w-px bg-slate-800" />
-
-            <div className="text-left space-y-1">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-purple-400">
-                RTS Act 2015 Protection
-              </span>
-              <div className="text-2xl sm:text-3xl font-black text-purple-300 font-mono">
-                Sec 4(1)
-              </div>
-              <p className="text-[11px] text-slate-400">Statutory SLA Deemed Approval safeguard</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4 Lifecycle Stages Section */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 py-12 border-t border-slate-800/80">
-        <div className="text-center max-w-2xl mx-auto mb-10">
-          <h2 className="text-xs font-bold uppercase tracking-wider text-blue-400">
-            End-to-End Enterprise Support
-          </h2>
-          <p className="text-2xl sm:text-3xl font-black text-white mt-1">
-            Complete Industrial Lifecycle in 4 Stages
-          </p>
-          <p className="text-xs text-slate-400 mt-2">
-            Eliminating procedural friction from initial land acquisition to multi-year factory renewals.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-          {/* Stage 1 */}
-          <div className="rounded-2xl border border-blue-500/20 bg-slate-900/60 p-5 space-y-3 flex flex-col justify-between">
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="rounded-full bg-blue-500/10 px-2.5 py-0.5 text-[10px] font-bold text-blue-400 border border-blue-500/20">
-                  STAGE 1 • PILLAR 1: APPROVALS
+              {/* Main Headline */}
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
+                Maharashtra: The Engine of India’s Growth &{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-rose-100 to-rose-300">
+                  Single-Window Clearance
                 </span>
-                <Clock className="h-4 w-4 text-blue-400" />
-              </div>
-              <h3 className="font-bold text-white text-base">Pre-Establishment</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Prior to ground construction. Parallel clearance orchestration across state agencies.
+              </h1>
+
+              {/* Subheading / Value Proposition */}
+              <p className="text-sm sm:text-base text-slate-200 max-w-3xl leading-relaxed">
+                Empowering industrial enterprises and startups with <strong>28 unified statutory clearances</strong>, 
+                <strong> 48-Hour Green Channel fast-tracking</strong>, verified DigiLocker pre-checks, 
+                and statutory protection under the <strong>Maharashtra Right to Services (RTS) Act 2015</strong> with automated Deemed Approvals.
               </p>
-              <ul className="space-y-1.5 text-xs text-slate-300">
-                <li className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3 text-blue-400" /> MIDC Land / Sec 44 NA Sanction</li>
-                <li className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3 text-blue-400" /> MPCB Consent to Establish (CTE)</li>
-                <li className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3 text-blue-400" /> Building Plan Approval (SPA)</li>
-                <li className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3 text-blue-400" /> Fire Provisional NOC (MFS)</li>
-              </ul>
-            </div>
-            <Link
-              href="/portal/apply?stage=PRE_ESTABLISHMENT"
-              className="mt-4 pt-3 border-t border-slate-800 text-xs font-semibold text-blue-400 flex items-center justify-between hover:text-blue-300"
-            >
-              <span>Apply Stage 1 CAF</span>
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          </div>
 
-          {/* Stage 2 */}
-          <div className="rounded-2xl border border-purple-500/20 bg-slate-900/60 p-5 space-y-3 flex flex-col justify-between">
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="rounded-full bg-purple-500/10 px-2.5 py-0.5 text-[10px] font-bold text-purple-400 border border-purple-500/20">
-                  STAGE 2 • PILLAR 1: PERMITS
-                </span>
-                <Zap className="h-4 w-4 text-purple-400" />
+              {/* High-Impact Action CTAs (Startup Telangana Signature Buttons) */}
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <Link
+                  href="/portal/clearances"
+                  className="flex items-center gap-2 rounded-full bg-[#C33764] hover:bg-[#A82650] px-6 py-3.5 text-sm font-bold text-white shadow-xl shadow-[#C33764]/40 hover:scale-[1.02] active:scale-[0.99] transition-all group"
+                >
+                  <Building2 className="h-4 w-4" />
+                  Explore Clearances Directory
+                  <span className="rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-semibold">
+                    28 Clearances
+                  </span>
+                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+
+                <Link
+                  href="/portal/kya"
+                  className="flex items-center gap-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/30 backdrop-blur-md px-6 py-3.5 text-sm font-bold text-white hover:border-white transition-all shadow-lg"
+                >
+                  <Search className="h-4 w-4" />
+                  Know Your Approvals (KYA & CAF)
+                </Link>
+
+                <Link
+                  href="/portal/applications"
+                  className="flex items-center gap-2 rounded-full bg-[#060D4A]/80 hover:bg-[#060D4A] border border-blue-400/30 px-5 py-3.5 text-sm font-bold text-blue-200 hover:text-white transition-all"
+                >
+                  <FolderCheck className="h-4 w-4 text-emerald-400" />
+                  Track Applications
+                </Link>
               </div>
-              <h3 className="font-bold text-white text-base">Pre-Operation</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Post-construction readiness. Synchronized joint inspections and operational consents.
-              </p>
-              <ul className="space-y-1.5 text-xs text-slate-300">
-                <li className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3 text-purple-400" /> MPCB Consent to Operate (CTO)</li>
-                <li className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3 text-purple-400" /> DISH Factory License (Form 2)</li>
-                <li className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3 text-purple-400" /> Steam Boiler Registration</li>
-                <li className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3 text-purple-400" /> MSEDCL HT Energization & Meter</li>
-              </ul>
-            </div>
-            <Link
-              href="/portal/apply?stage=PRE_OPERATION"
-              className="mt-4 pt-3 border-t border-slate-800 text-xs font-semibold text-purple-400 flex items-center justify-between hover:text-purple-300"
-            >
-              <span>Apply Stage 2 CAF</span>
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          </div>
 
-          {/* Stage 3 */}
-          <div className="rounded-2xl border border-emerald-500/20 bg-slate-900/60 p-5 space-y-3 flex flex-col justify-between">
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400 border border-emerald-500/20">
-                  STAGE 3 • PILLAR 2: COMPLIANCE
+              {/* Evaluator Quick Persona Launchers */}
+              <div className="pt-2 flex flex-wrap items-center gap-2 text-xs">
+                <span className="text-slate-300 font-semibold flex items-center gap-1">
+                  <Sparkles className="h-3.5 w-3.5 text-yellow-300" /> 1-Click Investor Scenarios:
                 </span>
-                <Calendar className="h-4 w-4 text-emerald-400" />
+                <button
+                  onClick={() => handleLaunchScenario('EV_PUNE')}
+                  className="rounded-lg bg-white/10 hover:bg-white/20 px-2.5 py-1 text-slate-200 hover:text-white border border-white/20 transition-all font-mono text-[11px]"
+                >
+                  ⚡ Mega EV (Chakan)
+                </button>
+                <button
+                  onClick={() => handleLaunchScenario('PHARMA_AURANGABAD')}
+                  className="rounded-lg bg-white/10 hover:bg-white/20 px-2.5 py-1 text-slate-200 hover:text-white border border-white/20 transition-all font-mono text-[11px]"
+                >
+                  💊 Pharma (AURIC)
+                </button>
+                <button
+                  onClick={() => handleLaunchScenario('FOOD_NASHIK')}
+                  className="rounded-lg bg-white/10 hover:bg-white/20 px-2.5 py-1 text-slate-200 hover:text-white border border-white/20 transition-all font-mono text-[11px]"
+                >
+                  🌾 Agro MSME (Nashik)
+                </button>
               </div>
-              <h3 className="font-bold text-white text-base">During Operations</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Automated statutory return sentinel preventing regulatory notices and penalty compounding.
-              </p>
-              <ul className="space-y-1.5 text-xs text-slate-300">
-                <li className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3 text-emerald-400" /> MPCB Form V (Sept 30 Annual)</li>
-                <li className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3 text-emerald-400" /> Hazardous Form 4 (June 30 Annual)</li>
-                <li className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3 text-emerald-400" /> DISH Form 27 Half-Yearly</li>
-                <li className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3 text-emerald-400" /> Fire Safety Audit Form B (Bi-Annual)</li>
-              </ul>
             </div>
-            <Link
-              href="/portal/compliance"
-              className="mt-4 pt-3 border-t border-slate-800 text-xs font-semibold text-emerald-400 flex items-center justify-between hover:text-emerald-300"
-            >
-              <span>File Statutory Returns</span>
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          </div>
 
-          {/* Stage 4 */}
-          <div className="rounded-2xl border border-amber-500/20 bg-slate-900/60 p-5 space-y-3 flex flex-col justify-between">
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="rounded-full bg-amber-500/10 px-2.5 py-0.5 text-[10px] font-bold text-amber-400 border border-amber-500/20">
-                  STAGE 4 • PILLAR 3: INCENTIVES
-                </span>
-                <Award className="h-4 w-4 text-amber-400" />
-              </div>
-              <h3 className="font-bold text-white text-base">Renewals & Subsidies</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Zero-re-entry renewals via MahaVault plus automatic PSI 2019 incentive disbursement.
-              </p>
-              <ul className="space-y-1.5 text-xs text-slate-300">
-                <li className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3 text-amber-400" /> 5-Year MPCB CTO Renewal</li>
-                <li className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3 text-amber-400" /> 10-Year Factory License Renewal</li>
-                <li className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3 text-amber-400" /> PSI 2019 Gross SGST Refunds</li>
-                <li className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3 text-amber-400" /> Electricity Duty 100% Exemption</li>
-              </ul>
-            </div>
-            <Link
-              href="/portal/incentives"
-              className="mt-4 pt-3 border-t border-slate-800 text-xs font-semibold text-amber-400 flex items-center justify-between hover:text-amber-300"
-            >
-              <span>Calculate PSI Subsidies</span>
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          </div>
-        </div>
-      </section>
+            {/* Right Door: Official Desk & Deemed Approval Seal */}
+            <div className="lg:col-span-4 space-y-4">
+              <div className="rounded-3xl border border-white/20 bg-slate-900/80 backdrop-blur-xl p-6 shadow-2xl space-y-5 text-left">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#C33764]">
+                    Sovereign Portals
+                  </span>
+                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] font-bold text-emerald-300 border border-emerald-500/30">
+                    Active RTS Clocks
+                  </span>
+                </div>
 
-      {/* 4 Demo Scenario Presets */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 py-12 border-t border-slate-800/80">
-        <div className="text-center max-w-xl mx-auto mb-8">
-          <h2 className="text-xs font-bold uppercase tracking-wider text-blue-400">
-            One-Click Maharashtra Industrial Profiles
-          </h2>
-          <p className="text-xl sm:text-2xl font-black text-white mt-1">
-            Choose a Sector to Experience Real-Time KYA & CAF
-          </p>
-        </div>
+                <div className="space-y-3">
+                  <Link
+                    href="/portal/apply"
+                    className="block p-3.5 rounded-2xl border border-blue-500/30 bg-blue-950/40 hover:bg-blue-900/50 hover:border-blue-400 transition-all group"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-blue-300">Single-Window CAF</span>
+                      <ArrowRight className="h-4 w-4 text-blue-300 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                    <p className="text-[11px] text-slate-300 mt-1">
+                      Apply once. Auto-distributes across MPCB, MIDC, DISH, MSEDCL & Fire.
+                    </p>
+                  </Link>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {[
-            {
-              id: 'EV_PUNE',
-              badge: '⚡ EV & Batteries (Zone B)',
-              title: 'Aegis Lithium Mobility',
-              location: 'Chakan MIDC Phase IV, Pune',
-              investment: '₹120 Cr Outlay • Orange Category',
-              highlight: 'Green-Channel Eligible • 67% Time Saved',
-              color: 'from-blue-600/20 to-emerald-600/20 border-blue-500/30',
-            },
-            {
-              id: 'PHARMA_AURANGABAD',
-              badge: '💊 Bulk Drugs (Zone C)',
-              title: 'Vanguard Biopharma Life Sciences',
-              location: 'Shendra MIDC / AURIC DMIC',
-              investment: '₹85 Cr Outlay • Red Category ZLD',
-              highlight: 'SEIAA & MPCB CTE Critical Path',
-              color: 'from-rose-600/20 to-amber-600/20 border-rose-500/30',
-            },
-            {
-              id: 'SOLAR_NAGPUR',
-              badge: '☀️ Clean Tech Solar SEZ (Zone D+)',
-              title: 'Helios Photovoltaics India',
-              location: 'MIHAN SEZ / Butibori MIDC, Nagpur',
-              investment: '₹45 Cr Outlay • White Category',
-              highlight: 'White Category • Instant Self-Cert',
-              color: 'from-emerald-600/20 to-teal-600/20 border-emerald-500/30',
-            },
-            {
-              id: 'FOOD_NASHIK',
-              badge: '🌾 Agro MSME (Zone C)',
-              title: 'Godavari Valley Agro Foods Ltd',
-              location: 'Dindori Mega Food Park, Nashik',
-              investment: '₹22 Cr Outlay • Green Category',
-              highlight: '5% MSME PSI Subvention • Boilers',
-              color: 'from-purple-600/20 to-blue-600/20 border-purple-500/30',
-            },
-          ].map((profile) => (
-            <button
-              key={profile.id}
-              onClick={() => handleLaunchScenario(profile.id)}
-              className={`text-left rounded-2xl border bg-gradient-to-b ${profile.color} p-5 hover:scale-[1.02] active:scale-[0.99] transition-all group backdrop-blur-md shadow-xl flex flex-col justify-between`}
-            >
-              <div>
-                <span className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">
-                  {profile.badge}
-                </span>
-                <h3 className="font-bold text-white text-base mt-1 group-hover:text-blue-300 transition-colors">
-                  {profile.title}
-                </h3>
-                <p className="text-xs text-slate-400 mt-1">{profile.location}</p>
-                <div className="mt-3 font-mono text-xs font-semibold text-white">
-                  {profile.investment}
+                  <Link
+                    href="/auth/login"
+                    className="block p-3.5 rounded-2xl border border-purple-500/30 bg-purple-950/40 hover:bg-purple-900/50 hover:border-purple-400 transition-all group"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-purple-300">Government Official Desk</span>
+                      <ShieldCheck className="h-4 w-4 text-purple-400" />
+                    </div>
+                    <p className="text-[11px] text-slate-300 mt-1">
+                      Parichay SSO: Risk-based scrutiny, joint inspection planner & delay analytics.
+                    </p>
+                  </Link>
+                </div>
+
+                <div className="rounded-xl border border-emerald-500/20 bg-emerald-950/30 p-3 text-[11px] text-slate-300 flex items-start gap-2.5">
+                  <Scale className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="text-emerald-300 block font-semibold">Maharashtra RTS Act 2015 Section 4(1)</strong>
+                    <span>Designated officers must sanction within legal SLAs or Deemed Approval auto-triggers.</span>
+                  </div>
                 </div>
               </div>
+            </div>
 
-              <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-semibold text-blue-400">
-                <span className="text-[11px] text-emerald-400 font-medium">{profile.highlight}</span>
-                <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 2: KEY ECOSYSTEM METRICS RIBBON (STARTUP TELANGANA FLOATING COUNTER WIDGETS) */}
+      <section className="relative -mt-8 sm:-mt-10 z-20 mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          
+          {/* Metric 1 */}
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/90 p-5 backdrop-blur-xl shadow-xl hover:border-[#C33764]/50 transition-all text-left group">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-3xl sm:text-4xl font-black text-white font-mono group-hover:text-[#C33764] transition-colors">
+                11,839<span className="text-[#C33764]">+</span>
+              </span>
+              <Factory className="h-6 w-6 text-[#C33764]" />
+            </div>
+            <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Industrial Units Registered
+            </div>
+            <p className="text-[11px] text-slate-500 mt-1">Active manufacturing units on AnumatiOne</p>
+          </div>
+
+          {/* Metric 2 */}
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/90 p-5 backdrop-blur-xl shadow-xl hover:border-blue-500/50 transition-all text-left group">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-3xl sm:text-4xl font-black text-white font-mono group-hover:text-blue-400 transition-colors">
+                5,000<span className="text-blue-400">+</span>
+              </span>
+              <ShieldCheck className="h-6 w-6 text-blue-400" />
+            </div>
+            <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Clearances Dispatched
+            </div>
+            <p className="text-[11px] text-emerald-400 font-semibold mt-1">100% within RTS Act Statutory SLAs</p>
+          </div>
+
+          {/* Metric 3 */}
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/90 p-5 backdrop-blur-xl shadow-xl hover:border-purple-500/50 transition-all text-left group">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-3xl sm:text-4xl font-black text-white font-mono group-hover:text-purple-400 transition-colors">
+                5,981<span className="text-purple-400">+</span>
+              </span>
+              <Users className="h-6 w-6 text-purple-400" />
+            </div>
+            <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Women-Led & Priority MSMEs
+            </div>
+            <p className="text-[11px] text-slate-500 mt-1">Availing special PSI 2019 fiscal waivers</p>
+          </div>
+
+          {/* Metric 4 */}
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/90 p-5 backdrop-blur-xl shadow-xl hover:border-emerald-500/50 transition-all text-left group">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-3xl sm:text-4xl font-black text-white font-mono group-hover:text-emerald-400 transition-colors">
+                74<span className="text-emerald-400">+</span>
+              </span>
+              <MapPin className="h-6 w-6 text-emerald-400" />
+            </div>
+            <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              MIDC Parks & Centers
+            </div>
+            <p className="text-[11px] text-slate-500 mt-1">Across 36 districts of Maharashtra</p>
+          </div>
+
+        </div>
+      </section>
+
+      {/* SECTION 3: "MAHARASHTRA: THE LAND OF OPPORTUNITY" & 5 STRATEGIC PILLARS */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 pt-20 pb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          
+          {/* Narrative Column */}
+          <div className="lg:col-span-7 space-y-5 text-left">
+            <div className="inline-flex items-center gap-2 rounded-full bg-[#C33764]/10 border border-[#C33764]/30 px-3 py-1 text-xs font-bold text-[#C33764] uppercase tracking-wider">
+              State Innovation & Industrial Ecosystem
+            </div>
+            
+            <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+              Maharashtra: The Land of Opportunity
+            </h2>
+
+            <div className="space-y-4 text-sm text-slate-300 leading-relaxed">
+              <p>
+                Maharashtra, India’s economic powerhouse, contributes over 14% to the national GDP and stands as the nation’s foremost destination for foreign direct investment (FDI).
+              </p>
+              <p>
+                With <strong>AnumatiOne</strong>, the Government of Maharashtra has unified bureaucratic departmental silos into an intelligent, concurrent approval superhighway. Countless industrialists and innovators have transitioned from ground acquisition to commercial production in record time, supported by transparent timelines and progressive ease-of-doing-business policies.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <Link
+                href="/portal/clearances"
+                className="inline-flex items-center gap-2 rounded-xl bg-slate-900 border border-slate-700 hover:border-[#C33764] hover:text-white px-5 py-2.5 text-xs font-bold text-slate-200 transition-all shadow-md"
+              >
+                <span>Browse All 28 Clearances</span>
+                <ChevronRight className="h-4 w-4 text-[#C33764]" />
+              </Link>
+              <Link
+                href="/portal/incentives"
+                className="inline-flex items-center gap-2 rounded-xl bg-slate-900 border border-slate-700 hover:border-blue-400 hover:text-white px-5 py-2.5 text-xs font-bold text-slate-200 transition-all shadow-md"
+              >
+                <span>Calculate PSI 2019 Incentives</span>
+                <ChevronRight className="h-4 w-4 text-blue-400" />
+              </Link>
+            </div>
+          </div>
+
+          {/* State Seal & Digital Twin Hologram Card */}
+          <div className="lg:col-span-5">
+            <div className="rounded-3xl border border-slate-800 bg-gradient-to-br from-[#060D4A]/60 via-slate-900 to-slate-900/90 p-8 shadow-2xl relative text-center space-y-6">
+              <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-3xl bg-gradient-to-tr from-[#C33764] to-blue-600 shadow-2xl shadow-[#C33764]/30">
+                <Scale className="h-12 w-12 text-white" />
               </div>
-            </button>
+
+              <div>
+                <h3 className="text-xl font-black text-white">Sovereign Industrial Seal</h3>
+                <p className="text-xs text-slate-400 mt-1">Maharashtra State Innovation Society (MSIS)</p>
+              </div>
+
+              <div className="space-y-2.5 text-left text-xs">
+                <div className="flex items-center justify-between p-2.5 rounded-xl border border-slate-800 bg-slate-950/60">
+                  <span className="text-slate-400">Statutory SLA Guarantee:</span>
+                  <span className="font-bold text-white font-mono">15 to 30 Days Legal Max</span>
+                </div>
+                <div className="flex items-center justify-between p-2.5 rounded-xl border border-slate-800 bg-slate-950/60">
+                  <span className="text-slate-400">MahaVault Data Reuse:</span>
+                  <span className="font-bold text-emerald-400 font-mono">Sec 3(2) Cross-Lock</span>
+                </div>
+                <div className="flex items-center justify-between p-2.5 rounded-xl border border-slate-800 bg-slate-950/60">
+                  <span className="text-slate-400">Green Channel Sanction:</span>
+                  <span className="font-bold text-blue-400 font-mono">48-Hour Instant Deemed</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* 5 Strategic Pillars Grid (Matching Startup Telangana 5 Pillars) */}
+        <div className="mt-14">
+          <div className="text-left mb-6">
+            <h3 className="text-xl font-bold text-white flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-[#C33764]" />
+              The 5 Pillars of Maharashtra Industrial Transformation
+            </h3>
+            <p className="text-xs text-slate-400 mt-1">
+              Engineered to fulfill all objectives of Problem Statement SIH 26130.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            
+            {/* Pillar 1 */}
+            <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 space-y-3 text-left hover:border-blue-500/40 transition-all flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                  <Building2 className="h-5 w-5" />
+                </div>
+                <h4 className="font-bold text-sm text-white">Physical Infrastructure</h4>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  MIDC smart industrial cities, AURIC, plug-and-play factory sheds, and dedicated multi-modal logistics corridors.
+                </p>
+              </div>
+              <span className="text-[10px] font-bold text-blue-400 uppercase tracking-wider">Pillar 1 • Infrastructure</span>
+            </div>
+
+            {/* Pillar 2 */}
+            <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 space-y-3 text-left hover:border-[#C33764]/40 transition-all flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#C33764]/10 text-[#C33764] border border-[#C33764]/20">
+                  <Zap className="h-5 w-5" />
+                </div>
+                <h4 className="font-bold text-sm text-white">Regulatory Easing</h4>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Single-Window Common Application Form (CAF) routing concurrent approvals across all state agencies simultaneously.
+                </p>
+              </div>
+              <span className="text-[10px] font-bold text-[#C33764] uppercase tracking-wider">Pillar 2 • Clearances</span>
+            </div>
+
+            {/* Pillar 3 */}
+            <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 space-y-3 text-left hover:border-purple-500/40 transition-all flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                  <Users className="h-5 w-5" />
+                </div>
+                <h4 className="font-bold text-sm text-white">Human Capital & Safety</h4>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  DISH occupational safety vetting, apprentice mobilization, and institutional industrial safety training.
+                </p>
+              </div>
+              <span className="text-[10px] font-bold text-purple-400 uppercase tracking-wider">Pillar 3 • Workforce</span>
+            </div>
+
+            {/* Pillar 4 */}
+            <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 space-y-3 text-left hover:border-emerald-500/40 transition-all flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <Flame className="h-5 w-5" />
+                </div>
+                <h4 className="font-bold text-sm text-white">Grassroots Innovation</h4>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Zero Liquid Discharge (ZLD) support, 48-Hour Green Channel self-certification, and sustainability incentives.
+                </p>
+              </div>
+              <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">Pillar 4 • Sustainability</span>
+            </div>
+
+            {/* Pillar 5 */}
+            <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 space-y-3 text-left hover:border-amber-500/40 transition-all flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                  <Coins className="h-5 w-5" />
+                </div>
+                <h4 className="font-bold text-sm text-white">Fiscal Subsidies</h4>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Package Scheme of Incentives (PSI 2019), 100% stamp duty exemption, electricity duty waivers, and SGST refunds.
+                </p>
+              </div>
+              <span className="text-[10px] font-bold text-amber-400 uppercase tracking-wider">Pillar 5 • Incentives</span>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 4: "EMPOWERING ENTERPRISES WITH..." 5 CIRCULAR HIGHLIGHTS */}
+      <section className="bg-[#060D4A]/40 border-y border-slate-800/80 py-16 px-4 sm:px-6">
+        <div className="mx-auto max-w-7xl text-center space-y-10">
+          <div className="space-y-2">
+            <h3 className="text-2xl sm:text-3xl font-black text-white">
+              Empowering Enterprises & Industries with...
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-400 max-w-2xl mx-auto">
+              A comprehensive single-window ecosystem eliminating manual friction, redundant document submissions, and approval delays.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+            
+            {/* Circle 1: Govt Clearances */}
+            <Link 
+              href="/portal/clearances"
+              className="flex flex-col items-center group space-y-3"
+            >
+              <div className="flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-slate-900 border-2 border-[#C33764] group-hover:scale-110 group-hover:bg-[#C33764]/20 group-hover:shadow-xl group-hover:shadow-[#C33764]/30 transition-all">
+                <Building2 className="h-9 w-9 sm:h-10 sm:w-10 text-[#C33764]" />
+              </div>
+              <h4 className="font-bold text-xs sm:text-sm text-white group-hover:text-[#C33764] transition-colors">
+                28 Govt Clearances
+              </h4>
+              <p className="text-[11px] text-slate-400 hidden sm:block">
+                All statutory departments
+              </p>
+            </Link>
+
+            {/* Circle 2: Fast-Track Green Channel */}
+            <Link 
+              href="/portal/clearances?stage=GREEN_CHANNEL"
+              className="flex flex-col items-center group space-y-3"
+            >
+              <div className="flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-slate-900 border-2 border-emerald-500 group-hover:scale-110 group-hover:bg-emerald-500/20 group-hover:shadow-xl group-hover:shadow-emerald-500/30 transition-all">
+                <Zap className="h-9 w-9 sm:h-10 sm:w-10 text-emerald-400" />
+              </div>
+              <h4 className="font-bold text-xs sm:text-sm text-white group-hover:text-emerald-300 transition-colors">
+                48h Green Channel
+              </h4>
+              <p className="text-[11px] text-slate-400 hidden sm:block">
+                Instant deemed sanction
+              </p>
+            </Link>
+
+            {/* Circle 3: MIDC Land & Infra */}
+            <Link 
+              href="/portal/kya"
+              className="flex flex-col items-center group space-y-3"
+            >
+              <div className="flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-slate-900 border-2 border-blue-500 group-hover:scale-110 group-hover:bg-blue-500/20 group-hover:shadow-xl group-hover:shadow-blue-500/30 transition-all">
+                <MapPin className="h-9 w-9 sm:h-10 sm:w-10 text-blue-400" />
+              </div>
+              <h4 className="font-bold text-xs sm:text-sm text-white group-hover:text-blue-300 transition-colors">
+                MIDC Land & Estates
+              </h4>
+              <p className="text-[11px] text-slate-400 hidden sm:block">
+                GIS plot reservation
+              </p>
+            </Link>
+
+            {/* Circle 4: Fiscal Incentives */}
+            <Link 
+              href="/portal/incentives"
+              className="flex flex-col items-center group space-y-3"
+            >
+              <div className="flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-slate-900 border-2 border-amber-500 group-hover:scale-110 group-hover:bg-amber-500/20 group-hover:shadow-xl group-hover:shadow-amber-500/30 transition-all">
+                <Coins className="h-9 w-9 sm:h-10 sm:w-10 text-amber-400" />
+              </div>
+              <h4 className="font-bold text-xs sm:text-sm text-white group-hover:text-amber-300 transition-colors">
+                PSI 2019 Subsidies
+              </h4>
+              <p className="text-[11px] text-slate-400 hidden sm:block">
+                SGST & stamp duty relief
+              </p>
+            </Link>
+
+            {/* Circle 5: RTS Grievance Escalator */}
+            <Link 
+              href="/portal/grievances"
+              className="flex flex-col items-center group space-y-3 col-span-2 md:col-span-1"
+            >
+              <div className="flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-slate-900 border-2 border-purple-500 group-hover:scale-110 group-hover:bg-purple-500/20 group-hover:shadow-xl group-hover:shadow-purple-500/30 transition-all">
+                <Scale className="h-9 w-9 sm:h-10 sm:w-10 text-purple-400" />
+              </div>
+              <h4 className="font-bold text-xs sm:text-sm text-white group-hover:text-purple-300 transition-colors">
+                2-Tier RTS Appeals
+              </h4>
+              <p className="text-[11px] text-slate-400 hidden sm:block">
+                ₹250/day officer fines
+              </p>
+            </Link>
+
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 5: "WE HOST THE GIANTS / PREMIER INDUSTRIAL HUBS" */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 py-16 text-left space-y-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <div className="text-xs font-bold uppercase tracking-wider text-[#C33764]">
+              Maharashtra Manufacturing Geography
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-black text-white mt-1">
+              We Host the Giants: Premier Industrial Corridors
+            </h3>
+          </div>
+          <Link
+            href="/portal/kya"
+            className="text-xs font-bold text-[#C33764] hover:text-rose-300 flex items-center gap-1 transition-colors"
+          >
+            Explore Zone Specific Schemes →
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          
+          {/* Hub 1: Chakan Pune */}
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 space-y-3 hover:border-blue-500/40 transition-all">
+            <span className="text-[10px] font-mono font-bold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded">
+              PUNE ZONE B
+            </span>
+            <h4 className="font-bold text-white text-base">Chakan & Talegaon</h4>
+            <p className="text-xs text-slate-400">
+              India’s premier automotive, EV gigafactory & precision engineering capital.
+            </p>
+            <div className="text-[11px] text-slate-500">
+              Anchors: Tata Motors, Bajaj, Foxconn
+            </div>
+          </div>
+
+          {/* Hub 2: AURIC City */}
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 space-y-3 hover:border-purple-500/40 transition-all">
+            <span className="text-[10px] font-mono font-bold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded">
+              SAMBHAJINAGAR ZONE D+
+            </span>
+            <h4 className="font-bold text-white text-base">AURIC Smart City</h4>
+            <p className="text-xs text-slate-400">
+              DMIC smart industrial node with automated SCADA utilities and biopharma hubs.
+            </p>
+            <div className="text-[11px] text-slate-500">
+              Anchors: Hyosung, Perkins, Skoda
+            </div>
+          </div>
+
+          {/* Hub 3: MIHAN Nagpur */}
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 space-y-3 hover:border-emerald-500/40 transition-all">
+            <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">
+              NAGPUR SEZ ZONE D+
+            </span>
+            <h4 className="font-bold text-white text-base">MIHAN Cargo & SEZ</h4>
+            <p className="text-xs text-slate-400">
+              Multi-modal international cargo hub, aerospace defense, and solar PV manufacturing.
+            </p>
+            <div className="text-[11px] text-slate-500">
+              Anchors: Boeing, Dassault, Infosys
+            </div>
+          </div>
+
+          {/* Hub 4: Turbhe Navi Mumbai */}
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 space-y-3 hover:border-amber-500/40 transition-all">
+            <span className="text-[10px] font-mono font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded">
+              NAVI MUMBAI ZONE A
+            </span>
+            <h4 className="font-bold text-white text-base">TTC & Turbhe</h4>
+            <p className="text-xs text-slate-400">
+              Specialized specialty chemicals, mega data center parks, and maritime tech.
+            </p>
+            <div className="text-[11px] text-slate-500">
+              Anchors: BASF, Reliance, NTT Data
+            </div>
+          </div>
+
+          {/* Hub 5: Dindori Nashik */}
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 space-y-3 hover:border-rose-500/40 transition-all">
+            <span className="text-[10px] font-mono font-bold text-[#C33764] bg-[#C33764]/10 px-2 py-0.5 rounded">
+              NASHIK ZONE C
+            </span>
+            <h4 className="font-bold text-white text-base">Dindori Agro Park</h4>
+            <p className="text-xs text-slate-400">
+              Integrated cold chain, agro-processing, winery estates, and light electronics.
+            </p>
+            <div className="text-[11px] text-slate-500">
+              Anchors: Sula, Mahindra, Haldiram’s
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* SECTION 6: "HAPPENING MAHARASHTRA" (NOTICES, CIRCULARS & EVENTS) */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 py-12 border-t border-slate-800/80 text-left space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div className="text-xs font-bold uppercase tracking-wider text-[#C33764]">
+              Regulatory Gazette & Updates
+            </div>
+            <h3 className="text-2xl font-black text-white mt-1">
+              Happening Maharashtra: Orders, Circulars & Notices
+            </h3>
+          </div>
+
+          {/* Tab Filter Controls */}
+          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-900 border border-slate-800 text-xs">
+            {(['ALL', 'POLICIES', 'CIRCULARS', 'WORKSHOPS'] as const).map(tab => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`px-3 py-1.5 rounded-lg font-bold transition-all ${
+                  activeTab === tab
+                    ? 'bg-[#C33764] text-white shadow-md'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                {tab === 'ALL' ? 'All Updates' : tab.charAt(0) + tab.slice(1).toLowerCase()}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {filteredHappenings.map((item, idx) => (
+            <div 
+              key={idx}
+              className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 space-y-3 hover:border-slate-700 transition-all flex flex-col justify-between"
+            >
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="font-mono text-slate-400 flex items-center gap-1">
+                    <Calendar className="h-3 w-3 text-[#C33764]" />
+                    {item.date}
+                  </span>
+                  <span className="rounded-full bg-slate-800 px-2.5 py-0.5 text-[10px] font-bold text-slate-300">
+                    {item.tag}
+                  </span>
+                </div>
+
+                <div className="text-[11px] font-semibold text-blue-400">
+                  {item.dept}
+                </div>
+
+                <h4 className="font-bold text-white text-sm sm:text-base leading-snug">
+                  {item.title}
+                </h4>
+
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  {item.summary}
+                </p>
+              </div>
+
+              <Link
+                href={item.actionUrl}
+                className="pt-3 border-t border-slate-800/80 text-xs font-semibold text-[#C33764] hover:text-rose-300 flex items-center justify-between transition-colors"
+              >
+                <span>Read Full Circular & Guidelines</span>
+                <ChevronRight className="h-4 w-4" />
+              </Link>
+            </div>
           ))}
         </div>
       </section>
 
-      {/* Core Technological Innovations */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 py-12 border-t border-slate-800/80">
-        <div className="text-center max-w-xl mx-auto mb-10">
-          <h2 className="text-xs font-bold uppercase tracking-wider text-blue-400">
-            System Innovations
-          </h2>
-          <p className="text-2xl font-black text-white mt-1">
-            Eliminating Bottlenecks for Both Industrialists & Officers
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-5 space-y-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20">
-              <Search className="h-5 w-5" />
-            </div>
-            <h3 className="font-bold text-white text-base">Know Your Approvals (KYA)</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              4-step wizard that dynamically generates your statutory clearance roadmap, RTS SLA countdowns, and PSI 2019 subsidies.
+      {/* SECTION 7: INTERACTIVE CLEARANCE JOURNEY DAG CALLOUT */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 pb-20">
+        <div className="rounded-3xl border border-blue-500/30 bg-gradient-to-r from-blue-950/40 via-slate-900 to-[#C33764]/20 p-8 sm:p-10 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-8 text-left">
+          <div className="space-y-3 max-w-2xl">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 px-3 py-1 text-xs font-bold text-blue-400">
+              <GitBranch className="h-3.5 w-3.5" />
+              Adversarial Path Optimization Engine
+            </span>
+            <h3 className="text-2xl sm:text-3xl font-black text-white">
+              Visualize Parallel Clearance Lanes in Interactive D3.js Gantt
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              Experience the 162-day time saving in action. Simulate critical path makespan, 
+              detect department concurrency bottlenecks, and inspect live RTS Act Section 4(1) Deemed Approval countdowns.
             </p>
           </div>
 
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-5 space-y-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20">
-              <ShieldCheck className="h-5 w-5" />
-            </div>
-            <h3 className="font-bold text-white text-base">Zero-Query AI Pre-Scrutiny</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Audits PAN, 27-GSTIN, Udyam, factory layouts, and effluent capacity before submission to avoid rejection cycles.
-            </p>
-          </div>
-
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-5 space-y-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              <Layers className="h-5 w-5" />
-            </div>
-            <h3 className="font-bold text-white text-base">MahaVault Scrutiny Shield</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Cross-department document re-use under RTS Act Sec 3(2). Verified MIDC leases and layouts cannot be re-queried by MPCB or DISH.
-            </p>
-          </div>
-
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-5 space-y-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
-              <Scale className="h-5 w-5" />
-            </div>
-            <h3 className="font-bold text-white text-base">RTS Section 4(1) Deemed Approval</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Enforces statutory time-bound clearances. If a department exceeds its SLA, legal deemed consent certificates are auto-issued.
-            </p>
+          <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
+            <Link
+              href="/portal/journey"
+              className="rounded-xl bg-blue-600 hover:bg-blue-500 px-6 py-3.5 text-xs font-bold text-white shadow-xl shadow-blue-500/30 transition-all flex items-center gap-2"
+            >
+              <GitBranch className="h-4 w-4" />
+              Launch Journey Map
+            </Link>
+            <Link
+              href="/portal/clearances"
+              className="rounded-xl border border-slate-700 bg-slate-900 hover:bg-slate-800 px-6 py-3.5 text-xs font-bold text-white transition-all flex items-center gap-2"
+            >
+              <Building2 className="h-4 w-4 text-[#C33764]" />
+              Clearances Directory
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Participating GoM Departments Bar */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 py-8 border-t border-slate-800/80 text-center">
-        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">
-          Integrated With Government of Maharashtra Statutory Bodies & Directorates
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs font-bold text-slate-300">
-          <span className="flex items-center gap-1.5"><Building2 className="h-4 w-4 text-blue-400" /> MIDC</span>
-          <span className="flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-emerald-400" /> MPCB</span>
-          <span className="flex items-center gap-1.5"><Zap className="h-4 w-4 text-amber-400" /> MSEDCL</span>
-          <span className="flex items-center gap-1.5"><Layers className="h-4 w-4 text-purple-400" /> DISH (Factories)</span>
-          <span className="flex items-center gap-1.5"><FileCheck2 className="h-4 w-4 text-rose-400" /> Directorate of Steam Boilers</span>
-          <span className="flex items-center gap-1.5"><Building2 className="h-4 w-4 text-orange-400" /> Maharashtra Fire Services</span>
-          <span className="flex items-center gap-1.5"><Gift className="h-4 w-4 text-teal-400" /> Directorate of Industries</span>
-        </div>
-      </section>
     </div>
   );
 }
