@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAppStore } from '@/lib/store';
 import { MetricHeader } from '@/components/journey/MetricHeader';
 import { JourneyMapDAG } from '@/components/journey/JourneyMapDAG';
@@ -21,23 +22,36 @@ import {
   Layers, 
   ArrowRight,
   TrendingDown,
-  Info
+  Info,
+  LogOut
 } from 'lucide-react';
 import Link from 'next/link';
+import confetti from 'canvas-confetti';
 
 export default function JourneyPage() {
+  const router = useRouter();
   const { 
+    isAuthenticated,
+    logout,
     currentProfile, 
     simulationResult, 
     activeStrategyId, 
     setSimulationResult 
   } = useAppStore();
 
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.replace('/auth/login');
+    }
+  }, [isAuthenticated, router]);
+
   const [activeTwinMode, setActiveTwinMode] = useState<TwinScenarioMode>('MINIMAX_CONCURRENCY');
   const [isExplainerOpen, setIsExplainerOpen] = useState(false);
   const [showCriticalOnly, setShowCriticalOnly] = useState(false);
   const [showBottlenecksOnly, setShowBottlenecksOnly] = useState(false);
   const [activeShockDays, setActiveShockDays] = useState(0);
+  const [isFastSlaActive, setIsFastSlaActive] = useState(false);
+  const [isFastSlaLoading, setIsFastSlaLoading] = useState(false);
 
   if (!simulationResult) return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 py-24 flex flex-col items-center justify-center text-center gap-6">
@@ -75,8 +89,102 @@ export default function JourneyPage() {
     setActiveShockDays(extraDays);
   };
 
+  const handleApplyFastSla = async () => {
+    setIsFastSlaLoading(true);
+    try {
+      const res = await fetch('/api/v1/applications/fast-sla', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ companyName: currentProfile.companyName }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setIsFastSlaActive(true);
+        handleSelectScenario('GREEN_CHANNEL_EXPRESS');
+        confetti({
+          particleCount: 80,
+          spread: 70,
+          origin: { y: 0.6 },
+        });
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsFastSlaLoading(false);
+    }
+  };
+
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 py-6 space-y-6">
+      {/* Fast SLA Express Banner */}
+      <div className={`rounded-3xl border p-5 backdrop-blur-xl shadow-xl transition-all ${
+        isFastSlaActive
+          ? 'border-emerald-500/40 bg-gradient-to-r from-emerald-950/40 via-slate-900 to-teal-950/30'
+          : 'border-amber-500/40 bg-gradient-to-r from-amber-950/40 via-slate-900 to-purple-950/30'
+      }`}>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-bold border ${
+                isFastSlaActive
+                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                  : 'bg-amber-500/10 text-amber-400 border-amber-500/30'
+              }`}>
+                <Zap className="h-3 w-3" />
+                {isFastSlaActive ? '⚡ Fast SLA 48-Hour Green Channel Active' : '⚡ Fast SLA Acceleration Option'}
+              </span>
+              <span className="text-[10px] font-bold text-slate-400">
+                Maharashtra RTS Act 2015 Sec 4(1)
+              </span>
+            </div>
+            <h3 className="text-sm sm:text-base font-bold text-white">
+              {isFastSlaActive
+                ? 'Approval Journey Accelerated: Clearances Granted in 48 Hours'
+                : 'Need Faster Approval? Apply for Fast SLA to Compress Makespan to 48 Hours'}
+            </h3>
+            <p className="text-xs text-slate-300">
+              {isFastSlaActive
+                ? 'All inter-departmental DAG dependencies have been resolved under autonomous green-channel deemed clearances.'
+                : 'Eligible enterprises with pre-validated MahaVault documents bypass sequential departmental waiting queues.'}
+            </p>
+          </div>
+
+          <div className="shrink-0 flex items-center gap-2">
+            {!isFastSlaActive ? (
+              <button
+                onClick={handleApplyFastSla}
+                disabled={isFastSlaLoading}
+                className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 px-4 py-2.5 text-xs font-bold text-slate-950 hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-amber-500/20"
+              >
+                <Zap className={`h-3.5 w-3.5 ${isFastSlaLoading ? 'animate-spin' : ''}`} />
+                <span>{isFastSlaLoading ? 'Accelerating...' : 'Apply for Fast SLA (48h)'}</span>
+              </button>
+            ) : (
+              <Link
+                href="/portal/applications"
+                className="flex items-center gap-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2.5 text-xs font-bold transition-all shadow-lg shadow-emerald-600/20"
+              >
+                <CheckCircle2 className="h-3.5 w-3.5" />
+                <span>View Approved Certificates</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            )}
+
+            <button
+              onClick={() => {
+                logout();
+                router.push('/auth/login');
+              }}
+              className="flex items-center gap-1.5 rounded-xl border border-red-500/70 bg-gradient-to-r from-red-600 via-rose-600 to-red-700 px-3.5 py-2.5 text-xs font-black text-white shadow-lg shadow-red-950/50 hover:from-red-500 hover:to-rose-500 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              title="Sign out of current session"
+            >
+              <LogOut className="h-3.5 w-3.5 text-white" />
+              <span>Logout</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
       {/* 1. Flagship Metric Header with Time Saved vs Sequential */}
       <MetricHeader
         showCriticalOnly={showCriticalOnly}

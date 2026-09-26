@@ -35,14 +35,23 @@ import {
   Droplet,
   Users,
   Briefcase,
-  FileText
+  FileText,
+  Crown,
+  Sliders,
+  KeyRound
 } from 'lucide-react';
+import LoginPage from '@/app/auth/login/page';
 
 export default function LandingPage() {
   const router = useRouter();
-  const { loadDemoProfile } = useAppStore();
-
+  const { isAuthenticated, loadDemoProfile } = useAppStore();
   const [activeTab, setActiveTab] = useState<'ALL' | 'POLICIES' | 'CIRCULARS' | 'WORKSHOPS'>('ALL');
+
+  // FIRST LOGIN PAGE SHOULD COME:
+  // If applicant/officer/admin has not authenticated, show the Login Page first.
+  if (!isAuthenticated) {
+    return <LoginPage />;
+  }
 
   const handleLaunchScenario = (key: string) => {
     loadDemoProfile(key);
@@ -95,71 +104,88 @@ export default function LandingPage() {
   return (
     <div className="relative overflow-hidden bg-slate-950 text-slate-100">
       
-      {/* SECTION 1: SIGNATURE STATE PORTAL HERO BANNER (STARTUP TELANGANA AESTHETIC) */}
-      <section className="relative overflow-hidden bg-gradient-to-r from-[#101935] via-[#1E2958] to-[#C33764] py-16 sm:py-24 px-4 sm:px-6 border-b border-[#C33764]/30 shadow-2xl">
+      {/* SECTION 1: SIGNATURE STATE PORTAL HERO BANNER (MAHARASHTRA SOVEREIGN GATEWAY) */}
+      <section className="relative overflow-hidden bg-gradient-to-r from-[#101935] via-[#1E2958] to-[#C33764] py-8 sm:py-12 px-4 sm:px-6 border-b border-[#C33764]/30 shadow-2xl">
         {/* Subtle decorative vector backdrop overlay */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(195,55,100,0.25),transparent_60%)] pointer-events-none" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_70%,rgba(6,13,74,0.4),transparent_60%)] pointer-events-none" />
 
-        <div className="relative mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            
-            {/* Left Content Column */}
-            <div className="lg:col-span-8 space-y-6 text-left">
-              {/* Sovereign State Department Badge */}
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 px-3.5 py-1 text-xs font-semibold text-white">
-                <span className="flex h-2 w-2 rounded-full bg-[#C33764] animate-pulse" />
-                <span>Department of Industries & MSIS • Government of Maharashtra</span>
+        <div className="relative mx-auto max-w-7xl space-y-6">
+          
+          {/* Top Bar: Sovereign State Department Badge + SSO Quick Action */}
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 px-3.5 py-1 text-xs font-semibold text-white">
+              <span className="flex h-2 w-2 rounded-full bg-[#C33764] animate-pulse" />
+              <span>Department of Industries & MSIS • Government of Maharashtra</span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Link
+                href="/auth/login"
+                className="inline-flex items-center gap-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/30 backdrop-blur-md px-4 py-1 text-xs font-bold text-white transition-all shadow"
+              >
+                <KeyRound className="h-3.5 w-3.5 text-rose-300" />
+                <span>Single Sign-On (SSO) Portal</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* EXACT HERO BANNER FROM SPECIFICATION WITH USER PICTURE */}
+          <div className="relative rounded-3xl overflow-hidden border border-[#C33764]/40 shadow-2xl bg-gradient-to-r from-[#8d1858] via-[#481c5a] to-[#101e52] group">
+            <div className="relative w-full overflow-hidden">
+              <img
+                src="/hero-maharashtra.png"
+                alt="Maharashtra: The Engine of India’s Growth & Single-Window Clearance"
+                className="w-full h-auto object-cover object-center max-h-[460px] filter brightness-105 contrast-105"
+              />
+              
+              {/* Carousel Indicator matching the user visual specification */}
+              <div className="absolute bottom-4 left-6 sm:bottom-8 sm:left-12 flex items-center gap-2 z-10 pointer-events-none">
+                <span className="w-8 sm:w-10 h-1.5 sm:h-2 rounded-full bg-white shadow-lg" />
+                <span className="w-2.5 sm:w-3 h-1.5 sm:h-2 rounded-full bg-white/40 shadow-sm" />
+                <span className="w-2.5 sm:w-3 h-1.5 sm:h-2 rounded-full bg-white/40 shadow-sm" />
               </div>
+            </div>
 
-              {/* Main Headline */}
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
-                Maharashtra: The Engine of India’s Growth &{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-rose-100 to-rose-300">
-                  Single-Window Clearance
-                </span>
-              </h1>
-
-              {/* Subheading / Value Proposition */}
-              <p className="text-sm sm:text-base text-slate-200 max-w-3xl leading-relaxed">
-                Empowering industrial enterprises and startups with <strong>28 unified statutory clearances</strong>, 
-                <strong> 48-Hour Green Channel fast-tracking</strong>, verified DigiLocker pre-checks, 
-                and statutory protection under the <strong>Maharashtra Right to Services (RTS) Act 2015</strong> with automated Deemed Approvals.
-              </p>
-
-              {/* High-Impact Action CTAs (Startup Telangana Signature Buttons) */}
-              <div className="flex flex-wrap items-center gap-3 pt-2">
+            {/* Quick Action Overlay Strip inside the banner */}
+            <div className="bg-slate-950/85 backdrop-blur-md p-4 sm:p-5 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
+              <div className="flex flex-wrap items-center gap-3">
                 <Link
                   href="/portal/clearances"
-                  className="flex items-center gap-2 rounded-full bg-[#C33764] hover:bg-[#A82650] px-6 py-3.5 text-sm font-bold text-white shadow-xl shadow-[#C33764]/40 hover:scale-[1.02] active:scale-[0.99] transition-all group"
+                  className="flex items-center gap-2 rounded-full bg-[#C33764] hover:bg-[#A82650] px-5 py-2.5 text-xs sm:text-sm font-bold text-white shadow-xl shadow-[#C33764]/40 hover:scale-[1.02] active:scale-[0.99] transition-all group"
                 >
                   <Building2 className="h-4 w-4" />
-                  Explore Clearances Directory
+                  <span>Explore Clearances Directory</span>
                   <span className="rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-semibold">
                     28 Clearances
                   </span>
-                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
                 </Link>
 
                 <Link
                   href="/portal/kya"
-                  className="flex items-center gap-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/30 backdrop-blur-md px-6 py-3.5 text-sm font-bold text-white hover:border-white transition-all shadow-lg"
+                  className="flex items-center gap-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/30 backdrop-blur-md px-5 py-2.5 text-xs sm:text-sm font-bold text-white hover:border-white transition-all shadow-lg"
                 >
                   <Search className="h-4 w-4" />
-                  Know Your Approvals (KYA & CAF)
+                  <span>Know Your Approvals (KYA & CAF)</span>
                 </Link>
 
                 <Link
                   href="/portal/applications"
-                  className="flex items-center gap-2 rounded-full bg-[#060D4A]/80 hover:bg-[#060D4A] border border-blue-400/30 px-5 py-3.5 text-sm font-bold text-blue-200 hover:text-white transition-all"
+                  className="flex items-center gap-2 rounded-full bg-[#060D4A]/80 hover:bg-[#060D4A] border border-blue-400/30 px-4 py-2.5 text-xs sm:text-sm font-bold text-blue-200 hover:text-white transition-all"
                 >
                   <FolderCheck className="h-4 w-4 text-emerald-400" />
-                  Track Applications
+                  <span>Track Applications</span>
                 </Link>
+
+                <div className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 px-3 py-1.5 text-xs font-bold text-emerald-300">
+                  <Zap className="h-3.5 w-3.5 text-emerald-400" />
+                  <span>48-Hour Green Channel Fast-Track</span>
+                </div>
               </div>
 
               {/* Evaluator Quick Persona Launchers */}
-              <div className="pt-2 flex flex-wrap items-center gap-2 text-xs">
+              <div className="flex flex-wrap items-center gap-2 text-xs">
                 <span className="text-slate-300 font-semibold flex items-center gap-1">
                   <Sparkles className="h-3.5 w-3.5 text-yellow-300" /> 1-Click Investor Scenarios:
                 </span>
@@ -183,58 +209,140 @@ export default function LandingPage() {
                 </button>
               </div>
             </div>
+          </div>
 
-            {/* Right Door: Official Desk & Deemed Approval Seal */}
-            <div className="lg:col-span-4 space-y-4">
-              <div className="rounded-3xl border border-white/20 bg-slate-900/80 backdrop-blur-xl p-6 shadow-2xl space-y-5 text-left">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#C33764]">
-                    Sovereign Portals
-                  </span>
-                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] font-bold text-emerald-300 border border-emerald-500/30">
-                    Active RTS Clocks
-                  </span>
-                </div>
-
-                <div className="space-y-3">
-                  <Link
-                    href="/portal/apply"
-                    className="block p-3.5 rounded-2xl border border-blue-500/30 bg-blue-950/40 hover:bg-blue-900/50 hover:border-blue-400 transition-all group"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-blue-300">Single-Window CAF</span>
-                      <ArrowRight className="h-4 w-4 text-blue-300 group-hover:translate-x-1 transition-transform" />
-                    </div>
-                    <p className="text-[11px] text-slate-300 mt-1">
-                      Apply once. Auto-distributes across MPCB, MIDC, DISH, MSEDCL & Fire.
-                    </p>
-                  </Link>
-
-                  <Link
-                    href="/auth/login"
-                    className="block p-3.5 rounded-2xl border border-purple-500/30 bg-purple-950/40 hover:bg-purple-900/50 hover:border-purple-400 transition-all group"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-purple-300">Government Official Desk</span>
-                      <ShieldCheck className="h-4 w-4 text-purple-400" />
-                    </div>
-                    <p className="text-[11px] text-slate-300 mt-1">
-                      Parichay SSO: Risk-based scrutiny, joint inspection planner & delay analytics.
-                    </p>
-                  </Link>
-                </div>
-
-                <div className="rounded-xl border border-emerald-500/20 bg-emerald-950/30 p-3 text-[11px] text-slate-300 flex items-start gap-2.5">
-                  <Scale className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <div>
-                    <strong className="text-emerald-300 block font-semibold">Maharashtra RTS Act 2015 Section 4(1)</strong>
-                    <span>Designated officers must sanction within legal SLAs or Deemed Approval auto-triggers.</span>
-                  </div>
-                </div>
+          {/* 4-DOOR MULTI-ROLE ACCESS MATRIX (AMAZON SDE UI/UX DESIGN) */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                  <ShieldCheck className="h-4.5 w-4.5 text-rose-400" />
+                  <span>Maharashtra Single-Window Multi-Role Access Gateways</span>
+                </h3>
+                <p className="text-[11px] sm:text-xs text-slate-300">
+                  Engineered with Amazon-standard RBAC security. Click any role below for direct Parichay SSO authentication:
+                </p>
               </div>
+              <Link
+                href="/auth/login"
+                className="text-xs font-bold text-rose-300 hover:text-white flex items-center gap-1 hover:underline shrink-0"
+              >
+                <span>SSO Gateway</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
             </div>
 
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+              {/* Role 1: Applicant */}
+              <Link
+                href="/auth/login"
+                className="rounded-2xl border border-blue-500/30 bg-slate-900/80 hover:bg-blue-950/40 p-4 transition-all hover:scale-[1.02] shadow-xl group space-y-3 flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between">
+                    <div className="h-9 w-9 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20 flex items-center justify-center">
+                      <Building2 className="h-4 w-4" />
+                    </div>
+                    <span className="text-[10px] font-bold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20">
+                      Tier 1
+                    </span>
+                  </div>
+                  <h4 className="font-bold text-xs sm:text-sm text-white group-hover:text-blue-300 transition-colors mt-2">
+                    Industrialist & Investor Gateway
+                  </h4>
+                  <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
+                    Single-Window CAF, track 28 statutory clearances, MahaVault document reuse & PSI 2019 subsidies.
+                  </p>
+                </div>
+                <div className="pt-2 border-t border-slate-800 text-[11px] text-blue-400 font-semibold flex items-center justify-between">
+                  <span>Sign In as Applicant</span>
+                  <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </Link>
+
+              {/* Role 2: Officer */}
+              <Link
+                href="/auth/login"
+                className="rounded-2xl border border-purple-500/30 bg-slate-900/80 hover:bg-purple-950/40 p-4 transition-all hover:scale-[1.02] shadow-xl group space-y-3 flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between">
+                    <div className="h-9 w-9 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center justify-center">
+                      <ShieldCheck className="h-4 w-4" />
+                    </div>
+                    <span className="text-[10px] font-bold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded border border-purple-500/20">
+                      Tier 2
+                    </span>
+                  </div>
+                  <h4 className="font-bold text-xs sm:text-sm text-white group-hover:text-purple-300 transition-colors mt-2">
+                    Government Official Desk
+                  </h4>
+                  <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
+                    Parichay SSO scrutiny queue, MPCB / MIDC / DISH scrutiny, and synchronized 48h joint site inspections.
+                  </p>
+                </div>
+                <div className="pt-2 border-t border-slate-800 text-[11px] text-purple-400 font-semibold flex items-center justify-between">
+                  <span>Sign In as Officer</span>
+                  <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </Link>
+
+              {/* Role 3: Department Admin */}
+              <Link
+                href="/auth/login"
+                className="rounded-2xl border border-rose-500/30 bg-slate-900/80 hover:bg-rose-950/40 p-4 transition-all hover:scale-[1.02] shadow-xl group space-y-3 flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between">
+                    <div className="h-9 w-9 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/20 flex items-center justify-center">
+                      <Sliders className="h-4 w-4" />
+                    </div>
+                    <span className="text-[10px] font-bold text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/20">
+                      Tier 3
+                    </span>
+                  </div>
+                  <h4 className="font-bold text-xs sm:text-sm text-white group-hover:text-rose-300 transition-colors mt-2">
+                    Department Administration
+                  </h4>
+                  <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
+                    Directorate HOD oversight (MPCB, MIDC, DISH, MSEDCL), file reassignment & RTS statutory compliance.
+                  </p>
+                </div>
+                <div className="pt-2 border-t border-slate-800 text-[11px] text-rose-400 font-semibold flex items-center justify-between">
+                  <span>Sign In as HOD Admin</span>
+                  <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </Link>
+
+              {/* Role 4: State Admin */}
+              <Link
+                href="/auth/login"
+                className="rounded-2xl border border-amber-500/30 bg-slate-900/80 hover:bg-amber-950/40 p-4 transition-all hover:scale-[1.02] shadow-xl group space-y-3 flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between">
+                    <div className="h-9 w-9 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center justify-center">
+                      <Crown className="h-4 w-4" />
+                    </div>
+                    <span className="text-[10px] font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+                      Tier 4
+                    </span>
+                  </div>
+                  <h4 className="font-bold text-xs sm:text-sm text-white group-hover:text-amber-300 transition-colors mt-2">
+                    State Administration Admin
+                  </h4>
+                  <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
+                    Mantralaya Apex Council: 36-district EODB speed index, RTS deemed approvals & regulatory graph bottlenecks.
+                  </p>
+                </div>
+                <div className="pt-2 border-t border-slate-800 text-[11px] text-amber-400 font-semibold flex items-center justify-between">
+                  <span>Sign In as State Admin</span>
+                  <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </Link>
+            </div>
           </div>
+
         </div>
       </section>
 

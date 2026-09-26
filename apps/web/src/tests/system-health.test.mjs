@@ -32,7 +32,12 @@ test('Backend Health: State Machine Workflow (Scrutiny -> Query -> Response -> A
   const approvedApp = data.find(a => a.status === 'APPROVED' || a.status === 'GREEN_CHANNEL_APPROVED');
   assert.ok(approvedApp, 'Must have at least one application in APPROVED state');
   assert.ok(approvedApp.certificate, 'Approved application must have DigitalCertificateRecord');
-  assert.ok(approvedApp.certificate.qrHash.startsWith('in.gov.mh') || approvedApp.certificate.qrHash.startsWith('mh.mpcb'), 'Must have valid QR verification hash');
+  assert.ok(
+    approvedApp.certificate.qrHash.startsWith('in.gov.mh') ||
+    approvedApp.certificate.qrHash.startsWith('mh.mpcb') ||
+    approvedApp.certificate.qrHash.startsWith('mh.gov'),
+    'Must have valid QR verification hash'
+  );
 });
 
 // --- 2. FRONTEND ROUTES & PAGES INTEGRITY ---

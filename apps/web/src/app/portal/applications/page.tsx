@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useAppStore } from '@/lib/store';
 import { ApplicationRecord } from '@approvalos/shared';
 import { MahaVaultExplorer } from '@/components/documents/MahaVaultExplorer';
@@ -32,17 +33,59 @@ import {
   Download,
   Building2,
   Search,
-  ArrowRight
+  ArrowRight,
+  Zap,
+  BookOpen,
+  LogOut
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export default function ApplicationsPage() {
-  const { currentIndustrialist, currentProfile } = useAppStore();
+  const router = useRouter();
+  const { isAuthenticated, logout, currentIndustrialist, currentProfile } = useAppStore();
   const [applications, setApplications] = useState<ApplicationRecord[]>([]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.replace('/auth/login');
+    }
+  }, [isAuthenticated, router]);
   const [activeTab, setActiveTab] = useState<'APPLICATIONS' | 'APPROVALS' | 'RENEWALS' | 'INCENTIVES' | 'VAULT'>('APPLICATIONS');
   const [selectedQueryApp, setSelectedQueryApp] = useState<ApplicationRecord | null>(null);
   const [selectedPermitApp, setSelectedPermitApp] = useState<ApplicationRecord | null>(null);
   const [filterDepartment, setFilterDepartment] = useState('ALL');
+  const [isFastSlaActive, setIsFastSlaActive] = useState(false);
+  const [isFastSlaApplying, setIsFastSlaApplying] = useState(false);
+
+  // Fast SLA Express Approval Handler
+  const handleApplyFastSla = async () => {
+    setIsFastSlaApplying(true);
+    try {
+      const res = await fetch('/api/v1/applications/fast-sla', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          companyName: currentIndustrialist?.companyName || currentProfile.companyName,
+          profileId: currentProfile.id,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setIsFastSlaActive(true);
+        setApplications(data.data);
+        confetti({
+          particleCount: 90,
+          spread: 80,
+          origin: { y: 0.5 },
+          colors: ['#10B981', '#38BDF8', '#F59E0B', '#C33764']
+        });
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsFastSlaApplying(false);
+    }
+  };
 
   // Statutory Returns Filing State
   const [filedReturns, setFiledReturns] = useState<Record<string, string>>({
@@ -139,6 +182,86 @@ export default function ApplicationsPage() {
             <Scale className="h-3.5 w-3.5" />
             <span>RTS Escalation</span>
           </Link>
+
+          <button
+            onClick={() => {
+              logout();
+              router.push('/auth/login');
+            }}
+            className="flex items-center gap-1.5 rounded-xl border border-red-500/70 bg-gradient-to-r from-red-600 via-rose-600 to-red-700 px-4 py-2 text-xs font-black text-white shadow-lg shadow-red-950/50 hover:from-red-500 hover:to-rose-500 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            title="Sign out of AnumatiOne session"
+          >
+            <LogOut className="h-3.5 w-3.5 text-white" />
+            <span>Logout</span>
+          </button>
+        </div>
+      </div>
+
+      {/* FAST SLA & SCHEMES INTELLIGENCE BANNER */}
+      <div className={`rounded-3xl border p-5 sm:p-6 backdrop-blur-xl shadow-2xl transition-all ${
+        isFastSlaActive || applications.every(a => a.status === 'APPROVED' || a.status === 'GREEN_CHANNEL_APPROVED' || a.status === 'DEEMED_APPROVED')
+          ? 'border-emerald-500/40 bg-gradient-to-r from-emerald-950/40 via-slate-900 to-teal-950/30'
+          : 'border-amber-500/40 bg-gradient-to-r from-amber-950/40 via-slate-900 to-purple-950/30'
+      }`}>
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+          <div className="space-y-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-bold border ${
+                isFastSlaActive || applications.every(a => a.status === 'APPROVED' || a.status === 'GREEN_CHANNEL_APPROVED' || a.status === 'DEEMED_APPROVED')
+                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                  : 'bg-amber-500/10 text-amber-400 border-amber-500/30'
+              }`}>
+                <Zap className="h-3 w-3" />
+                {isFastSlaActive || applications.every(a => a.status === 'APPROVED' || a.status === 'GREEN_CHANNEL_APPROVED' || a.status === 'DEEMED_APPROVED')
+                  ? '⚡ FAST SLA ACTIVE: Approvals Sanctioned Under RTS Sec 4(1)'
+                  : '⚡ Express Fast SLA & Green Channel Option'}
+              </span>
+
+              <span className="inline-flex items-center gap-1 rounded-full bg-blue-500/10 px-2.5 py-0.5 text-[10px] font-bold text-blue-400 border border-blue-500/30">
+                <BookOpen className="h-3 w-3" />
+                Maharashtra Schemes & RTS Rules
+              </span>
+            </div>
+
+            <h3 className="text-base sm:text-lg font-black text-white">
+              {isFastSlaActive || applications.every(a => a.status === 'APPROVED' || a.status === 'GREEN_CHANNEL_APPROVED' || a.status === 'DEEMED_APPROVED')
+                ? 'Statutory Clearances Accelerated to 48-Hour Fast-Track'
+                : 'Accelerate Approval Speed via Fast SLA (48-Hour Green Channel)'}
+            </h3>
+
+            <p className="text-xs text-slate-300 max-w-3xl leading-relaxed">
+              {isFastSlaActive || applications.every(a => a.status === 'APPROVED' || a.status === 'GREEN_CHANNEL_APPROVED' || a.status === 'DEEMED_APPROVED')
+                ? 'Your project has qualified for autonomous clearance issuance under Maharashtra Right to Services (RTS) Act 2015 Section 4(1). All statutory consent certificates are digitally signed and verified.'
+                : 'Under the Maharashtra RTS Act 2015 and MSIS Green Channel, qualifying enterprises can activate Fast SLA to reduce standard sequential makespans (240 days) down to an express 48-hour approval turnaround.'}
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            {!(isFastSlaActive || applications.every(a => a.status === 'APPROVED' || a.status === 'GREEN_CHANNEL_APPROVED' || a.status === 'DEEMED_APPROVED')) ? (
+              <button
+                onClick={handleApplyFastSla}
+                disabled={isFastSlaApplying}
+                className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 via-orange-500 to-rose-600 hover:from-amber-400 hover:to-rose-500 px-5 py-3 text-xs sm:text-sm font-bold text-white shadow-xl shadow-amber-500/25 hover:scale-[1.02] active:scale-[0.99] transition-all disabled:opacity-50"
+              >
+                <Zap className="h-4 w-4" />
+                <span>{isFastSlaApplying ? 'Accelerating Approvals...' : '⚡ Apply for Fast SLA (Express Approval)'}</span>
+              </button>
+            ) : (
+              <div className="inline-flex items-center gap-2 rounded-xl bg-emerald-500/20 border border-emerald-500/40 px-4 py-2.5 text-xs font-bold text-emerald-300">
+                <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                <span>All Clearances Sanctioned</span>
+              </div>
+            )}
+
+            <Link
+              href="/portal/profile"
+              className="flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-900/90 hover:border-blue-400 px-4 py-3 text-xs font-bold text-slate-200 hover:text-white transition-all shadow-md"
+            >
+              <BookOpen className="h-4 w-4 text-blue-400" />
+              <span>Explore Schemes & Rules</span>
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
         </div>
       </div>
 

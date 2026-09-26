@@ -15,24 +15,34 @@ import {
   UserCheck,
   ChevronRight,
   Send,
-  CalendarCheck
+  CalendarCheck,
+  Lock,
+  UserPlus,
+  Layers,
+  Zap
 } from 'lucide-react';
 import { useAppStore } from '@/lib/store';
+import { canPerformAction, canDepartmentAccessDocument } from '@/lib/rbac/permissions';
 import confetti from 'canvas-confetti';
 
 export function SmartQueueTable() {
-  const { currentOfficer } = useAppStore();
+  const { currentOfficer, currentDeptAdmin, activeRole } = useAppStore();
   const [applications, setApplications] = useState<ApplicationRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedApp, setSelectedApp] = useState<ApplicationRecord | null>(null);
   const [actionNotes, setActionNotes] = useState('');
-  const [filterDepartment, setFilterDepartment] = useState(currentOfficer?.department || 'ALL');
+  
+  const currentDept = activeRole === 'DEPT_ADMIN' 
+    ? currentDeptAdmin?.department 
+    : currentOfficer?.department;
+
+  const [filterDepartment, setFilterDepartment] = useState(currentDept || 'ALL');
 
   useEffect(() => {
-    if (currentOfficer?.department) {
-      setFilterDepartment(currentOfficer.department);
+    if (currentDept) {
+      setFilterDepartment(currentDept);
     }
-  }, [currentOfficer?.department]);
+  }, [currentDept]);
 
   const fetchApplications = async () => {
     try {
@@ -54,8 +64,40 @@ export function SmartQueueTable() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleOfficerAction = async (action: 'APPROVE' | 'REJECT' | 'RAISE_QUERY' | 'SCHEDULE_INSPECTION' | 'DEEMED_APPROVE') => {
+  const handleOfficerAction = async (
+    action: 'APPROVE' | 'REJECT' | 'RAISE_QUERY' | 'SCHEDULE_INSPECTION' | 'REASSIGN' | 'EXTEND_SLA' | 'CROSS_DEPT_PULL'
+  ) => {
     if (!selectedApp) return;
+
+    const userRole = activeRole === 'DEPT_ADMIN' ? 'DEPT_ADMIN' : 'OFFICER';
+
+    // RBAC Pre-Execution Guard Check
+    const permissionAction = 
+      action === 'APPROVE' ? 'APPROVE_CLEARANCE' :
+      action === 'REJECT' ? 'REJECT_CLEARANCE' :
+      action === 'RAISE_QUERY' ? 'RAISE_QUERY' :
+      action === 'SCHEDULE_INSPECTION' ? 'SCHEDULE_JOINT_INSPECTION' :
+      action === 'REASSIGN' ? 'REASSIGN_APP' :
+      action === 'EXTEND_SLA' ? 'EXTEND_SLA_ADMIN' :
+      action === 'CROSS_DEPT_PULL' ? 'CROSS_DEPT_PULL' : 'LOG_INSPECTION_FINDINGS';
+
+    const activeDeptName = activeRole === 'DEPT_ADMIN' 
+      ? currentDeptAdmin?.department 
+      : currentOfficer?.department;
+
+    const departmentMatch = activeDeptName 
+      ? selectedApp.department.toLowerCase().includes(activeDeptName.toLowerCase())
+      : true;
+
+    const rbacDecision = canPerformAction(userRole, permissionAction, { departmentMatch });
+    if (!rbacDecision.allowed) {
+      alert(`RBAC Scope Enforcement: ${rbacDecision.reason}`);
+      return;
+    }
+
+    const actorName = activeRole === 'DEPT_ADMIN'
+      ? (currentDeptAdmin ? `${currentDeptAdmin.fullName}, ${currentDeptAdmin.designation} (${currentDeptAdmin.department})` : 'Dr. Pravin Darade, IAS, Member Secretary (MPCB HQ)')
+      : (currentOfficer ? `${currentOfficer.fullName}, ${currentOfficer.designation} (${currentOfficer.department})` : 'Er. Ramesh Kulkarni, Senior Scrutiny Officer (MPCB)');
 
     try {
       const res = await fetch('/api/v1/applications', {
@@ -64,12 +106,23 @@ export function SmartQueueTable() {
         body: JSON.stringify({
           applicationId: selectedApp.id,
           action,
-          notes: actionNotes || (action === 'DEEMED_APPROVE' 
-            ? 'Section 4(1) Maharashtra RTS Act 2015 Statutory Deemed Approval Invoked' 
+          notes: actionNotes || (action === 'REJECT'
+            ? 'Statutory compliance standards not met upon field scrutiny'
+            : action === 'APPROVE'
+            ? 'Consent granted subject to standard statutory safeguards'
+            : action === 'REASSIGN'
+            ? 'Reassigned to Fast-Track Technical Desk to prevent SLA breach'
+            : action === 'EXTEND_SLA'
+            ? '7-Day Administrative extension granted for high-risk Red category unit'
+            : action === 'CROSS_DEPT_PULL'
+            ? 'Cross-department document pulled under RTS Act 2015 Sec 3(2)'
             : `Officer action: ${action}`),
-          performedBy: action === 'DEEMED_APPROVE' 
-            ? 'Statutory RTS SLA Sentinel' 
-            : (currentOfficer ? `${currentOfficer.fullName}, ${currentOfficer.designation} (${currentOfficer.department})` : 'Er. Ramesh Kulkarni, Senior Scrutiny Officer'),
+          performedBy: actorName,
+          newOfficerName: 'Er. Dilip Patil (Fast-Track Technical Cell, Pune)',
+          additionalDays: 7,
+          docType: 'LAND_SALE_DEED',
+          docName: 'MIDC_Chakan_Plot_Allotment_Agreement.pdf',
+          sourceDept: 'MIDC Planning Directorate',
         }),
       });
 
@@ -81,7 +134,7 @@ export function SmartQueueTable() {
         setSelectedApp(data.data);
         setActionNotes('');
 
-        if (action === 'APPROVE' || action === 'DEEMED_APPROVE') {
+        if (action === 'APPROVE' || action === 'REASSIGN' || action === 'EXTEND_SLA') {
           confetti({
             particleCount: 70,
             spread: 60,
@@ -150,19 +203,28 @@ export function SmartQueueTable() {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-xs text-slate-400">Department:</span>
-            <select
-              value={filterDepartment}
-              onChange={(e) => setFilterDepartment(e.target.value)}
-              className="rounded-lg border border-slate-700 bg-slate-950 px-2.5 py-1 text-xs text-slate-300 font-medium"
-            >
-              <option value="ALL">All Departments</option>
-              <option value="MIDC">MIDC Planning Authority</option>
-              <option value="MPCB">MPCB Pollution Board</option>
-              <option value="DISH">DISH Industrial Safety</option>
-              <option value="MSEDCL">MSEDCL Electricity DISCOM</option>
-              <option value="Fire">Maharashtra Fire Services</option>
-            </select>
+            {activeRole === 'OFFICER' && currentOfficer ? (
+              <div className="flex items-center gap-1.5 rounded-lg border border-purple-500/40 bg-purple-950/40 px-2.5 py-1 text-xs font-bold text-purple-300">
+                <ShieldCheck className="h-3.5 w-3.5 text-purple-400" />
+                <span>{currentOfficer.department} Desk • {currentOfficer.jurisdictionDistrict}</span>
+              </div>
+            ) : (
+              <>
+                <span className="text-xs text-slate-400">Department:</span>
+                <select
+                  value={filterDepartment}
+                  onChange={(e) => setFilterDepartment(e.target.value)}
+                  className="rounded-lg border border-slate-700 bg-slate-950 px-2.5 py-1 text-xs text-slate-300 font-medium"
+                >
+                  <option value="ALL">All Departments</option>
+                  <option value="MIDC">MIDC Planning Authority</option>
+                  <option value="MPCB">MPCB Pollution Board</option>
+                  <option value="DISH">DISH Industrial Safety</option>
+                  <option value="MSEDCL">MSEDCL Electricity DISCOM</option>
+                  <option value="Fire">Maharashtra Fire Services</option>
+                </select>
+              </>
+            )}
           </div>
         </div>
 
@@ -419,23 +481,41 @@ export function SmartQueueTable() {
                 Attached Statutory Documents ({selectedApp.documents.length})
               </h4>
               <div className="space-y-2">
-                {selectedApp.documents.map((doc, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/60 p-3 text-xs"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-                      <div>
-                        <div className="font-semibold text-white">{doc.docName}</div>
-                        <div className="text-[10px] text-slate-400">{doc.docType}</div>
+                {selectedApp.documents.map((doc, idx) => {
+                  const dpdpCheck = canDepartmentAccessDocument(currentDept || selectedApp.department, doc.docType);
+                  return (
+                    <div
+                      key={idx}
+                      className="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/60 p-3 text-xs"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        {dpdpCheck.authorized ? (
+                          <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
+                        ) : (
+                          <Lock className="h-4 w-4 text-amber-400 shrink-0" />
+                        )}
+                        <div>
+                          <div className="font-semibold text-white">{doc.docName}</div>
+                          <div className="text-[10px] text-slate-400">{doc.docType}</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {dpdpCheck.authorized ? (
+                          <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[9px] font-bold text-emerald-400 border border-emerald-500/20">
+                            DPDP Sec 6(1) Mandated
+                          </span>
+                        ) : (
+                          <span className="rounded-full bg-amber-500/10 px-2 py-0.5 text-[9px] font-bold text-amber-400 border border-amber-500/20">
+                            DPDP Minimization Redacted
+                          </span>
+                        )}
+                        <span className="rounded-full bg-blue-500/10 px-2 py-0.5 text-[9px] font-bold text-blue-400 border border-blue-500/20">
+                          OCR Verified
+                        </span>
                       </div>
                     </div>
-                    <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-400 border border-emerald-500/20">
-                      OCR Authenticated
-                    </span>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
@@ -452,17 +532,48 @@ export function SmartQueueTable() {
               />
 
               <div className="flex flex-wrap items-center justify-end gap-2.5 pt-2">
+                {activeRole === 'DEPT_ADMIN' && (
+                  <>
+                    <button
+                      onClick={() => handleOfficerAction('REASSIGN')}
+                      className="flex items-center gap-1.5 rounded-xl border border-indigo-500/40 bg-indigo-500/10 px-3.5 py-2 text-xs font-bold text-indigo-300 hover:bg-indigo-500/20 transition-colors cursor-pointer"
+                      title="Reassign stuck or delayed application to fast-track desk (REASSIGN_APP)"
+                    >
+                      <UserPlus className="h-3.5 w-3.5 text-indigo-400" />
+                      <span>Reassign Application Desk</span>
+                    </button>
+
+                    <button
+                      onClick={() => handleOfficerAction('EXTEND_SLA')}
+                      className="flex items-center gap-1.5 rounded-xl border border-blue-500/40 bg-blue-500/10 px-3.5 py-2 text-xs font-bold text-blue-300 hover:bg-blue-500/20 transition-colors cursor-pointer"
+                      title="Grant emergency 7-day extension for complex Red category units (EXTEND_SLA_ADMIN)"
+                    >
+                      <Zap className="h-3.5 w-3.5 text-blue-400" />
+                      <span>Grant 7-Day SLA Extension</span>
+                    </button>
+
+                    <button
+                      onClick={() => handleOfficerAction('CROSS_DEPT_PULL')}
+                      className="flex items-center gap-1.5 rounded-xl border border-teal-500/40 bg-teal-500/10 px-3.5 py-2 text-xs font-bold text-teal-300 hover:bg-teal-500/20 transition-colors cursor-pointer"
+                      title="Pull sister department documents under Section 3(2) RTS Act data reuse (CROSS_DEPT_PULL)"
+                    >
+                      <Layers className="h-3.5 w-3.5 text-teal-400" />
+                      <span>Pull RTS Sec 3(2) Doc</span>
+                    </button>
+                  </>
+                )}
+
                 <button
-                  onClick={() => handleOfficerAction('DEEMED_APPROVE')}
-                  className="flex items-center gap-1.5 rounded-xl border border-blue-500/40 bg-blue-500/10 px-3.5 py-2 text-xs font-bold text-blue-300 hover:bg-blue-500/20 transition-colors"
+                  onClick={() => handleOfficerAction('REJECT')}
+                  className="flex items-center gap-1.5 rounded-xl border border-rose-500/40 bg-rose-500/10 px-3.5 py-2 text-xs font-bold text-rose-300 hover:bg-rose-500/20 transition-colors cursor-pointer"
                 >
-                  <Sparkles className="h-3.5 w-3.5" />
-                  <span>Enforce RTS Deemed Approval (Sec 4(1))</span>
+                  <XCircle className="h-3.5 w-3.5 text-rose-400" />
+                  <span>{activeRole === 'DEPT_ADMIN' ? 'Issue Directorate Rejection' : 'Issue Statutory Rejection'}</span>
                 </button>
 
                 <button
                   onClick={() => handleOfficerAction('RAISE_QUERY')}
-                  className="flex items-center gap-1.5 rounded-xl border border-amber-500/40 bg-amber-500/10 px-3.5 py-2 text-xs font-bold text-amber-300 hover:bg-amber-500/20 transition-colors"
+                  className="flex items-center gap-1.5 rounded-xl border border-amber-500/40 bg-amber-500/10 px-3.5 py-2 text-xs font-bold text-amber-300 hover:bg-amber-500/20 transition-colors cursor-pointer"
                 >
                   <AlertTriangle className="h-3.5 w-3.5" />
                   <span>Raise Clarification Query</span>
@@ -470,18 +581,18 @@ export function SmartQueueTable() {
 
                 <button
                   onClick={() => handleOfficerAction('SCHEDULE_INSPECTION')}
-                  className="flex items-center gap-1.5 rounded-xl border border-purple-500/40 bg-purple-500/10 px-3.5 py-2 text-xs font-bold text-purple-300 hover:bg-purple-500/20 transition-colors"
+                  className="flex items-center gap-1.5 rounded-xl border border-purple-500/40 bg-purple-500/10 px-3.5 py-2 text-xs font-bold text-purple-300 hover:bg-purple-500/20 transition-colors cursor-pointer"
                 >
                   <CalendarCheck className="h-3.5 w-3.5" />
-                  <span>Slot Joint Inspection</span>
+                  <span>{activeRole === 'DEPT_ADMIN' ? 'Mandate Joint Inspection Roster' : 'Slot Joint Inspection'}</span>
                 </button>
 
                 <button
                   onClick={() => handleOfficerAction('APPROVE')}
-                  className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 px-4 py-2 text-xs font-bold text-white shadow-lg shadow-emerald-500/20 hover:brightness-110 transition-all"
+                  className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 px-4 py-2 text-xs font-bold text-white shadow-lg shadow-emerald-500/20 hover:brightness-110 transition-all cursor-pointer"
                 >
                   <CheckCircle2 className="h-3.5 w-3.5" />
-                  <span>Issue Statutory Clearance</span>
+                  <span>{activeRole === 'DEPT_ADMIN' ? 'Grant Directorate Clearance' : 'Issue Statutory Clearance'}</span>
                 </button>
               </div>
             </div>

@@ -116,6 +116,10 @@ export async function PATCH(req: NextRequest) {
         updated = applicationDB.approve(applicationId, performedBy, notes);
         break;
 
+      case 'REJECT':
+        updated = applicationDB.reject(applicationId, performedBy, notes);
+        break;
+
       case 'RAISE_QUERY':
         updated = applicationDB.raiseOfficerQuery(
           applicationId, 
@@ -143,6 +147,34 @@ export async function PATCH(req: NextRequest) {
           scheduledDate || new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
           departments || ['State Fire Services', 'DISH Safety Directorate'],
           officerNames || ['Joint Inspection Team']
+        );
+        break;
+
+      case 'REASSIGN':
+        updated = applicationDB.reassignOfficer(
+          applicationId,
+          body.newOfficerName || 'Er. Dilip Patil (Fast-Track Technical Cell)',
+          notes || 'Caseload load-balancing and statutory SLA protection',
+          performedBy || 'Department Directorate Head'
+        );
+        break;
+
+      case 'EXTEND_SLA':
+        updated = applicationDB.extendSlaAdmin(
+          applicationId,
+          body.additionalDays || 7,
+          notes || 'Complex multi-disciplinary hazardous chemical & safety audit',
+          performedBy || 'Department Directorate Head'
+        );
+        break;
+
+      case 'CROSS_DEPT_PULL':
+        updated = applicationDB.crossDeptPull(
+          applicationId,
+          body.docType || 'LAND_SALE_DEED',
+          body.docName || 'MIDC_Chakan_Plot_Allotment_Agreement.pdf',
+          body.sourceDept || 'MIDC Planning Directorate',
+          performedBy || 'Department Directorate Head'
         );
         break;
 

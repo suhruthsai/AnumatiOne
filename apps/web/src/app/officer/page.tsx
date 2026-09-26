@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { useAppStore, SEED_OFFICERS } from '@/lib/store';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { useAppStore, SEED_OFFICERS, SEED_DEPT_ADMINS } from '@/lib/store';
 import { SmartQueueTable } from '@/components/officer/SmartQueueTable';
 import { MahaVaultExplorer } from '@/components/documents/MahaVaultExplorer';
 import { 
@@ -20,16 +20,92 @@ import {
   MapPin,
   TrendingDown,
   ArrowRight,
-  BadgeCheck
+  BadgeCheck,
+  LogOut
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 function OfficerPortalContent() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const tabParam = searchParams.get('tab');
-  const { currentOfficer, loginOfficer } = useAppStore();
+  const { 
+    isAuthenticated, 
+    logout, 
+    activeRole, 
+    currentOfficer, 
+    currentDeptAdmin, 
+    loginOfficer,
+    loginDeptAdmin 
+  } = useAppStore();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.replace('/auth/login');
+    }
+  }, [isAuthenticated, router]);
 
   const [activeTab, setActiveTab] = useState<'QUEUE' | 'INSPECTIONS' | 'VAULT' | 'ANALYTICS'>('QUEUE');
+
+  // RBAC Scope Gate: Prevent Applicant from viewing internal officer queues
+  if (activeRole === 'APPLICANT') {
+    return (
+      <div className="mx-auto max-w-4xl px-4 py-20 text-center space-y-6">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-400">
+          <AlertTriangle className="h-8 w-8" />
+        </div>
+        <div className="space-y-2">
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-rose-500/10 px-3 py-1 text-xs font-bold text-rose-400 border border-rose-500/30">
+            RBAC Policy Enforcement • Principle of Least Privilege
+          </div>
+          <h2 className="text-2xl font-black text-white">403 Forbidden: Officer Scrutiny Desk Restricted</h2>
+          <p className="text-sm text-slate-300 max-w-lg mx-auto">
+            Your active session role is <strong className="text-emerald-400 font-mono">APPLICANT</strong> (Scope: <code className="text-indigo-300">OWN_RECORDS_ONLY</code>).
+            Under UdyamSetu RBAC policy, applicants are strictly excluded from departmental back-office scrutiny queues, internal notes, and officer leave rosters.
+          </p>
+        </div>
+        <div className="flex justify-center gap-3">
+          <button
+            onClick={() => router.push('/portal/applications')}
+            className="rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs px-4 py-2.5 transition-all shadow-md cursor-pointer"
+          >
+            Return to Investor Overview
+          </button>
+          <button
+            onClick={() => {
+              logout();
+              router.push('/auth/login');
+            }}
+            className="rounded-xl border border-slate-700 bg-slate-900 hover:bg-slate-800 text-slate-300 font-semibold text-xs px-4 py-2.5 transition-all cursor-pointer"
+          >
+            Switch to Officer Login (Parichay SSO)
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Identity extraction based on role
+  const isDeptAdmin = activeRole === 'DEPT_ADMIN';
+  const officerDisplayName = isDeptAdmin
+    ? (currentDeptAdmin?.fullName || 'Dr. Pravin Darade, IAS')
+    : (currentOfficer?.fullName || 'Er. Ramesh Kulkarni');
+
+  const officerDesignation = isDeptAdmin
+    ? (currentDeptAdmin?.designation || 'Member Secretary & Directorate Head')
+    : (currentOfficer?.designation || 'Sub-Regional Officer');
+
+  const officerDepartmentName = isDeptAdmin
+    ? (currentDeptAdmin?.departmentName || 'Maharashtra Pollution Control Board (HQ)')
+    : (currentOfficer?.departmentName || 'Maharashtra Pollution Control Board (MPCB)');
+
+  const officerJurisdiction = isDeptAdmin
+    ? 'State-Wide Department Authority (GoM HQ)'
+    : (currentOfficer?.jurisdictionDistrict || 'Pune Region');
+
+  const officerCredentials = isDeptAdmin
+    ? `DSC: ${currentDeptAdmin?.dscCertificateId || 'DSC-CLASS3-MH-99214'} | ${currentDeptAdmin?.employeeCode || 'GOM-IAS-2004-MPCB-01'}`
+    : `Code: ${currentOfficer?.employeeCode || 'GOM-MPCB-2016-8812'}`;
 
   // Inspection Scheduler State
   const [scheduledInspections, setScheduledInspections] = useState([
@@ -79,25 +155,27 @@ function OfficerPortalContent() {
           <div className="flex items-center gap-2">
             <span className="inline-flex items-center gap-1 rounded-full bg-purple-500/10 px-2.5 py-0.5 text-[10px] font-bold text-purple-300 border border-purple-500/30">
               <ShieldCheck className="h-3 w-3 text-purple-400" />
-              Government of Maharashtra Official Intranet (Parichay SSO)
+              {isDeptAdmin ? 'Government of Maharashtra Apex Intranet (Class-3 DSC)' : 'Government of Maharashtra Official Intranet (Parichay SSO)'}
             </span>
-            <span className="inline-flex items-center gap-1 rounded-full bg-blue-500/10 px-2.5 py-0.5 text-[10px] font-bold text-blue-400 border border-blue-500/30">
+            <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-bold border ${
+              isDeptAdmin ? 'bg-purple-500/20 text-purple-300 border-purple-500/40' : 'bg-blue-500/10 text-blue-400 border-blue-500/30'
+            }`}>
               <BadgeCheck className="h-3 w-3" />
-              Authorized Scrutiny Authority
+              {isDeptAdmin ? 'Hierarchy Level 3: Department Directorate Head' : 'Hierarchy Level 2: Field Inspector / Desk Scrutinizer'}
             </span>
           </div>
 
           <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2">
-            {currentOfficer?.fullName || 'Er. Ramesh Kulkarni'}
+            {officerDisplayName}
             <span className="text-sm font-semibold text-purple-300 font-sans">
-              ({currentOfficer?.designation || 'Sub-Regional Officer'})
+              ({officerDesignation})
             </span>
           </h1>
 
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-300">
-            <span>Department: <strong className="text-white">{currentOfficer?.departmentName || 'Maharashtra Pollution Control Board (MPCB)'}</strong></span>
-            <span>Jurisdiction: <strong className="text-purple-300">{currentOfficer?.jurisdictionDistrict || 'Pune Region'}</strong></span>
-            <span>Employee Code: <strong className="font-mono text-slate-300">{currentOfficer?.employeeCode || 'GOM-MPCB-2016-8812'}</strong></span>
+            <span>Department: <strong className="text-white">{officerDepartmentName}</strong></span>
+            <span>Jurisdiction: <strong className="text-purple-300">{officerJurisdiction}</strong></span>
+            <span>Identity: <strong className="font-mono text-slate-300">{officerCredentials}</strong></span>
           </div>
         </div>
 
@@ -105,27 +183,62 @@ function OfficerPortalContent() {
         <div className="flex items-center gap-2 rounded-2xl border border-purple-500/30 bg-purple-950/30 p-3 shrink-0">
           <div className="text-right hidden sm:block">
             <div className="text-[10px] font-bold text-slate-400 uppercase">Evaluator Switch:</div>
-            <div className="text-xs font-bold text-purple-300">Change Officer Role</div>
+            <div className="text-xs font-bold text-purple-300">
+              {isDeptAdmin ? 'Change Directorate Head' : 'Change Officer Role'}
+            </div>
           </div>
-          <select
-            value={
-              currentOfficer?.department === 'MPCB' ? 'MPCB_PUNE' :
-              currentOfficer?.department === 'MIDC' ? 'MIDC_SPA' :
-              currentOfficer?.department === 'DISH' ? 'DISH_FACTORIES' :
-              currentOfficer?.department === 'MSEDCL' ? 'MSEDCL_POWER' : 'FIRE_SERVICES'
-            }
-            onChange={(e) => {
-              const off = SEED_OFFICERS[e.target.value];
-              if (off) loginOfficer(off);
+          
+          {isDeptAdmin ? (
+            <select
+              value={
+                currentDeptAdmin?.department === 'MPCB' ? 'MPCB_HOD' :
+                currentDeptAdmin?.department === 'MIDC' ? 'MIDC_CEO' :
+                currentDeptAdmin?.department === 'DISH' ? 'DISH_DIRECTOR' : 'MSEDCL_CMD'
+              }
+              onChange={(e) => {
+                const adm = SEED_DEPT_ADMINS[e.target.value];
+                if (adm) loginDeptAdmin(adm);
+              }}
+              className="rounded-xl border border-purple-500/40 bg-slate-900 px-3 py-2 text-xs font-bold text-white focus:outline-none cursor-pointer"
+            >
+              <option value="MPCB_HOD">🏛️ Dr. Pravin Darade, IAS (MPCB Member Secretary)</option>
+              <option value="MIDC_CEO">🏗️ Dr. P. Velrasu, IAS (MIDC CEO)</option>
+              <option value="DISH_DIRECTOR">⚙️ Shri S. P. Rathod (DISH Director)</option>
+              <option value="MSEDCL_CMD">⚡ Shri Lokesh Chandra, IAS (MSEDCL CMD)</option>
+            </select>
+          ) : (
+            <select
+              value={
+                currentOfficer?.department === 'MPCB' ? 'MPCB_PUNE' :
+                currentOfficer?.department === 'MIDC' ? 'MIDC_SPA' :
+                currentOfficer?.department === 'DISH' ? 'DISH_FACTORIES' :
+                currentOfficer?.department === 'MSEDCL' ? 'MSEDCL_POWER' : 'FIRE_SERVICES'
+              }
+              onChange={(e) => {
+                const off = SEED_OFFICERS[e.target.value];
+                if (off) loginOfficer(off);
+              }}
+              className="rounded-xl border border-purple-500/40 bg-slate-900 px-3 py-2 text-xs font-bold text-white focus:outline-none cursor-pointer"
+            >
+              <option value="MPCB_PUNE">🛡️ Er. Ramesh Kulkarni (MPCB Pollution)</option>
+              <option value="MIDC_SPA">🏗️ Ar. Sneha Deshpande (MIDC Planning)</option>
+              <option value="DISH_FACTORIES">⚙️ Er. Dilip Patil (DISH Safety & Boiler)</option>
+              <option value="MSEDCL_POWER">⚡ Er. Vijay More (MSEDCL Power)</option>
+              <option value="FIRE_SERVICES">🚒 CFO Sanjay Pawar (Fire Services)</option>
+            </select>
+          )}
+
+          <button
+            onClick={() => {
+              logout();
+              router.push('/auth/login');
             }}
-            className="rounded-xl border border-purple-500/40 bg-slate-900 px-3 py-2 text-xs font-bold text-white focus:outline-none cursor-pointer"
+            className="flex items-center gap-1.5 rounded-xl border border-red-500/70 bg-gradient-to-r from-red-600 via-rose-600 to-red-700 px-3.5 py-2 text-xs font-black text-white shadow-md shadow-red-950/50 hover:from-red-500 hover:to-rose-500 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            title="Sign out of Officer Portal"
           >
-            <option value="MPCB_PUNE">🛡️ Er. Ramesh Kulkarni (MPCB Pollution)</option>
-            <option value="MIDC_SPA">🏗️ Ar. Sneha Deshpande (MIDC Planning)</option>
-            <option value="DISH_FACTORIES">⚙️ Er. Dilip Patil (DISH Safety & Boiler)</option>
-            <option value="MSEDCL_POWER">⚡ Er. Vijay More (MSEDCL Power)</option>
-            <option value="FIRE_SERVICES">🚒 CFO Sanjay Pawar (Fire Services)</option>
-          </select>
+            <LogOut className="h-3.5 w-3.5" />
+            <span>Logout</span>
+          </button>
         </div>
       </div>
 

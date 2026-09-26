@@ -43,16 +43,17 @@ export function NodeDetailsDrawer() {
   const [submissionSuccess, setSubmissionSuccess] = useState<string | null>(null);
   const [showRAGBriefing, setShowRAGBriefing] = useState(true);
 
+  const ragBriefing = useMemo(() => {
+    if (!selectedNode?.name) return null;
+    return statutoryRAG.generateAnswer(selectedNode.name);
+  }, [selectedNode?.name]);
+
   if (!selectedNode || !simulationResult) return null;
 
   const isCritical = simulationResult.criticalPath.includes(selectedNode.id);
   const bottleneck = simulationResult.bottlenecks.find(b => b.nodeId === selectedNode.id);
   const governingAct = getGoverningActForApproval(selectedNode.id);
   const linkedSchemes = getLinkedSchemesForApproval(selectedNode.id);
-
-  const ragBriefing = useMemo(() => {
-    return statutoryRAG.generateAnswer(selectedNode.name);
-  }, [selectedNode.name]);
 
   const handleSubmitApplication = async () => {
     setIsSubmitting(true);
@@ -258,7 +259,7 @@ export function NodeDetailsDrawer() {
                 </button>
               </div>
 
-              {showRAGBriefing && (
+              {showRAGBriefing && ragBriefing && (
                 <div className="space-y-2.5 pt-2 border-t border-sky-500/20 text-xs">
                   {/* Plain English explanation */}
                   <div className="rounded-lg bg-slate-900/90 p-3 border border-slate-800 text-slate-200 leading-relaxed">

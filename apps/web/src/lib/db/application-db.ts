@@ -592,6 +592,132 @@ class ApplicationDatabase {
   }
 
   /**
+   * Officer rejects application with formal statutory justification
+   */
+  public reject(applicationId: string, officerName: string, remarks?: string): ApplicationRecord {
+    const list = this.getLiveCache();
+    const idx = list.findIndex(a => a.id === applicationId);
+    if (idx === -1) throw new Error(`Application ${applicationId} not found`);
+
+    const app = { ...list[idx] };
+    const now = new Date().toISOString();
+
+    app.status = 'REJECTED';
+    app.timeline.push({
+      timestamp: now,
+      event: `Statutory Clearance Rejected by ${officerName}. Grounds: ${remarks || 'Non-compliance with statutory standards'}`,
+      performedBy: officerName,
+      status: 'REJECTED',
+    });
+
+    list[idx] = app;
+    this.persistToDisk(list);
+    return app;
+  }
+
+  /**
+   * Department Admin reassigns stuck or delayed application to another desk/officer
+   */
+  public reassignOfficer(
+    applicationId: string,
+    newOfficerName: string,
+    reason?: string,
+    performedBy?: string
+  ): ApplicationRecord {
+    const list = this.getLiveCache();
+    const idx = list.findIndex(a => a.id === applicationId);
+    if (idx === -1) throw new Error(`Application ${applicationId} not found`);
+
+    const app = { ...list[idx] };
+    const now = new Date().toISOString();
+    const oldOfficer = app.assignedOfficerName || 'Unassigned Desk';
+    app.assignedOfficerName = newOfficerName;
+
+    app.timeline.push({
+      timestamp: now,
+      event: `Application Reassigned from [${oldOfficer}] to [${newOfficerName}] by ${performedBy || 'Department Directorate Head'}. Reason: ${reason || 'Caseload balancing & fast-track desk allocation'}`,
+      performedBy: performedBy || 'Department Directorate Head',
+      status: app.status,
+    });
+
+    list[idx] = app;
+    this.persistToDisk(list);
+    return app;
+  }
+
+  /**
+   * Department Admin grants emergency 7-day administrative extension for complex Red category units
+   */
+  public extendSlaAdmin(
+    applicationId: string,
+    additionalDays: number = 7,
+    justification?: string,
+    performedBy?: string
+  ): ApplicationRecord {
+    const list = this.getLiveCache();
+    const idx = list.findIndex(a => a.id === applicationId);
+    if (idx === -1) throw new Error(`Application ${applicationId} not found`);
+
+    const app = { ...list[idx] };
+    const now = new Date().toISOString();
+
+    app.daysRemaining = Math.max(0, app.daysRemaining) + additionalDays;
+    const currentDeadline = new Date(app.slaDeadline).getTime();
+    app.slaDeadline = new Date(currentDeadline + additionalDays * 24 * 60 * 60 * 1000).toISOString();
+
+    app.timeline.push({
+      timestamp: now,
+      event: `Emergency Administrative SLA Extension (+${additionalDays} Days) Authorized by ${performedBy || 'Department Directorate Head'} for Complex Unit. Grounds: ${justification || 'Multi-disciplinary safety & hazardous waste protocol audit'}`,
+      performedBy: performedBy || 'Department Directorate Head',
+      status: app.status,
+    });
+
+    list[idx] = app;
+    this.persistToDisk(list);
+    return app;
+  }
+
+  /**
+   * Department Admin initiates cross-department document pull under RTS Act Section 3(2)
+   */
+  public crossDeptPull(
+    applicationId: string,
+    docType: string,
+    docName: string,
+    sourceDept: string,
+    performedBy?: string
+  ): ApplicationRecord {
+    const list = this.getLiveCache();
+    const idx = list.findIndex(a => a.id === applicationId);
+    if (idx === -1) throw new Error(`Application ${applicationId} not found`);
+
+    const app = { ...list[idx] };
+    const now = new Date().toISOString();
+
+    app.documents = app.documents || [];
+    const exists = app.documents.some(d => d.docType === docType);
+    if (!exists) {
+      app.documents.push({
+        docType: docType as any,
+        docName,
+        verified: true,
+        url: '#',
+      });
+    }
+
+    app.timeline.push({
+      timestamp: now,
+      event: `Cross-Department Document Pull (RTS Act Sec 3(2)): "${docName}" ingested from ${sourceDept} by ${performedBy || 'Department Directorate Head'}. Single-Submission Guarantee active.`,
+      performedBy: performedBy || 'Department Directorate Head',
+      status: app.status,
+    });
+
+    list[idx] = app;
+    this.persistToDisk(list);
+    return app;
+  }
+
+  /**
    * Statutory Deemed Approval Enforcement under Maharashtra RTS Act 2015 Section 4(1)
    */
   public triggerDeemedApproval(applicationId: string): ApplicationRecord {
@@ -667,6 +793,58 @@ class ApplicationDatabase {
     list[idx] = app;
     this.persistToDisk(list);
     return app;
+  }
+
+  /**
+   * Applies Fast SLA (Green Channel Express under Maharashtra RTS Act 2015)
+   * Accelerates clearance makespan to 48 hours and sanctions pending approvals.
+   */
+  public applyFastSla(companyName?: string): { count: number; applications: ApplicationRecord[] } {
+    const list = this.getLiveCache();
+    const now = new Date().toISOString();
+    let updatedCount = 0;
+
+    const updatedList = list.map((app) => {
+      const matchesCompany = !companyName || app.companyName.toLowerCase().includes(companyName.toLowerCase());
+
+      if (matchesCompany && (app.status === 'UNDER_SCRUTINY' || app.status === 'SUBMITTED' || app.status === 'QUERY_RAISED' || app.status === 'INSPECTION_PENDING')) {
+        updatedCount++;
+        const certNumber = `GOM/FAST-SLA/${app.department.substring(0, 4).toUpperCase()}/2026/${Math.floor(1000 + Math.random() * 9000)}`;
+        return {
+          ...app,
+          status: 'GREEN_CHANNEL_APPROVED' as ApplicationWorkflowStatus,
+          daysRemaining: 0,
+          isEscalated: false,
+          escalationLevel: 'NONE' as const,
+          greenChannelEligible: true,
+          assignedOfficerName: 'AnumatiOne Fast-SLA Green Channel Daemon',
+          timeline: [
+            ...app.timeline,
+            {
+              timestamp: now,
+              event: '⚡ Fast SLA Applied: Statutory Approval Accelerated under Maharashtra RTS Act 2015 Sec 4(1)',
+              performedBy: 'Applicant / AnumatiOne Fast-Track Gateway',
+              status: 'GREEN_CHANNEL_APPROVED' as ApplicationWorkflowStatus,
+            },
+          ],
+          certificate: {
+            certificateNumber: certNumber,
+            issuedAt: now,
+            issuingAuthority: `Designated Officer & Fast-Track Controller, ${app.department}`,
+            department: app.department,
+            validUntil: new Date(Date.now() + 5 * 365 * 24 * 60 * 60 * 1000).toISOString(),
+            qrHash: `mh.gov.fast-sla.verify.${certNumber.toLowerCase()}`,
+            digitalSignatureHash: `SHA256:${Math.random().toString(36).substring(2)}${Date.now().toString(16)}`,
+            isDeemedApproval: true,
+            statutoryAct: 'Maharashtra Right to Services Act 2015 Section 4(1)',
+          },
+        };
+      }
+      return app;
+    });
+
+    this.persistToDisk(updatedList);
+    return { count: updatedCount, applications: updatedList };
   }
 
   /**

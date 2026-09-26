@@ -5,7 +5,7 @@ import { AdversarialPathOptimizer } from './simulator/adversarial-optimizer';
 import { getApprovalsForProfile } from './knowledge-engine/regulatory-graph';
 import { generatePreValidatedMahaVault } from './document-intelligence/maitrivault-data';
 
-export type UserRole = 'APPLICANT' | 'OFFICER';
+export type UserRole = 'APPLICANT' | 'OFFICER' | 'DEPT_ADMIN' | 'STATE_ADMIN';
 
 export interface IndustrialistAccount {
   userId: string;
@@ -146,6 +146,109 @@ export const SEED_INDUSTRIALISTS: Record<string, IndustrialistAccount> = {
   },
 };
 
+export interface DepartmentAdminAccount {
+  adminId: string;
+  fullName: string;
+  designation: string;
+  department: 'MPCB' | 'MIDC' | 'DISH' | 'MSEDCL' | 'FIRE';
+  departmentName: string;
+  headquarters: string;
+  govEmail: string;
+  employeeCode: string;
+  dscCertificateId: string;
+}
+
+export interface StateAdminAccount {
+  adminId: string;
+  fullName: string;
+  designation: string;
+  ministry: string;
+  apexRole: string;
+  govEmail: string;
+  employeeCode: string;
+  nicGovId: string;
+}
+
+export const SEED_DEPT_ADMINS: Record<string, DepartmentAdminAccount> = {
+  MPCB_HOD: {
+    adminId: 'dept_adm_001',
+    fullName: 'Dr. Pravin Darade, IAS',
+    designation: 'Member Secretary & Directorate Head',
+    department: 'MPCB',
+    departmentName: 'Maharashtra Pollution Control Board (HQ)',
+    headquarters: 'Kalpataru Point, Sion, Mumbai',
+    govEmail: 'ms.mpcb@maharashtra.gov.in',
+    employeeCode: 'GOM-IAS-2004-MPCB-01',
+    dscCertificateId: 'DSC-CLASS3-MH-99214',
+  },
+  MIDC_CEO: {
+    adminId: 'dept_adm_002',
+    fullName: 'Dr. P. Velrasu, IAS',
+    designation: 'Chief Executive Officer (CEO)',
+    department: 'MIDC',
+    departmentName: 'Maharashtra Industrial Development Corporation',
+    headquarters: 'Udyog Bhavan, Churchgate, Mumbai',
+    govEmail: 'ceo.midc@maharashtra.gov.in',
+    employeeCode: 'GOM-IAS-2006-MIDC-01',
+    dscCertificateId: 'DSC-CLASS3-MH-88142',
+  },
+  DISH_DIRECTOR: {
+    adminId: 'dept_adm_003',
+    fullName: 'Shri S. P. Rathod',
+    designation: 'Director of Industrial Safety & Health',
+    department: 'DISH',
+    departmentName: 'Directorate of Industrial Safety & Health (GoM)',
+    headquarters: 'Bandra-Kurla Complex, Mumbai',
+    govEmail: 'director.dish@maharashtra.gov.in',
+    employeeCode: 'GOM-DISH-2008-0012',
+    dscCertificateId: 'DSC-CLASS3-MH-77219',
+  },
+  MSEDCL_CMD: {
+    adminId: 'dept_adm_004',
+    fullName: 'Shri Lokesh Chandra, IAS',
+    designation: 'Chairman & Managing Director (CMD)',
+    department: 'MSEDCL',
+    departmentName: 'Maharashtra State Electricity Distribution Co.',
+    headquarters: 'Prakashgad, Bandra East, Mumbai',
+    govEmail: 'cmd.msedcl@mahadiscom.in',
+    employeeCode: 'GOM-IAS-2005-MSEDCL-01',
+    dscCertificateId: 'DSC-CLASS3-MH-66104',
+  },
+};
+
+export const SEED_STATE_ADMINS: Record<string, StateAdminAccount> = {
+  PRINCIPAL_SECRETARY: {
+    adminId: 'state_adm_001',
+    fullName: 'Dr. Harshdeep Kamble, IAS',
+    designation: 'Principal Secretary (Industries)',
+    ministry: 'Department of Industries, Government of Maharashtra',
+    apexRole: 'State RTS Appellate & EODB Authority',
+    govEmail: 'psec.ind@maharashtra.gov.in',
+    employeeCode: 'GOM-IAS-1997-SEC-01',
+    nicGovId: 'NIC-MH-APEX-001',
+  },
+  CEO_MAITRI: {
+    adminId: 'state_adm_002',
+    fullName: 'Dr. Vipin Sharma, IAS',
+    designation: 'Development Commissioner (Industries) & CEO MAITRI',
+    ministry: 'MAITRI Single Window Facilitation Cell',
+    apexRole: 'State Single-Window Chief Regulatory Officer',
+    govEmail: 'ceo.maitri@maharashtra.gov.in',
+    employeeCode: 'GOM-IAS-2005-MAITRI-01',
+    nicGovId: 'NIC-MH-APEX-002',
+  },
+  EODB_COMMISSIONER: {
+    adminId: 'state_adm_003',
+    fullName: 'Smt. Manisha Verma, IAS',
+    designation: 'State Right to Services (RTS) Commissioner',
+    ministry: 'Maharashtra State Right to Services Commission',
+    apexRole: 'Chief Statutory Ombudsman (Sec 19 RTS Act)',
+    govEmail: 'rts.commissioner@maharashtra.gov.in',
+    employeeCode: 'GOM-IAS-2002-RTS-01',
+    nicGovId: 'NIC-MH-APEX-003',
+  },
+};
+
 interface AppState {
   currentProfile: BusinessProfile;
   simulationResult: SimulationResult | null;
@@ -157,17 +260,26 @@ interface AppState {
   isSimulating: boolean;
 
   // Role & Authentication Session
+  isAuthenticated: boolean;
   activeRole: UserRole;
   currentIndustrialist: IndustrialistAccount | null;
   currentOfficer: OfficerAccount | null;
+  currentDeptAdmin: DepartmentAdminAccount | null;
+  currentStateAdmin: StateAdminAccount | null;
 
   // Actions
+  setIsAuthenticated: (auth: boolean) => void;
   setActiveRole: (role: UserRole) => void;
   loginIndustrialist: (account: IndustrialistAccount) => void;
   loginOfficer: (officer: OfficerAccount) => void;
+  loginDeptAdmin: (deptAdmin: DepartmentAdminAccount) => void;
+  loginStateAdmin: (stateAdmin: StateAdminAccount) => void;
+  restoreSession: () => void;
   logout: () => void;
   logoutIndustrialist: () => void;
   logoutOfficer: () => void;
+  logoutDeptAdmin: () => void;
+  logoutStateAdmin: () => void;
   setProfile: (profile: BusinessProfile) => void;
   loadDemoProfile: (key: string) => void;
   runSimulation: () => void;
@@ -196,24 +308,124 @@ export const useAppStore = create<AppState>((set, get) => {
     whatIfComparison: null,
     uploadedDocuments: initialVault,
     isSimulating: false,
+    isAuthenticated: false,
     activeRole: 'APPLICANT',
-    currentIndustrialist: SEED_INDUSTRIALISTS.EV_PUNE,
-    currentOfficer: SEED_OFFICERS.MPCB_PUNE,
+    currentIndustrialist: null,
+    currentOfficer: null,
+    currentDeptAdmin: null,
+    currentStateAdmin: null,
+
+    restoreSession: () => {
+      if (typeof window === 'undefined') return;
+      try {
+        const isAuth = sessionStorage.getItem('anumati_auth') === 'true' || localStorage.getItem('anumati_auth') === 'true';
+        if (!isAuth) return;
+        const role = (sessionStorage.getItem('anumati_role') || localStorage.getItem('anumati_role') || 'APPLICANT') as UserRole;
+        let userObj: any = null;
+        const raw = sessionStorage.getItem('anumati_user') || localStorage.getItem('anumati_user');
+        if (raw) {
+          try { userObj = JSON.parse(raw); } catch (e) {}
+        }
+
+        if (role === 'OFFICER') {
+          set({ isAuthenticated: true, activeRole: 'OFFICER', currentOfficer: userObj || SEED_OFFICERS.MPCB_PUNE });
+        } else if (role === 'DEPT_ADMIN') {
+          set({ isAuthenticated: true, activeRole: 'DEPT_ADMIN', currentDeptAdmin: userObj || SEED_DEPT_ADMINS.MPCB_HOD });
+        } else if (role === 'STATE_ADMIN') {
+          set({ isAuthenticated: true, activeRole: 'STATE_ADMIN', currentStateAdmin: userObj || SEED_STATE_ADMINS.PRINCIPAL_SECRETARY });
+        } else {
+          set({ isAuthenticated: true, activeRole: 'APPLICANT', currentIndustrialist: userObj || SEED_INDUSTRIALISTS.EV_PUNE });
+        }
+      } catch (e) {
+        console.error('Failed to restore session:', e);
+      }
+    },
+
+    setIsAuthenticated: (auth) => {
+      if (typeof window !== 'undefined') {
+        if (auth) {
+          sessionStorage.setItem('anumati_auth', 'true');
+          localStorage.setItem('anumati_auth', 'true');
+        } else {
+          sessionStorage.removeItem('anumati_auth');
+          localStorage.removeItem('anumati_auth');
+        }
+      }
+      set({ isAuthenticated: auth });
+    },
 
     setActiveRole: (role) => {
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('anumati_role', role);
+        localStorage.setItem('anumati_role', role);
+      }
       set({ activeRole: role });
     },
 
     loginIndustrialist: (account) => {
-      set({ currentIndustrialist: account, activeRole: 'APPLICANT' });
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('anumati_auth', 'true');
+        sessionStorage.setItem('anumati_role', 'APPLICANT');
+        sessionStorage.setItem('anumati_user', JSON.stringify(account));
+        localStorage.setItem('anumati_auth', 'true');
+        localStorage.setItem('anumati_role', 'APPLICANT');
+        localStorage.setItem('anumati_user', JSON.stringify(account));
+      }
+      set({ currentIndustrialist: account, activeRole: 'APPLICANT', isAuthenticated: true });
     },
 
     loginOfficer: (officer) => {
-      set({ currentOfficer: officer, activeRole: 'OFFICER' });
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('anumati_auth', 'true');
+        sessionStorage.setItem('anumati_role', 'OFFICER');
+        sessionStorage.setItem('anumati_user', JSON.stringify(officer));
+        localStorage.setItem('anumati_auth', 'true');
+        localStorage.setItem('anumati_role', 'OFFICER');
+        localStorage.setItem('anumati_user', JSON.stringify(officer));
+      }
+      set({ currentOfficer: officer, activeRole: 'OFFICER', isAuthenticated: true });
+    },
+
+    loginDeptAdmin: (deptAdmin) => {
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('anumati_auth', 'true');
+        sessionStorage.setItem('anumati_role', 'DEPT_ADMIN');
+        sessionStorage.setItem('anumati_user', JSON.stringify(deptAdmin));
+        localStorage.setItem('anumati_auth', 'true');
+        localStorage.setItem('anumati_role', 'DEPT_ADMIN');
+        localStorage.setItem('anumati_user', JSON.stringify(deptAdmin));
+      }
+      set({ currentDeptAdmin: deptAdmin, activeRole: 'DEPT_ADMIN', isAuthenticated: true });
+    },
+
+    loginStateAdmin: (stateAdmin) => {
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('anumati_auth', 'true');
+        sessionStorage.setItem('anumati_role', 'STATE_ADMIN');
+        sessionStorage.setItem('anumati_user', JSON.stringify(stateAdmin));
+        localStorage.setItem('anumati_auth', 'true');
+        localStorage.setItem('anumati_role', 'STATE_ADMIN');
+        localStorage.setItem('anumati_user', JSON.stringify(stateAdmin));
+      }
+      set({ currentStateAdmin: stateAdmin, activeRole: 'STATE_ADMIN', isAuthenticated: true });
     },
 
     logout: () => {
-      set({ currentIndustrialist: null, currentOfficer: null });
+      if (typeof window !== 'undefined') {
+        sessionStorage.removeItem('anumati_auth');
+        sessionStorage.removeItem('anumati_role');
+        sessionStorage.removeItem('anumati_user');
+        localStorage.removeItem('anumati_auth');
+        localStorage.removeItem('anumati_role');
+        localStorage.removeItem('anumati_user');
+      }
+      set({ 
+        currentIndustrialist: null, 
+        currentOfficer: null, 
+        currentDeptAdmin: null, 
+        currentStateAdmin: null,
+        isAuthenticated: false 
+      });
     },
 
     logoutIndustrialist: () => {
@@ -222,6 +434,14 @@ export const useAppStore = create<AppState>((set, get) => {
 
     logoutOfficer: () => {
       set({ currentOfficer: null });
+    },
+
+    logoutDeptAdmin: () => {
+      set({ currentDeptAdmin: null });
+    },
+
+    logoutStateAdmin: () => {
+      set({ currentStateAdmin: null });
     },
 
     setProfile: (profile) => {
