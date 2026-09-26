@@ -58,7 +58,7 @@ export async function askGroq(
 
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8-second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15-second timeout for reasoning models
 
     const response = await fetch(GROQ_API_ENDPOINT, {
       method: 'POST',
@@ -73,7 +73,7 @@ export async function askGroq(
           { role: 'user', content: userPrompt },
         ],
         temperature: options?.temperature ?? 0.3,
-        max_tokens: options?.maxTokens ?? 700,
+        max_tokens: options?.maxTokens ?? 1600,
       }),
       signal: controller.signal,
     });
@@ -83,7 +83,7 @@ export async function askGroq(
     if (!response.ok) {
       console.warn(`Groq API returned status ${response.status}: ${response.statusText}`);
       if (modelToUse !== MULTILINGUAL_MODEL) {
-        return askGroq(userPrompt, { ...options, preferMultilingual: true });
+        return askGroq(userPrompt, { ...options, preferMultilingual: true, maxTokens: 1600 });
       }
       return null;
     }
